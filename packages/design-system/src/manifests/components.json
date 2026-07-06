@@ -214,30 +214,33 @@
       "name": "Alert",
       "category": "Feedback",
       "status": "available",
-      "packageImport": "import { Alert } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "packageImport": "import { Alert, AlertDescription, AlertTitle } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
       "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
       "shadcnFoundation": [
         "alert",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
+        "semantic status surface",
+        "shadcn/ui registry"
       ],
       "fallbackToShadcn": "alert",
       "requiredTokens": [
-        "--background",
-        "--foreground",
         "--surface",
+        "--foreground",
+        "--muted-foreground",
         "--border",
         "--radius-surface",
+        "--warning",
+        "--destructive",
         "--focus-ring-width"
       ],
       "useWhen": [
-        "Use when the shadcn/ui alert pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
+        "Important status messages",
+        "Inline system notices",
+        "Feedback that should not interrupt the user"
       ],
       "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
+        "A blocking confirmation is required",
+        "The message is purely decorative",
+        "The notice needs product-specific localization rules inside the component"
       ],
       "neverInvent": [
         "Raw shadcn theme colors",
@@ -249,30 +252,36 @@
       "name": "Alert Dialog",
       "category": "Feedback",
       "status": "available",
-      "packageImport": "import { AlertDialog } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "packageImport": "import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
       "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
       "shadcnFoundation": [
         "alert-dialog",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
+        "Radix AlertDialog",
+        "shadcn/ui registry"
       ],
-      "fallbackToShadcn": "alert dialog",
+      "fallbackToShadcn": "alert-dialog",
       "requiredTokens": [
-        "--background",
-        "--foreground",
         "--surface",
+        "--foreground",
+        "--muted-foreground",
         "--border",
         "--radius-surface",
+        "--radius-control",
+        "--primary",
+        "--secondary",
+        "--z-overlay",
+        "--z-modal",
         "--focus-ring-width"
       ],
       "useWhen": [
-        "Use when the shadcn/ui alert-dialog pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
+        "Destructive confirmations",
+        "Irreversible decisions",
+        "Blocking choices that require explicit user acknowledgement"
       ],
       "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
+        "Inline status would be enough",
+        "The action can be undone without confirmation",
+        "The dialog copy is not localized or verified"
       ],
       "neverInvent": [
         "Raw shadcn theme colors",
@@ -313,23 +322,30 @@
       "name": "Avatar",
       "category": "Data Display",
       "status": "available",
-      "packageImport": "import { Avatar } from '@utopia-studio-design/design-system/DataDisplay';",
+      "packageImport": "import { Avatar, AvatarFallback, AvatarImage } from '@utopia-studio-design/design-system/DataDisplay';",
       "sourcePath": "packages/design-system/src/components/DataDisplay.tsx",
       "shadcnFoundation": [
         "avatar",
-        "Radix Avatar"
+        "Radix Avatar",
+        "semantic Utopia wrapper"
       ],
       "fallbackToShadcn": "avatar",
       "requiredTokens": [
         "--secondary",
+        "--secondary-foreground",
         "--border",
-        "--avatar-size"
+        "--avatar-size",
+        "--font-weight-medium"
       ],
       "useWhen": [
-        "People or account identifiers"
+        "People or account identifiers",
+        "Team member references with fallback initials",
+        "Entity identity where alt text is known"
       ],
       "avoidWhen": [
-        "Decorative profile filler"
+        "Decorative profile filler",
+        "Unverified fake people",
+        "A logo or product mark should be used instead"
       ],
       "neverInvent": [
         "Generic fake people",
