@@ -19,10 +19,21 @@
     "typography": {
       "family": "TWK Lausanne",
       "arabicFamily": "IBM Plex Sans Arabic",
-      "weights": [350, 500, 700],
-      "arabicWeights": [400, 500, 700],
+      "weights": [
+        350,
+        500,
+        700
+      ],
+      "arabicWeights": [
+        400,
+        500,
+        700
+      ],
       "headlineCasing": "uppercase",
-      "headlineTracking": "0.02em to 0.04em"
+      "headlineTracking": "0.02em to 0.04em",
+      "arabicDisplayFamily": "IBM Plex Sans Arabic",
+      "arabicDisplayCasing": "none",
+      "arabicDisplayRule": "Do not translate Latin all-caps styling into Arabic uppercase. Use Arabic display scale, weight, rhythm, and IBM Plex Sans Arabic instead."
     },
     "geometry": {
       "surfaceRadius": "0px",
@@ -39,10 +50,31 @@
     "--radius-surface": "Square geometry",
     "--font-sans": "TWK Lausanne",
     "--font-arabic": "IBM Plex Sans Arabic",
-    "--line-height-arabic": "1.75"
+    "--font-arabic-display": "IBM Plex Sans Arabic",
+    "--font-arabic-body": "IBM Plex Sans Arabic",
+    "--font-weight-arabic-body": "400",
+    "--font-weight-arabic-display": "700",
+    "--font-size-display": "clamp(44px, 8vw, 96px)",
+    "--font-size-arabic-body": "16px",
+    "--font-size-arabic-body-lg": "19px",
+    "--font-size-arabic-display": "clamp(42px, 7.6vw, 91px)",
+    "--line-height-arabic": "1.75",
+    "--line-height-arabic-body": "1.75",
+    "--line-height-arabic-display": "1.16",
+    "--tracking-arabic": "0",
+    "--tracking-arabic-display": "0",
+    "--overlay": "Special Black at modal dim opacity",
+    "--modal-surface": "Special Black solid",
+    "--popover-surface": "Special Black solid"
   },
   "visualPolicy": {
-    "tone": ["warm", "confident", "architectural", "serious", "spare"],
+    "tone": [
+      "warm",
+      "confident",
+      "architectural",
+      "serious",
+      "spare"
+    ],
     "allow": [
       "asymmetric layouts",
       "large uppercase headlines",
@@ -63,8 +95,20 @@
   "iconPolicy": {
     "system": "utopia-dot-bar",
     "description": "Icons are brand marks made from solid dots and rectangular bars. They are graphic breaks, not decoration.",
-    "allow": ["solid circles", "rectangular bars", "three-bar mark", "monochrome Special Black or current foreground"],
-    "avoid": ["Lucide", "Heroicons", "Feather", "emoji", "outlined icon sets", "rounded bubbly forms"],
+    "allow": [
+      "solid circles",
+      "rectangular bars",
+      "three-bar mark",
+      "monochrome Special Black or current foreground"
+    ],
+    "avoid": [
+      "Lucide",
+      "Heroicons",
+      "Feather",
+      "emoji",
+      "outlined icon sets",
+      "rounded bubbly forms"
+    ],
     "coreNote": "This restriction belongs to Utopia Default only. Other themes may declare different icon systems."
   },
   "aiRules": [
@@ -72,6 +116,10 @@
     "Do not apply Utopia brand restrictions to other themes unless their manifests say so.",
     "Do not hardcode Brick Red, Special Black, TWK Lausanne, or Utopia icon rules inside reusable core components.",
     "When Arabic or lang=\"ar\" content is present, use --font-arabic mapped to IBM Plex Sans Arabic and the Arabic line-height role.",
-    "When this theme is active, do not use Lucide icons as brand-facing component icons."
+    "Arabic display sizing follows the Latin display scale at approximately 95%, rather than making Arabic headings larger than Latin headings.",
+    "Do not apply Latin uppercase display styling to Arabic. Use Arabic display/body tokens and text-transform: none.",
+    "When this theme is active, do not use Lucide icons as brand-facing component icons.",
+    "Modal content uses --modal-surface and must stay solid in Utopia Default; only the overlay dims the page behind it.",
+    "Floating content such as select, menu, popover, and tooltip uses --popover-surface so alpha page surfaces do not make controls look translucent."
   ]
 }

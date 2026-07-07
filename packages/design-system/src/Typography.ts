@@ -1,4 +1,5 @@
 export {
+  ArabicDisplay,
   ArabicText,
   Heading,
   Prose,

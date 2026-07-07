@@ -100,10 +100,19 @@
   --destructive-hover: #7d4842;
   --destructive-active: #5d3430;
   --destructive-foreground: var(--utopia-white);
+  --destructive-surface: rgb(111 64 59 / 14%);
+  --destructive-border: rgb(215 122 89 / 44%);
+  --destructive-text: var(--utopia-red-80);
   --warning: var(--utopia-red-80);
   --warning-foreground: var(--utopia-special-black);
+  --warning-surface: rgb(215 122 89 / 12%);
+  --warning-border: rgb(215 122 89 / 38%);
+  --warning-text: var(--utopia-red-60);
   --success: var(--utopia-light-grey);
   --success-foreground: var(--utopia-special-black);
+  --success-surface: rgb(247 244 237 / 8%);
+  --success-border: rgb(247 244 237 / 24%);
+  --success-text: var(--utopia-white);
   --secondary: var(--utopia-light-grey);
   --secondary-foreground: var(--utopia-special-black);
   --secondary-hover: var(--utopia-black-20);
@@ -117,7 +126,11 @@
   --surface: rgb(255 255 255 / 4.5%);
   --surface-strong: rgb(255 255 255 / 8%);
   --surface-elevated: rgb(255 255 255 / 7%);
+  --surface-hover: var(--surface-strong);
   --surface-inverse: var(--utopia-white);
+  --overlay: rgb(60 50 53 / 86%);
+  --modal-surface: var(--utopia-special-black);
+  --popover-surface: var(--utopia-special-black);
   --ghost-hover: rgb(255 255 255 / 8%);
   --ghost-active: rgb(255 255 255 / 12%);
   --outline-hover: rgb(255 255 255 / 8%);
@@ -129,14 +142,36 @@
 
   --font-sans: "TWK Lausanne", "Helvetica Neue", Arial, sans-serif;
   --font-arabic: "IBM Plex Sans Arabic", "Noto Sans Arabic", "Tajawal", "Cairo", Arial, sans-serif;
+  --font-arabic-display: var(--font-arabic);
+  --font-arabic-body: var(--font-arabic);
   --font-mono: "JetBrains Mono", Menlo, Consolas, monospace;
   --font-weight-body: 350;
+  --font-weight-regular: 350;
   --font-weight-medium: 500;
+  --font-weight-semibold: 500;
   --font-weight-strong: 700;
+  --font-weight-arabic-body: 400;
+  --font-weight-arabic-display: 700;
+  --font-size-small: 13px;
+  --font-size-2: 16px;
+  --font-size-eyebrow: 12px;
+  --font-size-supporting: 12px;
+  --font-size-body: 16px;
+  --font-size-body-lg: 18px;
+  --font-size-display: clamp(44px, 8vw, 96px);
+  --font-size-arabic-body: 16px;
+  --font-size-arabic-body-lg: 19px;
+  --font-size-arabic-display: clamp(42px, 7.6vw, 91px);
+  --line-height-tight: 1.14;
+  --line-height-supporting: 14px;
   --line-height-arabic: 1.75;
+  --line-height-arabic-body: 1.75;
+  --line-height-arabic-display: 1.16;
 
   --tracking-heading: 0.03em;
   --tracking-eyebrow: 0.08em;
+  --tracking-arabic: 0;
+  --tracking-arabic-display: 0;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -156,6 +191,7 @@
 
   --focus-ring-width: 2px;
   --focus-ring-offset: 2px;
+  --focus-ring: var(--ring);
   --icon-system: utopia-dot-bar;
 
   --button-height: 40px;
@@ -177,10 +213,14 @@
   --card-padding: 24px;
   --card-title-size: 20px;
   --z-overlay: 40;
+  --z-popover: 45;
   --z-modal: 50;
 }
 
 :where(:lang(ar), [lang|="ar"]) {
-  font-family: var(--font-arabic);
-  line-height: var(--line-height-arabic);
+  font-family: var(--font-arabic-body);
+  font-weight: var(--font-weight-arabic-body);
+  line-height: var(--line-height-arabic-body);
+  letter-spacing: var(--tracking-arabic);
+  text-transform: none;
 }

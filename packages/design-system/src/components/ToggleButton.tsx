@@ -10,6 +10,7 @@ export interface ToggleButtonProps
   asChild?: boolean
   icon?: React.ReactNode
   isDisabled?: boolean
+  isIconOnly?: boolean
   isLoading?: boolean
   isPressed?: boolean
   label?: React.ReactNode
@@ -28,6 +29,7 @@ export const ToggleButton = React.forwardRef<
       className,
       icon,
       isDisabled = false,
+      isIconOnly = false,
       isLoading = false,
       isPressed,
       label,
@@ -35,22 +37,24 @@ export const ToggleButton = React.forwardRef<
       onPressedChange,
       pressedIcon,
       size,
-      variant = 'secondary',
+      variant = 'ghost',
       ...props
     },
     ref,
   ) => {
     const isDisabledResolved = isDisabled || isLoading
-    const visibleIcon = isPressed && pressedIcon ? pressedIcon : icon
     const visibleLabel = isLoading && loadingText ? loadingText : label
     const fallbackAriaLabel = typeof label === 'string' ? label : undefined
+    const resolvedSize = isIconOnly ? 'icon' : size
+    const hasIcon = Boolean(icon || pressedIcon)
 
     return (
       <TogglePrimitive.Root
         aria-busy={isLoading || undefined}
         aria-label={props['aria-label'] ?? fallbackAriaLabel}
         asChild={asChild}
-        className={cn(buttonVariants({ size, variant }), 'uds-toggle-button', className)}
+        className={cn(buttonVariants({ size: resolvedSize, variant }), 'uds-toggle-button', className)}
+        data-icon-only={isIconOnly || undefined}
         data-loading={isLoading || undefined}
         disabled={isDisabledResolved}
         onPressedChange={onPressedChange}
@@ -59,12 +63,17 @@ export const ToggleButton = React.forwardRef<
         {...props}
       >
         {isLoading ? <span aria-hidden="true" className="uds-button-spinner" /> : null}
-        {!isLoading && visibleIcon ? (
-          <span className="uds-button-slot" data-slot="start">
-            {visibleIcon}
-          </span>
+        {!isLoading && hasIcon ? (
+          <>
+            <span className="uds-button-slot uds-toggle-icon-rest" data-slot="start">
+              {icon ?? pressedIcon}
+            </span>
+            <span className="uds-button-slot uds-toggle-icon-pressed" data-slot="start">
+              {pressedIcon ?? icon}
+            </span>
+          </>
         ) : null}
-        {children ?? (visibleLabel ? <span className="uds-button-content">{visibleLabel}</span> : null)}
+        {isIconOnly ? null : children ?? (visibleLabel ? <span className="uds-button-content">{visibleLabel}</span> : null)}
       </TogglePrimitive.Root>
     )
   },

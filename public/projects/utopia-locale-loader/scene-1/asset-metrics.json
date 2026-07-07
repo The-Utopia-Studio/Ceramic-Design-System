@@ -1,0 +1,22 @@
+{
+  "word-the.svg": {
+    "w": 78.34,
+    "h": 45.36,
+    "text": "THE"
+  },
+  "word-utopia.svg": {
+    "w": 198.15,
+    "h": 58.32,
+    "text": "UTOPIA"
+  },
+  "word-studio.svg": {
+    "w": 191.47,
+    "h": 56.16,
+    "text": "STUDIO"
+  },
+  "word-subtitle.svg": {
+    "w": 125.57,
+    "h": 17.28,
+    "text": "DESIGN SYSTEM"
+  }
+}

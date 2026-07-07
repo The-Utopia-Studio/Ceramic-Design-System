@@ -8,6 +8,7 @@ import { cn } from '../lib/utils'
 export interface ToggleButtonGroupProps
   extends Omit<React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Root>, 'onChange' | 'orientation'>,
     Pick<ButtonGroupProps, 'density' | 'orientation'> {
+  isDisabled?: boolean
   label?: string
   onChange?: (value: string | string[]) => void
 }
@@ -15,7 +16,7 @@ export interface ToggleButtonGroupProps
 export const ToggleButtonGroup = React.forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Root>,
   ToggleButtonGroupProps
->(({ children, className, density, label, onChange, onValueChange, orientation, ...props }, ref) => {
+>(({ children, className, density, isDisabled = false, label, onChange, onValueChange, orientation, ...props }, ref) => {
   const resolvedOrientation = orientation ?? 'horizontal'
   const Root = ToggleGroupPrimitive.Root as React.ElementType
   const handleValueChange = (value: string | string[]) => {
@@ -28,6 +29,7 @@ export const ToggleButtonGroup = React.forwardRef<
     aria-label={label}
     aria-orientation={resolvedOrientation}
     className={cn(buttonGroupVariants({ density, orientation: resolvedOrientation }), 'uds-toggle-button-group', className)}
+    disabled={isDisabled}
     onValueChange={handleValueChange}
     orientation={resolvedOrientation}
     ref={ref}
@@ -45,6 +47,7 @@ export interface ToggleButtonGroupItemProps
     VariantProps<typeof buttonVariants> {
   icon?: React.ReactNode
   isDisabled?: boolean
+  isIconOnly?: boolean
   label?: React.ReactNode
   pressedIcon?: React.ReactNode
 }
@@ -52,10 +55,11 @@ export interface ToggleButtonGroupItemProps
 export const ToggleButtonGroupItem = React.forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Item>,
   ToggleButtonGroupItemProps
->(({ children, className, icon, isDisabled = false, label, pressedIcon, size, variant = 'secondary', ...props }, ref) => (
+>(({ children, className, icon, isDisabled = false, isIconOnly = false, label, pressedIcon, size, variant = 'ghost', ...props }, ref) => (
   <ToggleGroupPrimitive.Item
     aria-label={props['aria-label'] ?? (typeof label === 'string' ? label : undefined)}
-    className={cn(buttonVariants({ size, variant }), 'uds-toggle-button-group-item', className)}
+    className={cn(buttonVariants({ size: isIconOnly ? 'icon' : size, variant }), 'uds-toggle-button-group-item', className)}
+    data-icon-only={isIconOnly || undefined}
     disabled={isDisabled}
     ref={ref}
     {...props}
@@ -66,7 +70,7 @@ export const ToggleButtonGroupItem = React.forwardRef<
         <span className="uds-button-slot uds-toggle-icon-pressed" data-slot="start">{pressedIcon ?? icon}</span>
       </>
     ) : null}
-    {children ?? (label ? <span className="uds-button-content">{label}</span> : null)}
+    {isIconOnly ? null : children ?? (label ? <span className="uds-button-content">{label}</span> : null)}
   </ToggleGroupPrimitive.Item>
 ))
 

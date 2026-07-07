@@ -57,12 +57,13 @@
       "groups": [
         {
           "id": "actions",
-          "label": "Actions",
+          "label": "Action",
           "items": [
             "Button",
             "Button Group",
-            "Toggle",
-            "Toggle Group"
+            "Icon Button",
+            "Toggle Button",
+            "Toggle Button Group"
           ]
         },
         {
@@ -104,10 +105,25 @@
             "Context Menu",
             "Dropdown Menu",
             "Menubar",
+            "Mobile Nav",
+            "Mobile Nav Toggle",
+            "Nav Heading Menu",
+            "Nav Icon",
             "Navigation Menu",
             "Pagination",
-            "Sidebar",
-            "Tabs"
+            "Side Nav",
+            "Side Nav Collapse Button",
+            "Side Nav Heading",
+            "Side Nav Item",
+            "Side Nav Section",
+            "Tabs",
+            "Top Nav",
+            "Top Nav Heading",
+            "Top Nav Item",
+            "Top Nav Mega Menu",
+            "Top Nav Mega Menu Featured Card",
+            "Top Nav Mega Menu Item",
+            "Top Nav Menu"
           ]
         },
         {
@@ -141,6 +157,7 @@
           "label": "Data Display",
           "items": [
             "Attachment",
+            "Account Status",
             "Avatar",
             "Badge",
             "Bubble",
@@ -247,11 +264,13 @@
       "Alert",
       "Alert Dialog",
       "Aspect Ratio",
+      "Account Status",
       "Avatar",
       "Badge",
       "Breadcrumb",
       "Button",
       "Button Group",
+      "Icon Button",
       "Calendar",
       "Card",
       "Carousel",
@@ -288,7 +307,6 @@
       "Select",
       "Separator",
       "Sheet",
-      "Sidebar",
       "Skeleton",
       "Slider",
       "Sonner",
@@ -298,8 +316,8 @@
       "Tabs",
       "Textarea",
       "Toast",
-      "Toggle",
-      "Toggle Group",
+      "Toggle Button",
+      "Toggle Button Group",
       "Tooltip",
       "Typography"
     ],
@@ -318,6 +336,7 @@
       "Breadcrumb",
       "Button",
       "Button Group",
+      "Icon Button",
       "Calendar",
       "Card",
       "Carousel",
@@ -354,7 +373,6 @@
       "Select",
       "Separator",
       "Sheet",
-      "Sidebar",
       "Skeleton",
       "Slider",
       "Sonner",
@@ -364,8 +382,8 @@
       "Tabs",
       "Textarea",
       "Toast",
-      "Toggle",
-      "Toggle Group",
+      "Toggle Button",
+      "Toggle Button Group",
       "Tooltip",
       "Typography"
     ],
@@ -436,5 +454,45 @@
       "typography"
     ],
     "planned": []
-  }
+  },
+  "componentFamilies": [
+    {
+      "id": "side-nav",
+      "label": "Side Navigation",
+      "parent": "Side Nav",
+      "items": [
+        "Side Nav Section",
+        "Side Nav Heading",
+        "Side Nav Item",
+        "Side Nav Collapse Button"
+      ],
+      "description": "Composable side navigation family built from shadcn/sidebar architecture and Utopia semantic tokens."
+    },
+    {
+      "id": "top-nav",
+      "label": "Top Navigation",
+      "parent": "Top Nav",
+      "items": [
+        "Top Nav Heading",
+        "Top Nav Item",
+        "Top Nav Menu",
+        "Top Nav Mega Menu",
+        "Top Nav Mega Menu Featured Card",
+        "Top Nav Mega Menu Item",
+        "Nav Icon"
+      ],
+      "description": "Composable desktop top navigation family built from shadcn/Radix NavigationMenu and Utopia semantic tokens."
+    },
+    {
+      "id": "mobile-nav",
+      "label": "Mobile Navigation",
+      "parent": "Mobile Nav",
+      "items": [
+        "Mobile Nav Toggle",
+        "Nav Heading Menu",
+        "Nav Icon"
+      ],
+      "description": "Composable mobile navigation family built from shadcn Sheet/Dialog patterns and Utopia semantic tokens."
+    }
+  ]
 }

@@ -2,22 +2,64 @@ import * as React from 'react'
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import { cn } from '../lib/utils'
 
+export interface AccountStatusProps extends React.HTMLAttributes<HTMLDivElement> {
+  avatar?: React.ReactNode
+  avatarAlt?: string
+  avatarFallback?: React.ReactNode
+  avatarSrc?: string
+  description?: React.ReactNode
+  endContent?: React.ReactNode
+  label: React.ReactNode
+}
+
+export function AccountStatus({
+  avatar,
+  avatarAlt,
+  avatarFallback,
+  avatarSrc,
+  children,
+  className,
+  description,
+  endContent,
+  label,
+  ...props
+}: AccountStatusProps) {
+  return (
+    <div className={cn('uds-account-status', className)} {...props}>
+      <span className="uds-account-status-avatar" data-slot="avatar">
+        {avatar ?? <Avatar alt={avatarAlt} src={avatarSrc}>{avatarFallback}</Avatar>}
+      </span>
+      <span className="uds-account-status-copy" data-slot="copy">
+        <span className="uds-account-status-label" data-slot="label">{label}</span>
+        {description ? <span className="uds-account-status-description" data-slot="description">{description}</span> : null}
+        {children}
+      </span>
+      {endContent ? <span className="uds-account-status-end" data-slot="end">{endContent}</span> : null}
+    </div>
+  )
+}
+
 export function Avatar({
   alt,
   children,
   className,
+  size = 'md',
   src,
+  status,
   ...props
 }: React.ComponentProps<typeof AvatarPrimitive.Root> & {
   alt?: string
+  size?: 'xs' | 'sm' | 'md' | 'lg'
   src?: string
+  status?: 'online' | 'busy' | 'away' | 'offline'
 }) {
   return (
-    <AvatarPrimitive.Root className={cn('uds-avatar', className)} {...props}>
+    <AvatarPrimitive.Root className={cn('uds-avatar', className)} data-size={size} data-status={status} {...props}>
       {src ? <AvatarPrimitive.Image alt={alt ?? ''} className="uds-avatar-image" src={src} /> : null}
       <AvatarPrimitive.Fallback className="uds-avatar-fallback">
         {children ?? fallbackFromAlt(alt)}
       </AvatarPrimitive.Fallback>
+      {status ? <AvatarStatusDot status={status} /> : null}
     </AvatarPrimitive.Root>
   )
 }
@@ -28,6 +70,26 @@ export function AvatarImage({ className, ...props }: React.ComponentProps<typeof
 
 export function AvatarFallback({ className, ...props }: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
   return <AvatarPrimitive.Fallback className={cn('uds-avatar-fallback', className)} {...props} />
+}
+
+export function AvatarStatusDot({
+  className,
+  status = 'online',
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement> & { status?: 'online' | 'busy' | 'away' | 'offline' }) {
+  return <span aria-hidden="true" className={cn('uds-avatar-status-dot', className)} data-status={status} {...props} />
+}
+
+export function AvatarGroup({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn('uds-avatar-group', className)} role="group" {...props} />
+}
+
+export function AvatarOverflow({
+  className,
+  size = 'md',
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement> & { size?: 'xs' | 'sm' | 'md' | 'lg' }) {
+  return <span className={cn('uds-avatar-overflow', className)} data-size={size} {...props} />
 }
 
 function fallbackFromAlt(alt?: string) {
@@ -74,7 +136,8 @@ export function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivEl
 }
 
 export function Spinner({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
-  return <span className={cn('uds-spinner', className)} aria-hidden="true" {...props} />
+  const isDecorative = !props['aria-label'] && !props['aria-labelledby'] && !props.role
+  return <span aria-hidden={isDecorative ? true : undefined} className={cn('uds-spinner', className)} {...props} />
 }
 
 export function StatusDot({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
@@ -85,11 +148,112 @@ export function Table({ className, ...props }: React.TableHTMLAttributes<HTMLTab
   return <table className={cn('uds-table', className)} {...props} />
 }
 
+export function TableHeader({ className, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) {
+  return <thead className={cn('uds-table-header', className)} {...props} />
+}
+
+export function TableBody({ className, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) {
+  return <tbody className={cn('uds-table-body', className)} {...props} />
+}
+
+export function TableRow({ className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) {
+  return <tr className={cn('uds-table-row', className)} {...props} />
+}
+
+export function TableHead({ className, ...props }: React.ThHTMLAttributes<HTMLTableCellElement>) {
+  return <th className={cn('uds-table-head', className)} scope="col" {...props} />
+}
+
+export function TableCell({ className, ...props }: React.TdHTMLAttributes<HTMLTableCellElement>) {
+  return <td className={cn('uds-table-cell', className)} {...props} />
+}
+
 export function Toast({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return <div className={cn('uds-toast', className)} role="status" {...props} />
 }
 
-export const Calendar = EmptyState
+export function ToastTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
+  return <h3 className={cn('uds-toast-title', className)} {...props} />
+}
+
+export function ToastDescription({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn('uds-toast-description', className)} {...props} />
+}
+
+export interface CalendarProps extends React.HTMLAttributes<HTMLDivElement> {
+  locale?: string
+  month?: Date
+  selectedDate?: Date
+  weekStartsOn?: 0 | 1
+}
+
+export function Calendar({
+  className,
+  locale = 'en-US',
+  month = new Date(),
+  selectedDate,
+  weekStartsOn = 0,
+  ...props
+}: CalendarProps) {
+  const visibleMonth = new Date(month.getFullYear(), month.getMonth(), 1)
+  const days = getCalendarDays(visibleMonth, weekStartsOn)
+  const weekDays = getWeekDays(locale, weekStartsOn)
+  const monthLabel = new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' }).format(visibleMonth)
+
+  return (
+    <div className={cn('uds-calendar', className)} {...props}>
+      <div className="uds-calendar-header">{monthLabel}</div>
+      <div className="uds-calendar-grid" role="grid" aria-label={monthLabel}>
+        {weekDays.map((day) => (
+          <div key={day} className="uds-calendar-weekday" role="columnheader">{day}</div>
+        ))}
+        {days.map((day) => {
+          const outside = day.getMonth() !== visibleMonth.getMonth()
+          const selected = selectedDate ? isSameDay(day, selectedDate) : false
+          return (
+            <button
+              key={day.toISOString()}
+              aria-selected={selected}
+              className="uds-calendar-day"
+              data-outside={outside ? 'true' : undefined}
+              data-selected={selected ? 'true' : undefined}
+              role="gridcell"
+              type="button"
+            >
+              {new Intl.DateTimeFormat(locale, { day: 'numeric' }).format(day)}
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+function getCalendarDays(month: Date, weekStartsOn: 0 | 1) {
+  const start = new Date(month.getFullYear(), month.getMonth(), 1)
+  const offset = (start.getDay() - weekStartsOn + 7) % 7
+  start.setDate(start.getDate() - offset)
+
+  return Array.from({ length: 42 }, (_, index) => {
+    const day = new Date(start)
+    day.setDate(start.getDate() + index)
+    return day
+  })
+}
+
+function getWeekDays(locale: string, weekStartsOn: 0 | 1) {
+  const sunday = new Date(2026, 0, 4)
+  return Array.from({ length: 7 }, (_, index) => {
+    const day = new Date(sunday)
+    day.setDate(sunday.getDate() + ((index + weekStartsOn) % 7))
+    return new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(day)
+  })
+}
+
+function isSameDay(a: Date, b: Date) {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
+}
+
 export const Chat = EmptyState
 export const Markdown = EmptyState
 export const TreeList = List

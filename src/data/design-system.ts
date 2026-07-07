@@ -46,3 +46,25 @@ export function getTemplateCategoryLabel(category: string) {
 export function slugify(value: string) {
   return value.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase()
 }
+
+export function compareDisplayName(a: string, b: string) {
+  return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
+}
+
+export function getComponentAreaGroups() {
+  const area = getArea('components')
+
+  return (area?.groups ?? [])
+    .map((group) => ({
+      ...group,
+      items: [...group.items].sort(compareDisplayName),
+    }))
+    .sort((a, b) => compareDisplayName(a.label, b.label))
+}
+
+export function getComponentFamilies() {
+  return (catalog.componentFamilies ?? []).map((family) => ({
+    ...family,
+    items: [...family.items].sort(compareDisplayName),
+  }))
+}

@@ -1,36 +1,465 @@
 {
   "components": [
     {
+      "name": "Accordion",
+      "category": "Disclosure",
+      "status": "available",
+      "packageImport": "import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@utopia-studio-design/design-system/Accordion';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "accordion",
+        "Radix Accordion",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "accordion",
+      "requiredTokens": [
+        "--surface",
+        "--surface-hover",
+        "--foreground",
+        "--muted-foreground",
+        "--border",
+        "--radius-surface",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--duration-medium",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "A sectioned disclosure list needs keyboard-accessible expand/collapse behavior",
+        "FAQ, settings, or docs content should stay on one page",
+        "One or multiple panels can be open using Radix Accordion semantics"
+      ],
+      "avoidWhen": [
+        "A single disclosure is enough; use Collapsible",
+        "The content is primary navigation; use Side Nav Section",
+        "Opening a panel should route to another page"
+      ],
+      "neverInvent": [
+        "Custom disclosure keyboard behavior",
+        "Raw shadcn theme colors",
+        "Left/right-only indicator placement",
+        "Utopia brand primitives inside reusable component logic"
+      ],
+      "ai": {
+        "props": {
+          "type": "Use single for one open item, multiple for independent open items.",
+          "collapsible": "Allow the active single item to close when the content is optional.",
+          "AccordionItem": "Requires a stable value for Radix state.",
+          "AccordionTrigger": "Visible section title and full hit target.",
+          "AccordionContent": "Panel body. Keep product copy supplied by the app."
+        },
+        "arabicFriendly": "Trigger text uses start alignment and indicator sits at inline-end. In dir=\"rtl\", spacing and hit target must mirror without left/right CSS."
+      }
+    },
+    {
+      "name": "Account Status",
+      "category": "Data Display",
+      "status": "available",
+      "packageImport": "import { AccountStatus } from '@utopia-studio-design/design-system/DataDisplay';",
+      "sourcePath": "packages/design-system/src/components/DataDisplay.tsx",
+      "shadcnFoundation": [
+        "avatar",
+        "Radix Avatar",
+        "semantic account/status wrapper",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "avatar",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--radius-control",
+        "--nav-item-height",
+        "--space-2",
+        "--font-size-supporting",
+        "--line-height-supporting"
+      ],
+      "useWhen": [
+        "Showing a signed-in user, workspace, or account status in Top Nav or Side Nav",
+        "A compact identity row needs Avatar plus label and optional description",
+        "Collapsed side navigation should keep the avatar visible while hiding text"
+      ],
+      "avoidWhen": [
+        "Decorative fake people are needed",
+        "A logo or product mark should use brand assets instead",
+        "A full profile card or account menu is required"
+      ],
+      "neverInvent": [
+        "Fake user identity or status copy",
+        "Background surfaces by default",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ],
+      "ai": {
+        "props": {
+          "avatar": "Optional custom Avatar node. Prefer the design-system Avatar component.",
+          "avatarAlt": "Accessible text for the fallback avatar when avatar is not supplied.",
+          "avatarSrc": "Optional avatar image source.",
+          "avatarFallback": "Fallback initials passed to Avatar.",
+          "label": "Required account, user, workspace, or organization label.",
+          "description": "Optional status, plan, role, or workspace metadata.",
+          "endContent": "Optional trailing status or menu affordance."
+        },
+        "usage": "Use AccountStatus in Top Nav or Side Nav footer. Keep background transparent by default and let the parent surface own framing."
+      }
+    },
+    {
+      "name": "Alert",
+      "category": "Feedback",
+      "status": "available",
+      "packageImport": "import { Alert, AlertDescription, AlertTitle } from '@utopia-studio-design/design-system/Alert';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "alert",
+        "shadcn/ui registry",
+        "semantic status surface",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "alert",
+      "requiredTokens": [
+        "--surface",
+        "--foreground",
+        "--muted-foreground",
+        "--border",
+        "--radius-surface",
+        "--space-1",
+        "--space-3",
+        "--space-4",
+        "--space-5",
+        "--success",
+        "--success-foreground",
+        "--success-surface",
+        "--success-border",
+        "--success-text",
+        "--warning",
+        "--warning-foreground",
+        "--warning-surface",
+        "--warning-border",
+        "--warning-text",
+        "--destructive",
+        "--destructive-surface",
+        "--destructive-border",
+        "--destructive-text",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Inline status or system notices need to be announced",
+        "A warning or destructive state should stay in context",
+        "Feedback should not block the user"
+      ],
+      "avoidWhen": [
+        "A blocking confirmation is required; use Alert Dialog",
+        "The message is purely decorative",
+        "The notice needs product-specific localization rules inside the component"
+      ],
+      "neverInvent": [
+        "Product alert copy",
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ],
+      "ai": {
+        "props": {
+          "variant": "Use default, info, success, warning, or destructive. The variant selects the default icon and tokenized status emphasis.",
+          "showIcon": "Defaults to true. Set false for text-only alerts when nearby UI already communicates the status.",
+          "icon": "Optional ReactNode override. Prefer semantic, non-directional lucide icons unless the alert meaning requires direction.",
+          "tone": "Backward-compatible alias for variant. Prefer variant in new code.",
+          "AlertTitle": "Short status headline.",
+          "AlertDescription": "Supporting details; product owns wording and localization."
+        },
+        "arabicFriendly": "Use logical spacing and product-supplied localized copy. Mixed Arabic/English text must wrap without overlapping action or icon slots."
+      }
+    },
+    {
+      "name": "Alert Dialog",
+      "category": "Feedback",
+      "status": "available",
+      "packageImport": "import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@utopia-studio-design/design-system/AlertDialog';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "alert-dialog",
+        "Radix AlertDialog",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "alert-dialog",
+      "requiredTokens": [
+        "--surface",
+        "--foreground",
+        "--muted-foreground",
+        "--border",
+        "--radius-surface",
+        "--radius-control",
+        "--primary",
+        "--primary-foreground",
+        "--secondary",
+        "--secondary-foreground",
+        "--z-overlay",
+        "--z-modal",
+        "--focus-ring-width",
+        "--overlay",
+        "--modal-surface"
+      ],
+      "useWhen": [
+        "Destructive confirmations",
+        "Irreversible decisions",
+        "Blocking choices that require explicit acknowledgement and focus trapping"
+      ],
+      "avoidWhen": [
+        "Inline status would be enough",
+        "The action can be undone without confirmation",
+        "The dialog copy is not localized or verified"
+      ],
+      "neverInvent": [
+        "Unreviewed destructive copy",
+        "Raw shadcn theme colors",
+        "Left/right-only footer ordering",
+        "Utopia brand primitives inside reusable component logic"
+      ],
+      "ai": {
+        "props": {
+          "AlertDialogTrigger": "Use asChild with Button for visible trigger controls.",
+          "AlertDialogContent": "Modal content with overlay and semantic surface tokens.",
+          "AlertDialogHeader": "Groups title and description.",
+          "AlertDialogFooter": "Groups cancel/action controls at inline-end.",
+          "AlertDialogCancel": "Non-destructive escape path.",
+          "AlertDialogAction": "Confirmed action; pair destructive wording with product-approved copy."
+        },
+        "arabicFriendly": "Footer, text alignment, and modal centering use logical properties. Do not invent Arabic confirmation copy; use supplied localization."
+      }
+    },
+    {
+      "name": "Aspect Ratio",
+      "category": "Layout",
+      "status": "available",
+      "packageImport": "import { AspectRatio } from '@utopia-studio-design/design-system/Layout';",
+      "sourcePath": "packages/design-system/src/components/Layout.tsx",
+      "shadcnFoundation": [
+        "aspect-ratio",
+        "Radix Aspect Ratio",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "aspect-ratio",
+      "requiredTokens": [
+        "--radius-surface",
+        "--surface",
+        "--border"
+      ],
+      "useWhen": [
+        "Media frames need stable dimensions before assets load",
+        "Gallery, thumbnail, video, and preview regions need fixed ratios",
+        "AI-generated templates need layout stability without viewport-based type scaling"
+      ],
+      "avoidWhen": [
+        "Content height is unknown and should grow naturally",
+        "A responsive grid should own the sizing instead",
+        "Text-only cards need normal content flow"
+      ],
+      "neverInvent": [
+        "Viewport-width font scaling",
+        "Unstable media boxes",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ],
+      "ai": {
+        "props": {
+          "ratio": "Number such as 16 / 9, 4 / 3, or 1. Use constants or expressions, not raw string dimensions."
+        },
+        "arabicFriendly": "Aspect ratio is direction-neutral. Content inside still needs dir=\"rtl\" checks for text, controls, and media captions."
+      }
+    },
+    {
       "name": "Attachment",
       "category": "Data Display",
       "status": "available",
-      "packageImport": "import { Attachment } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "packageImport": "import { Attachment, AttachmentAction, AttachmentActions, AttachmentContent, AttachmentDescription, AttachmentGroup, AttachmentMedia, AttachmentTitle, AttachmentTrigger } from '@utopia-studio-design/design-system/Attachment';",
       "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
       "shadcnFoundation": [
         "attachment",
         "shadcn/ui registry",
+        "composable attachment primitives",
         "semantic Utopia wrapper"
       ],
       "fallbackToShadcn": "attachment",
       "requiredTokens": [
-        "--background",
-        "--foreground",
         "--surface",
+        "--surface-hover",
+        "--surface-strong",
+        "--foreground",
+        "--muted-foreground",
         "--border",
-        "--radius-surface",
-        "--focus-ring-width"
+        "--primary",
+        "--primary-foreground",
+        "--destructive",
+        "--ring",
+        "--radius-control",
+        "--button-height",
+        "--button-height-sm",
+        "--focus-ring-width",
+        "--duration-fast",
+        "--duration-medium",
+        "--ease-standard"
       ],
       "useWhen": [
-        "Use when the shadcn/ui attachment pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
+        "Files or generated artifacts need a compact preview row",
+        "An upload, processing, error, or done state needs semantic status styling",
+        "A file attachment needs title, description, media, actions, trigger, or grouped layout primitives"
       ],
       "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
+        "A full file manager or product-specific upload workflow is required",
+        "File validation, storage, or localization rules belong in product logic",
+        "Decorative fake files are being generated"
       ],
       "neverInvent": [
+        "Fake product file names in production examples",
         "Raw shadcn theme colors",
+        "Left/right-only action placement",
+        "Utopia brand primitives inside reusable component logic"
+      ],
+      "ai": {
+        "props": {
+          "orientation": "Use horizontal for rows and vertical for stacked previews.",
+          "progress": "Optional 0-100 progress value for uploading or processing states. Product code owns upload math and state changes.",
+          "size": "Use default for normal rows, sm/xs for dense lists.",
+          "state": "Use idle, uploading, processing, error, or done; do not invent custom visual states.",
+          "AttachmentMedia": "Leading media slot for file icon, image thumbnail, spinner, or generated artifact preview. Use variant=\"image\" for thumbnails.",
+          "AttachmentContent": "Text content wrapper containing title and description.",
+          "AttachmentActions": "Inline-end action group for open, remove, retry, or download actions.",
+          "AttachmentTrigger": "Dashed add/upload trigger; product owns file input behavior."
+        },
+        "arabicFriendly": "Use AttachmentMedia at inline-start and AttachmentActions at inline-end. In dir=\"rtl\", action placement, progress, image cards, and truncation must mirror through logical layout. Do not invent Arabic file names or production copy."
+      }
+    },
+    {
+      "name": "Avatar",
+      "category": "Data Display",
+      "status": "available",
+      "packageImport": "import { Avatar, AvatarFallback, AvatarGroup, AvatarImage, AvatarOverflow, AvatarStatusDot } from '@utopia-studio-design/design-system/DataDisplay';",
+      "sourcePath": "packages/design-system/src/components/DataDisplay.tsx",
+      "shadcnFoundation": [
+        "avatar",
+        "Radix Avatar",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "avatar",
+      "requiredTokens": [
+        "--background",
+        "--secondary",
+        "--secondary-foreground",
+        "--border",
+        "--avatar-size",
+        "--button-height-sm",
+        "--font-size-small",
+        "--font-size-body-lg",
+        "--font-weight-medium",
+        "--success",
+        "--warning",
+        "--destructive",
+        "--muted-foreground"
+      ],
+      "useWhen": [
+        "People or account identifiers",
+        "Team member references with fallback initials",
+        "Entity identity where alt text is known",
+        "A compact team stack needs an overflow count"
+      ],
+      "avoidWhen": [
+        "Decorative profile filler",
+        "Unverified fake people",
+        "A logo or product mark should be used instead"
+      ],
+      "neverInvent": [
+        "Generic fake people",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ],
+      "ai": {
+        "props": {
+          "alt": "Required when src is provided. Use localized, factual identity text; do not invent a fake person.",
+          "children": "Default visual fallback. Prefer initials or a short entity mark when no verified image exists.",
+          "size": "xs, sm, md, or lg. Use sm in dense groups, md for account rows, lg for profile previews.",
+          "src": "Optional verified image URL. Avatar must still render the fallback when the image fails.",
+          "status": "Optional online, busy, away, or offline indicator. Status dot is decorative and mirrors with inline-end.",
+          "AvatarGroup": "Groups multiple avatars with logical overlap and requires an aria-label.",
+          "AvatarOverflow": "Use for localized remaining count such as +3 or +٣. Match its size to grouped avatars.",
+          "AvatarStatusDot": "Internal status indicator; prefer the status prop unless composing a custom avatar."
+        },
+        "arabicFriendly": "Default to initials/fallback when a culturally appropriate verified image is unavailable. Use Arabic initials or localized short labels, logical overlap, inline-end status dots, and Arabic numerals for overflow counts in dir=\"rtl\". Do not fabricate Arabic names or people."
+      }
+    },
+    {
+      "name": "Badge",
+      "category": "Data Display",
+      "status": "available",
+      "packageImport": "import { Badge } from '@utopia-studio-design/design-system/Badge';",
+      "sourcePath": "packages/design-system/src/components/Badge.tsx",
+      "shadcnFoundation": [
+        "badge",
+        "cva"
+      ],
+      "fallbackToShadcn": "badge",
+      "requiredTokens": [
+        "--primary",
+        "--primary-foreground",
+        "--secondary",
+        "--secondary-foreground",
+        "--success",
+        "--success-foreground",
+        "--destructive",
+        "--destructive-foreground",
+        "--border",
+        "--radius-control"
+      ],
+      "useWhen": [
+        "Short status",
+        "Taxonomy",
+        "Type markers"
+      ],
+      "avoidWhen": [
+        "Full sentences",
+        "Pure decoration"
+      ],
+      "neverInvent": [
+        "Extra badge color families",
+        "Long badge copy",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Breadcrumb",
+      "category": "Navigation",
+      "status": "available",
+      "packageImport": "import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@utopia-studio-design/design-system/Navigation';",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "shadcnFoundation": [
+        "breadcrumb",
+        "semantic navigation",
+        "shadcn/ui breadcrumb"
+      ],
+      "fallbackToShadcn": "breadcrumb",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--foreground-subtle",
+        "--space-2",
+        "--font-weight-medium"
+      ],
+      "useWhen": [
+        "Hierarchical location",
+        "Deep pages",
+        "When users need parent-page context"
+      ],
+      "avoidWhen": [
+        "Primary navigation",
+        "Single-level pages",
+        "Steps or progress flows"
+      ],
+      "neverInvent": [
+        "Directional icon without RTL rule",
         "Left/right-only layout rules",
         "Utopia brand primitives inside reusable component logic"
       ]
@@ -71,6 +500,1098 @@
       ]
     },
     {
+      "name": "Button",
+      "category": "Action",
+      "status": "available",
+      "packageImport": "import { Button } from '@utopia-studio-design/design-system/Button';",
+      "sourcePath": "packages/design-system/src/components/Button.tsx",
+      "shadcnFoundation": [
+        "button",
+        "Slot",
+        "cva"
+      ],
+      "fallbackToShadcn": "button",
+      "requiredTokens": [
+        "--primary",
+        "--primary-hover",
+        "--primary-active",
+        "--primary-foreground",
+        "--secondary",
+        "--secondary-hover",
+        "--secondary-active",
+        "--secondary-foreground",
+        "--destructive",
+        "--destructive-hover",
+        "--destructive-active",
+        "--radius-control",
+        "--button-height",
+        "--button-height-sm",
+        "--button-height-lg",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Primary actions",
+        "Form submissions",
+        "Navigation CTAs"
+      ],
+      "avoidWhen": [
+        "Passive metadata",
+        "Decorative labels"
+      ],
+      "neverInvent": [
+        "New button colors",
+        "Gradient states",
+        "Unlabeled icon-only buttons",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Button Group",
+      "category": "Action",
+      "status": "available",
+      "packageImport": "import { ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from '@utopia-studio-design/design-system/ButtonGroup';",
+      "sourcePath": "packages/design-system/src/components/ButtonGroup.tsx",
+      "shadcnFoundation": [
+        "button-group",
+        "ButtonGroup",
+        "ButtonGroupSeparator",
+        "ButtonGroupText",
+        "cva",
+        "DropdownMenu composition",
+        "split overflow actions"
+      ],
+      "fallbackToShadcn": "shadcn/ui button-group",
+      "requiredTokens": [
+        "--button-group-gap",
+        "--button-group-gap-compact",
+        "--radius-control",
+        "--button-height",
+        "--focus-ring-width",
+        "--popover-surface",
+        "--border"
+      ],
+      "useWhen": [
+        "Related actions",
+        "Toolbar clusters",
+        "Choice-like action sets",
+        "Split or overflow action groups with Dropdown Menu",
+        "Connected controls that combine buttons, static text, and menu triggers"
+      ],
+      "avoidWhen": [
+        "Unrelated actions",
+        "Primary action stacks",
+        "Navigation lists"
+      ],
+      "neverInvent": [
+        "Button group colors",
+        "Left/right-only spacing",
+        "Serialized React children arrays",
+        "Multiple primary actions without hierarchy",
+        "Utopia brand primitives inside reusable component logic",
+        "Hidden overflow menus for primary actions",
+        "Dropdown triggers without accessible labels"
+      ],
+      "ai": {
+        "props": [
+          "orientation",
+          "density",
+          "asToolbar",
+          "label",
+          "children",
+          "ButtonGroupSeparator.orientation",
+          "ButtonGroupText.asChild"
+        ],
+        "shadcnReferencePatterns": [
+          "button group",
+          "button group with dropdown menu",
+          "split button",
+          "toolbar",
+          "input group composition"
+        ],
+        "arabicFriendly": [
+          "Use logical orientation and preserve action meaning in RTL.",
+          "Dropdown overflow triggers require localized aria-label text.",
+          "Do not reorder destructive or primary actions only to mirror the visual layout."
+        ]
+      }
+    },
+    {
+      "name": "Calendar",
+      "category": "Data Display",
+      "status": "available",
+      "packageImport": "import { Calendar } from '@utopia-studio-design/design-system/DataDisplay';",
+      "sourcePath": "packages/design-system/src/components/DataDisplay.tsx",
+      "shadcnFoundation": [
+        "calendar",
+        "semantic date grid",
+        "shadcn/ui calendar"
+      ],
+      "fallbackToShadcn": "calendar",
+      "requiredTokens": [
+        "--surface",
+        "--foreground",
+        "--muted-foreground",
+        "--foreground-subtle",
+        "--border",
+        "--radius-surface",
+        "--radius-control",
+        "--primary",
+        "--primary-foreground",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Date browsing",
+        "Date picking",
+        "Month-grid previews that have product-owned localization rules"
+      ],
+      "avoidWhen": [
+        "Hijri calendar without localization requirements",
+        "Date math that belongs in product logic",
+        "Unverified locale-specific calendar behavior"
+      ],
+      "neverInvent": [
+        "Locale-specific calendar behavior",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Card",
+      "category": "Surface",
+      "status": "available",
+      "packageImport": "import { Card } from '@utopia-studio-design/design-system/Card';",
+      "sourcePath": "packages/design-system/src/components/Card.tsx",
+      "shadcnFoundation": [
+        "card",
+        "composition"
+      ],
+      "fallbackToShadcn": "card",
+      "requiredTokens": [
+        "--card",
+        "--card-foreground",
+        "--border",
+        "--radius-surface",
+        "--card-padding"
+      ],
+      "useWhen": [
+        "Repeated content",
+        "Grouped data",
+        "Framed tool surfaces"
+      ],
+      "avoidWhen": [
+        "Full page sections",
+        "Nested cards"
+      ],
+      "neverInvent": [
+        "Drop shadows",
+        "Rounded marketing panels",
+        "Decorative card grids",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Carousel",
+      "category": "Data Display",
+      "status": "available",
+      "packageImport": "import { Carousel, CarouselButton, CarouselContent, CarouselControls, CarouselItem } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "carousel",
+        "scroll snap carousel",
+        "shadcn/ui registry"
+      ],
+      "fallbackToShadcn": "carousel",
+      "requiredTokens": [
+        "--surface",
+        "--foreground",
+        "--border",
+        "--radius-surface",
+        "--radius-control",
+        "--secondary",
+        "--secondary-foreground",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Small sets of related featured items",
+        "Horizontal browsing where order matters",
+        "AI-generated previews that need explicit slide labels"
+      ],
+      "avoidWhen": [
+        "Large data sets",
+        "Primary navigation",
+        "Content that must all be visible at once"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Chart",
+      "category": "Data Display",
+      "status": "available",
+      "packageImport": "import { Chart, ChartBars } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "chart",
+        "semantic data display",
+        "shadcn/ui registry"
+      ],
+      "fallbackToShadcn": "chart",
+      "requiredTokens": [
+        "--surface",
+        "--foreground",
+        "--muted-foreground",
+        "--border",
+        "--radius-surface",
+        "--radius-control",
+        "--primary"
+      ],
+      "useWhen": [
+        "Simple visual summaries",
+        "Component docs examples",
+        "Token-safe data display before product chart logic is selected"
+      ],
+      "avoidWhen": [
+        "Financial or analytics charts without domain requirements",
+        "Unlabeled data",
+        "Locale-specific number formatting inside reusable component logic"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Checkbox",
+      "category": "Forms",
+      "status": "available",
+      "packageImport": "import { Checkbox } from '@utopia-studio-design/design-system/Forms';",
+      "sourcePath": "packages/design-system/src/components/Forms.tsx",
+      "shadcnFoundation": [
+        "checkbox",
+        "Radix Checkbox",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "checkbox",
+      "requiredTokens": [
+        "--background",
+        "--foreground",
+        "--input",
+        "--primary",
+        "--primary-foreground",
+        "--radius-control",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Multi-select boolean choices",
+        "Terms acknowledgement",
+        "Independent option toggles in forms"
+      ],
+      "avoidWhen": [
+        "Single persistent settings",
+        "Exclusive choices",
+        "Actions that should be buttons"
+      ],
+      "neverInvent": [
+        "Left/right label placement",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Collapsible",
+      "category": "Disclosure",
+      "status": "available",
+      "packageImport": "import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "collapsible",
+        "Radix Collapsible",
+        "shadcn/ui registry"
+      ],
+      "fallbackToShadcn": "collapsible",
+      "requiredTokens": [
+        "--surface",
+        "--foreground",
+        "--muted-foreground",
+        "--border",
+        "--radius-surface",
+        "--radius-control",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Optional details",
+        "Progressive disclosure inside a page",
+        "Content that can be hidden without changing route"
+      ],
+      "avoidWhen": [
+        "Primary page navigation",
+        "Required instructions",
+        "Complex multi-section disclosure that should be Accordion"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Combobox",
+      "category": "Forms",
+      "status": "available",
+      "packageImport": "import { Combobox, ComboboxContent, ComboboxInput, ComboboxOption, ComboboxTrigger } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "combobox",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "combobox",
+      "requiredTokens": [
+        "--background",
+        "--foreground",
+        "--surface",
+        "--border",
+        "--radius-surface",
+        "--radius-control",
+        "--input",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Searchable selection from a known option set",
+        "AI-generated forms that need an explicit trigger, input, content, and option contract",
+        "Arabic-friendly product UI where option labels may be mixed-script or RTL"
+      ],
+      "avoidWhen": [
+        "A native select is sufficient",
+        "Free text input with no option selection",
+        "Product-specific filtering or async loading belongs in app logic"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Command",
+      "category": "Navigation",
+      "status": "available",
+      "packageImport": "import { Command, CommandPaletteInput, CommandPaletteList, CommandPaletteItem } from '@utopia-studio-design/design-system/Navigation';",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "shadcnFoundation": [
+        "command",
+        "cmdk",
+        "shadcn/ui command"
+      ],
+      "fallbackToShadcn": "command",
+      "requiredTokens": [
+        "--surface",
+        "--border",
+        "--radius-surface",
+        "--input",
+        "--focus-ring-width",
+        "--foreground",
+        "--muted-foreground",
+        "--popover-surface"
+      ],
+      "useWhen": [
+        "Keyboard-first navigation",
+        "Global search"
+      ],
+      "avoidWhen": [
+        "Simple menus"
+      ],
+      "neverInvent": [
+        "Hidden commands without labels",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Context Menu",
+      "category": "Navigation",
+      "status": "available",
+      "packageImport": "import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@utopia-studio-design/design-system/Navigation';",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "shadcnFoundation": [
+        "context-menu",
+        "Radix Context Menu"
+      ],
+      "fallbackToShadcn": "context-menu",
+      "requiredTokens": [
+        "--surface",
+        "--border",
+        "--radius-surface",
+        "--focus-ring-width",
+        "--foreground",
+        "--muted-foreground",
+        "--popover-surface"
+      ],
+      "useWhen": [
+        "Secondary contextual actions"
+      ],
+      "avoidWhen": [
+        "Primary workflows"
+      ],
+      "neverInvent": [
+        "Unavailable actions with no disabled state",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Data Table",
+      "category": "Data Display",
+      "status": "available",
+      "packageImport": "import { DataTable, DataTableBody, DataTableCell, DataTableHead, DataTableHeader, DataTableRow } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "data-table",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "table",
+      "requiredTokens": [
+        "--background",
+        "--foreground",
+        "--surface",
+        "--border",
+        "--radius-surface",
+        "--muted-foreground",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Structured tabular data with headers and comparable rows",
+        "AI-generated admin/product views that need accessible table semantics",
+        "Arabic-friendly data displays that must preserve table meaning in dir='rtl'"
+      ],
+      "avoidWhen": [
+        "Card lists are easier to scan",
+        "Large virtualized data sets without product table requirements",
+        "Locale-specific sorting, formatting, or filtering inside the reusable primitive"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Date Picker",
+      "category": "Forms",
+      "status": "available",
+      "packageImport": "import { DatePicker } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "date-picker",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "calendar plus popover",
+      "requiredTokens": [
+        "--background",
+        "--foreground",
+        "--surface",
+        "--border",
+        "--radius-surface",
+        "--radius-control",
+        "--input",
+        "--primary",
+        "--primary-foreground",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Calendar-backed date selection",
+        "AI-generated forms that need a visible trigger and calendar grid contract",
+        "Arabic-friendly date UI where locale formatting belongs in product or theme configuration"
+      ],
+      "avoidWhen": [
+        "Plain date text is enough",
+        "Hijri or country-specific calendars before product requirements are defined",
+        "Business date validation inside the reusable primitive"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Dialog",
+      "category": "Feedback",
+      "status": "available",
+      "packageImport": "import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "dialog",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "dialog",
+      "requiredTokens": [
+        "--background",
+        "--foreground",
+        "--surface",
+        "--border",
+        "--radius-surface",
+        "--radius-control",
+        "--z-overlay",
+        "--z-modal",
+        "--focus-ring-width",
+        "--overlay",
+        "--modal-surface"
+      ],
+      "useWhen": [
+        "Focused interruptive content",
+        "Forms or details that need an overlay surface",
+        "AI-generated modals that need explicit trigger, content, title, description, and close parts"
+      ],
+      "avoidWhen": [
+        "Inline disclosure is enough",
+        "Irreversible confirmation that should use Alert Dialog",
+        "Product-specific flows hidden in reusable component logic"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Direction",
+      "category": "Utilities",
+      "status": "available",
+      "packageImport": "import { Direction } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "direction",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "direction",
+      "requiredTokens": [
+        "--background",
+        "--foreground",
+        "--surface",
+        "--border",
+        "--radius-surface",
+        "--font-arabic",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Scoped RTL smoke checks",
+        "Mixed-script examples",
+        "AI-generated demos that need to prove start/end layout instead of left/right layout"
+      ],
+      "avoidWhen": [
+        "App-level direction can be set on the document",
+        "Arabic copy has not been localized or verified",
+        "A component needs behavioral RTL handling instead of just a direction scope"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Drawer",
+      "category": "Feedback",
+      "status": "available",
+      "packageImport": "import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "drawer",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "drawer",
+      "requiredTokens": [
+        "--background",
+        "--foreground",
+        "--surface",
+        "--border",
+        "--radius-surface",
+        "--radius-control",
+        "--z-overlay",
+        "--z-modal",
+        "--focus-ring-width",
+        "--overlay",
+        "--modal-surface"
+      ],
+      "useWhen": [
+        "Supplemental panels that slide from logical start, end, or bottom",
+        "Mobile-friendly task surfaces",
+        "AI-generated layouts that need explicit side semantics for RTL"
+      ],
+      "avoidWhen": [
+        "A Dialog communicates the task better",
+        "Primary navigation that should use Side Nav or Sheet",
+        "Left/right side naming in reusable APIs"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Dropdown Menu",
+      "category": "Navigation",
+      "status": "available",
+      "packageImport": "import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from '@utopia-studio-design/design-system/Navigation';",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "shadcnFoundation": [
+        "dropdown-menu",
+        "Radix Dropdown Menu",
+        "DropdownMenuLabel",
+        "DropdownMenuSeparator",
+        "DropdownMenuSub",
+        "DropdownMenuGroup",
+        "DropdownMenuCheckboxItem",
+        "DropdownMenuRadioGroup",
+        "DropdownMenuRadioItem",
+        "DropdownMenuShortcut"
+      ],
+      "fallbackToShadcn": "dropdown-menu",
+      "requiredTokens": [
+        "--surface",
+        "--border",
+        "--radius-surface",
+        "--popover-surface",
+        "--destructive",
+        "--muted-foreground",
+        "--button-height",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Compact action lists",
+        "Overflow actions",
+        "Grouped overflow actions with separators and submenus",
+        "Button Group overflow triggers",
+        "Checkbox and radio menu state",
+        "Keyboard shortcut hints",
+        "Submenu actions with RTL-aware indicators"
+      ],
+      "avoidWhen": [
+        "Primary page nav"
+      ],
+      "neverInvent": [
+        "Menu items without labels",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic",
+        "Destructive actions without semantic destructive state",
+        "Submenus without visible trigger text",
+        "Checkbox or radio menu items without checked state ownership",
+        "Shortcut text used as the only accessible label"
+      ],
+      "ai": {
+        "parts": [
+          "DropdownMenu",
+          "DropdownMenuTrigger",
+          "DropdownMenuContent",
+          "DropdownMenuGroup",
+          "DropdownMenuItem",
+          "DropdownMenuLabel",
+          "DropdownMenuSeparator",
+          "DropdownMenuCheckboxItem",
+          "DropdownMenuRadioGroup",
+          "DropdownMenuRadioItem",
+          "DropdownMenuShortcut",
+          "DropdownMenuSub",
+          "DropdownMenuSubTrigger",
+          "DropdownMenuSubContent"
+        ],
+        "arabicFriendly": [
+          "Use align=start/end instead of physical left/right positioning.",
+          "Submenu indicators mirror in dir=rtl.",
+          "Icon slots are optional; labels remain required.",
+          "Shortcut hints stay inline-end using logical spacing."
+        ],
+        "shadcnReferencePatterns": [
+          "basic menu",
+          "menu with icons",
+          "menu with shortcuts",
+          "checkbox items",
+          "radio group",
+          "submenu",
+          "destructive action"
+        ]
+      }
+    },
+    {
+      "name": "Empty",
+      "category": "Data Display",
+      "status": "available",
+      "packageImport": "import { Empty } from '@utopia-studio-design/design-system/DataDisplay';",
+      "sourcePath": "packages/design-system/src/components/DataDisplay.tsx",
+      "shadcnFoundation": [
+        "empty",
+        "semantic empty state"
+      ],
+      "fallbackToShadcn": "empty",
+      "requiredTokens": [
+        "--surface",
+        "--border",
+        "--radius-surface"
+      ],
+      "useWhen": [
+        "No data states",
+        "First-run guidance"
+      ],
+      "avoidWhen": [
+        "Error states"
+      ],
+      "neverInvent": [
+        "Marketing filler copy",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Field",
+      "category": "Forms",
+      "status": "available",
+      "packageImport": "import { Field, FieldLabel } from '@utopia-studio-design/design-system/Forms';",
+      "sourcePath": "packages/design-system/src/components/Forms.tsx",
+      "shadcnFoundation": [
+        "field",
+        "label",
+        "input"
+      ],
+      "fallbackToShadcn": "field",
+      "requiredTokens": [
+        "--space-2",
+        "--foreground",
+        "--muted-foreground"
+      ],
+      "useWhen": [
+        "Form field composition"
+      ],
+      "avoidWhen": [
+        "Inline metadata"
+      ],
+      "neverInvent": [
+        "Placeholder-only labels",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Hover Card",
+      "category": "Surface",
+      "status": "available",
+      "packageImport": "import { HoverCard, HoverCardContent, HoverCardTrigger } from '@utopia-studio-design/design-system/Surface';",
+      "sourcePath": "packages/design-system/src/components/Surface.tsx",
+      "shadcnFoundation": [
+        "hover-card",
+        "Radix Hover Card"
+      ],
+      "fallbackToShadcn": "hover-card",
+      "requiredTokens": [
+        "--surface",
+        "--border",
+        "--shadow-popover",
+        "--radius-surface",
+        "--popover-surface"
+      ],
+      "useWhen": [
+        "Supplemental previews",
+        "Nonessential hover detail"
+      ],
+      "avoidWhen": [
+        "Critical instructions",
+        "Touch-only flows"
+      ],
+      "neverInvent": [
+        "Required content hidden on hover",
+        "Unbounded popover widths",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Icon Button",
+      "category": "Action",
+      "status": "available",
+      "packageImport": "import { IconButton } from '@utopia-studio-design/design-system/IconButton';",
+      "sourcePath": "packages/design-system/src/components/IconButton.tsx",
+      "shadcnFoundation": [
+        "button",
+        "Slot",
+        "cva"
+      ],
+      "fallbackToShadcn": "shadcn/ui button with icon-only composition",
+      "requiredTokens": [
+        "--primary",
+        "--primary-hover",
+        "--primary-active",
+        "--secondary",
+        "--secondary-hover",
+        "--secondary-active",
+        "--ghost-hover",
+        "--ghost-active",
+        "--destructive",
+        "--destructive-hover",
+        "--destructive-active",
+        "--radius-control",
+        "--button-height",
+        "--button-height-sm",
+        "--button-height-lg",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Compact repeated actions",
+        "Toolbar actions with recognizable icons",
+        "Side navigation collapse or utility controls"
+      ],
+      "avoidWhen": [
+        "Primary actions that need visible labels",
+        "Ambiguous actions without a tooltip or nearby context",
+        "Navigation labels that should remain readable"
+      ],
+      "neverInvent": [
+        "Unlabeled icon-only buttons",
+        "Theme-specific icon policy inside reusable component logic",
+        "Removing icon-only support because a theme discourages icons",
+        "Left/right-only icon direction rules",
+        "Utopia brand primitives inside reusable component logic"
+      ],
+      "ai": {
+        "props": [
+          "label",
+          "children",
+          "variant",
+          "size",
+          "disabled",
+          "loading",
+          "loadingText",
+          "asChild"
+        ],
+        "rules": [
+          "IconButton is the explicit reusable primitive for icon-only actions.",
+          "A theme may constrain which icons are appropriate, but must not remove the primitive or its accessibility contract.",
+          "Always provide label; visual children are not the accessible name."
+        ],
+        "arabicFriendly": [
+          "Mirror only directional icons in RTL; non-directional icons such as settings, add, download, and home should not be mirrored by default.",
+          "Use localized aria-label text supplied by the product; do not invent Arabic copy."
+        ]
+      }
+    },
+    {
+      "name": "Input",
+      "category": "Forms",
+      "status": "available",
+      "packageImport": "import { Input } from '@utopia-studio-design/design-system/Forms';",
+      "sourcePath": "packages/design-system/src/components/Forms.tsx",
+      "shadcnFoundation": [
+        "input",
+        "semantic form control"
+      ],
+      "fallbackToShadcn": "input",
+      "requiredTokens": [
+        "--input",
+        "--radius-control",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Single-line text entry"
+      ],
+      "avoidWhen": [
+        "Long-form writing"
+      ],
+      "neverInvent": [
+        "Placeholder-only labels",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Input Group",
+      "category": "Forms",
+      "status": "available",
+      "packageImport": "import { InputGroup, InputGroupInput, InputGroupText } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "input-group",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "input-group",
+      "requiredTokens": [
+        "--background",
+        "--foreground",
+        "--surface",
+        "--border",
+        "--radius-control",
+        "--input",
+        "--muted-foreground",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Text input needs a prefix, suffix, unit, or scope label",
+        "AI-generated forms need explicit addon and input parts",
+        "Arabic-friendly forms need logical start/end addon placement"
+      ],
+      "avoidWhen": [
+        "A plain Input is sufficient",
+        "The addon is decorative only",
+        "Product validation or formatting belongs inside reusable component logic"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Input OTP",
+      "category": "Forms",
+      "status": "available",
+      "packageImport": "import { InputOTP } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "input-otp",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "input-otp",
+      "requiredTokens": [
+        "--background",
+        "--foreground",
+        "--input",
+        "--radius-control",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "One-time passcodes",
+        "Short verification codes",
+        "AI-generated authentication examples that need accessible grouped digit slots"
+      ],
+      "avoidWhen": [
+        "Long secrets or passwords",
+        "Arbitrary numeric input",
+        "Verification transport or security logic inside the reusable primitive"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Item",
+      "category": "Data Display",
+      "status": "available",
+      "packageImport": "import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "item",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "item",
+      "requiredTokens": [
+        "--background",
+        "--foreground",
+        "--surface",
+        "--border",
+        "--radius-surface",
+        "--muted-foreground",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Repeated rows with title and description",
+        "Settings or resource lists with optional actions",
+        "AI-generated list rows that need stable title, description, and action slots"
+      ],
+      "avoidWhen": [
+        "Tabular comparison data",
+        "Complex cards with media or large content blocks",
+        "Navigation-only rows that should be links or menu items"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Kbd",
+      "category": "Data Display",
+      "status": "available",
+      "packageImport": "import { Kbd } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "kbd",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "kbd",
+      "requiredTokens": [
+        "--foreground",
+        "--surface",
+        "--border",
+        "--radius-control",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Keyboard shortcuts",
+        "Command hints",
+        "AI-readable docs that need compact key labels"
+      ],
+      "avoidWhen": [
+        "Clickable commands",
+        "Long instructions",
+        "Decorative keycap styling without an actual shortcut"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Label",
+      "category": "Forms",
+      "status": "available",
+      "packageImport": "import { Label } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "label",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "label",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--space-2"
+      ],
+      "useWhen": [
+        "Visible form labels",
+        "Accessible control association",
+        "AI-generated forms where placeholder-only labels are forbidden"
+      ],
+      "avoidWhen": [
+        "Decorative text",
+        "Field status or help text",
+        "Placeholder-only labeling"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
       "name": "Marker",
       "category": "Data Display",
       "status": "available",
@@ -98,6 +1619,47 @@
       "avoidWhen": [
         "A more specific Utopia primitive already exists",
         "The behavior requires product-specific copy or data rules"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ]
+    },
+    {
+      "name": "Menubar",
+      "category": "Navigation",
+      "status": "available",
+      "packageImport": "import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "shadcnFoundation": [
+        "menubar",
+        "shadcn/ui registry",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "menubar",
+      "requiredTokens": [
+        "--background",
+        "--foreground",
+        "--surface",
+        "--border",
+        "--radius-surface",
+        "--radius-control",
+        "--secondary",
+        "--secondary-foreground",
+        "--z-popover",
+        "--focus-ring-width",
+        "--popover-surface"
+      ],
+      "useWhen": [
+        "Application-level command menus",
+        "Desktop-style grouped navigation actions",
+        "AI-generated navigation surfaces that need explicit menu, trigger, content, and item parts"
+      ],
+      "avoidWhen": [
+        "Simple page navigation where Top Nav or Navigation Menu is clearer",
+        "Mobile-first primary navigation",
+        "Menu labels without accessible text"
       ],
       "neverInvent": [
         "Raw shadcn theme colors",
@@ -176,1150 +1738,102 @@
       ]
     },
     {
-      "name": "Accordion",
-      "category": "Disclosure",
+      "category": "Navigation",
       "status": "available",
-      "packageImport": "import { Accordion } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "accordion",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "collapsible disclosure",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui accordion pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
       "neverInvent": [
         "Raw shadcn theme colors",
         "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Alert",
-      "category": "Feedback",
-      "status": "available",
-      "packageImport": "import { Alert, AlertDescription, AlertTitle } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "alert",
-        "semantic status surface",
-        "shadcn/ui registry"
+        "Utopia brand primitives inside reusable component logic",
+        "Invented Arabic production copy"
       ],
-      "fallbackToShadcn": "alert",
+      "name": "Mobile Nav",
+      "packageImport": "import { MobileNav, MobileNavContent, MobileNavToggle, MobileNavTrigger } from '@utopia-studio-design/design-system/Navigation';",
+      "shadcnFoundation": [
+        "dialog",
+        "sheet",
+        "Radix Dialog",
+        "shadcn/ui sheet composition"
+      ],
+      "fallbackToShadcn": "sheet",
       "requiredTokens": [
-        "--surface",
         "--foreground",
         "--muted-foreground",
-        "--border",
-        "--radius-surface",
-        "--warning",
-        "--destructive",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Important status messages",
-        "Inline system notices",
-        "Feedback that should not interrupt the user"
-      ],
-      "avoidWhen": [
-        "A blocking confirmation is required",
-        "The message is purely decorative",
-        "The notice needs product-specific localization rules inside the component"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Alert Dialog",
-      "category": "Feedback",
-      "status": "available",
-      "packageImport": "import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "alert-dialog",
-        "Radix AlertDialog",
-        "shadcn/ui registry"
-      ],
-      "fallbackToShadcn": "alert-dialog",
-      "requiredTokens": [
-        "--surface",
-        "--foreground",
-        "--muted-foreground",
-        "--border",
-        "--radius-surface",
-        "--radius-control",
-        "--primary",
-        "--secondary",
-        "--z-overlay",
-        "--z-modal",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Destructive confirmations",
-        "Irreversible decisions",
-        "Blocking choices that require explicit user acknowledgement"
-      ],
-      "avoidWhen": [
-        "Inline status would be enough",
-        "The action can be undone without confirmation",
-        "The dialog copy is not localized or verified"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Aspect Ratio",
-      "category": "Layout",
-      "status": "available",
-      "packageImport": "import { AspectRatio } from '@utopia-studio-design/design-system/Layout';",
-      "sourcePath": "packages/design-system/src/components/Layout.tsx",
-      "shadcnFoundation": [
-        "aspect-ratio",
-        "Radix Aspect Ratio"
-      ],
-      "fallbackToShadcn": "aspect-ratio",
-      "requiredTokens": [
-        "--radius-surface",
-        "--surface"
-      ],
-      "useWhen": [
-        "Media frames",
-        "Stable preview regions"
-      ],
-      "avoidWhen": [
-        "Content with unknown height"
-      ],
-      "neverInvent": [
-        "Viewport-width font scaling",
-        "Unstable media boxes",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Avatar",
-      "category": "Data Display",
-      "status": "available",
-      "packageImport": "import { Avatar, AvatarFallback, AvatarImage } from '@utopia-studio-design/design-system/DataDisplay';",
-      "sourcePath": "packages/design-system/src/components/DataDisplay.tsx",
-      "shadcnFoundation": [
-        "avatar",
-        "Radix Avatar",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "avatar",
-      "requiredTokens": [
         "--secondary",
         "--secondary-foreground",
         "--border",
-        "--avatar-size",
-        "--font-weight-medium"
+        "--radius-control",
+        "--radius-surface",
+        "--popover-surface",
+        "--focus-ring-width",
+        "--modal-surface",
+        "--overlay",
+        "--z-modal"
       ],
       "useWhen": [
-        "People or account identifiers",
-        "Team member references with fallback initials",
-        "Entity identity where alt text is known"
+        "Small viewport navigation needs an off-canvas panel",
+        "Desktop Top Nav or Side Nav needs a mobile counterpart",
+        "A mobile IA surface needs Dialog accessibility and escape/outside-click behavior"
       ],
       "avoidWhen": [
-        "Decorative profile filler",
-        "Unverified fake people",
-        "A logo or product mark should be used instead"
+        "Always-visible desktop navigation",
+        "Non-navigation drawers that should use Drawer or Sheet"
       ],
-      "neverInvent": [
-        "Generic fake people",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
+      "ai": {
+        "props": {
+          "defaultOpen": "Initial uncontrolled open state.",
+          "open": "Controlled open state.",
+          "onOpenChange": "Radix Dialog state callback.",
+          "children": "MobileNavTrigger and MobileNavContent."
+        },
+        "arabicFriendly": "Panel opens from inline start, which becomes the right side in RTL. Use logical spacing and localized labels."
+      }
     },
     {
-      "name": "Badge",
-      "category": "Data Display",
-      "status": "available",
-      "packageImport": "import { Badge } from '@utopia-studio-design/design-system/Badge';",
-      "sourcePath": "packages/design-system/src/components/Badge.tsx",
-      "shadcnFoundation": [
-        "badge",
-        "cva"
-      ],
-      "fallbackToShadcn": "badge",
-      "requiredTokens": [
-        "--primary",
-        "--secondary",
-        "--foreground",
-        "--border"
-      ],
-      "useWhen": [
-        "Short status",
-        "Taxonomy",
-        "Type markers"
-      ],
-      "avoidWhen": [
-        "Full sentences",
-        "Pure decoration"
-      ],
-      "neverInvent": [
-        "Extra badge color families",
-        "Long badge copy",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Breadcrumb",
       "category": "Navigation",
       "status": "available",
-      "packageImport": "import { Breadcrumb, BreadcrumbItem } from '@utopia-studio-design/design-system/Navigation';",
       "sourcePath": "packages/design-system/src/components/Navigation.tsx",
-      "shadcnFoundation": [
-        "breadcrumb",
-        "semantic navigation",
-        "shadcn/ui breadcrumb"
-      ],
-      "fallbackToShadcn": "breadcrumb",
-      "requiredTokens": [
-        "--foreground-muted",
-        "--foreground-subtle"
-      ],
-      "useWhen": [
-        "Hierarchical location",
-        "Deep pages"
-      ],
-      "avoidWhen": [
-        "Primary navigation"
-      ],
       "neverInvent": [
-        "Directional icon without RTL rule",
+        "Raw shadcn theme colors",
         "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Button",
-      "category": "Action",
-      "status": "available",
-      "packageImport": "import { Button } from '@utopia-studio-design/design-system/Button';",
-      "sourcePath": "packages/design-system/src/components/Button.tsx",
+        "Utopia brand primitives inside reusable component logic",
+        "Invented Arabic production copy"
+      ],
+      "name": "Mobile Nav Toggle",
+      "packageImport": "import { MobileNavToggle } from '@utopia-studio-design/design-system/Navigation';",
       "shadcnFoundation": [
         "button",
-        "Slot",
-        "cva"
+        "icon-only button",
+        "Dialog trigger composition"
       ],
       "fallbackToShadcn": "button",
       "requiredTokens": [
-        "--primary",
-        "--primary-hover",
-        "--primary-active",
-        "--primary-foreground",
+        "--foreground",
+        "--muted-foreground",
         "--secondary",
-        "--secondary-hover",
-        "--secondary-active",
         "--secondary-foreground",
-        "--destructive",
-        "--destructive-hover",
-        "--destructive-active",
+        "--border",
         "--radius-control",
-        "--button-height",
-        "--button-height-sm",
-        "--button-height-lg",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Primary actions",
-        "Form submissions",
-        "Navigation CTAs"
-      ],
-      "avoidWhen": [
-        "Passive metadata",
-        "Decorative labels"
-      ],
-      "neverInvent": [
-        "New button colors",
-        "Gradient states",
-        "Unlabeled icon-only buttons",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Button Group",
-      "category": "Action",
-      "status": "available",
-      "packageImport": "import { ButtonGroup } from '@utopia-studio-design/design-system/ButtonGroup';",
-      "sourcePath": "packages/design-system/src/components/ButtonGroup.tsx",
-      "shadcnFoundation": [
-        "button-group",
-        "ButtonGroup",
-        "ButtonGroupSeparator",
-        "ButtonGroupText",
-        "cva"
-      ],
-      "fallbackToShadcn": "shadcn/ui button-group",
-      "requiredTokens": [
-        "--button-group-gap",
-        "--button-group-gap-compact",
-        "--radius-control",
-        "--button-height",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Related actions",
-        "Toolbar clusters",
-        "Choice-like action sets"
-      ],
-      "avoidWhen": [
-        "Unrelated actions",
-        "Primary action stacks",
-        "Navigation lists"
-      ],
-      "neverInvent": [
-        "Button group colors",
-        "Left/right-only spacing",
-        "Serialized React children arrays",
-        "Multiple primary actions without hierarchy",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Calendar",
-      "category": "Data Display",
-      "status": "available",
-      "packageImport": "import { Calendar } from '@utopia-studio-design/design-system/DataDisplay';",
-      "sourcePath": "packages/design-system/src/components/DataDisplay.tsx",
-      "shadcnFoundation": [
-        "calendar"
-      ],
-      "fallbackToShadcn": "calendar",
-      "requiredTokens": [
-        "--surface",
-        "--border",
-        "--radius-surface"
-      ],
-      "useWhen": [
-        "Date browsing",
-        "Date picking"
-      ],
-      "avoidWhen": [
-        "Hijri calendar without localization requirements"
-      ],
-      "neverInvent": [
-        "Locale-specific calendar behavior",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Card",
-      "category": "Surface",
-      "status": "available",
-      "packageImport": "import { Card } from '@utopia-studio-design/design-system/Card';",
-      "sourcePath": "packages/design-system/src/components/Card.tsx",
-      "shadcnFoundation": [
-        "card",
-        "composition"
-      ],
-      "fallbackToShadcn": "card",
-      "requiredTokens": [
-        "--card",
-        "--card-foreground",
-        "--border",
         "--radius-surface",
-        "--card-padding"
-      ],
-      "useWhen": [
-        "Repeated content",
-        "Grouped data",
-        "Framed tool surfaces"
-      ],
-      "avoidWhen": [
-        "Full page sections",
-        "Nested cards"
-      ],
-      "neverInvent": [
-        "Drop shadows",
-        "Rounded marketing panels",
-        "Decorative card grids",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Carousel",
-      "category": "Data Display",
-      "status": "available",
-      "packageImport": "import { Carousel } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "carousel",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "carousel",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
+        "--popover-surface",
         "--focus-ring-width"
       ],
       "useWhen": [
-        "Use when the shadcn/ui carousel pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
+        "An icon-only control opens or closes Mobile Nav",
+        "The trigger needs Button semantics with accessible label"
       ],
       "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Chart",
-      "category": "Data Display",
-      "status": "available",
-      "packageImport": "import { Chart } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "chart",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "chart",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui chart pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Checkbox",
-      "category": "Forms",
-      "status": "available",
-      "packageImport": "import { Checkbox } from '@utopia-studio-design/design-system/Forms';",
-      "sourcePath": "packages/design-system/src/components/Forms.tsx",
-      "shadcnFoundation": [
-        "checkbox",
-        "Radix Checkbox"
-      ],
-      "fallbackToShadcn": "checkbox",
-      "requiredTokens": [
-        "--primary",
-        "--ring"
-      ],
-      "useWhen": [
-        "Multi-select boolean choices"
-      ],
-      "avoidWhen": [
-        "Single persistent settings"
-      ],
-      "neverInvent": [
-        "Left/right label placement",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Collapsible",
-      "category": "Disclosure",
-      "status": "available",
-      "packageImport": "import { Collapsible } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "collapsible",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "collapsible",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui collapsible pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Combobox",
-      "category": "Forms",
-      "status": "available",
-      "packageImport": "import { Combobox } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "combobox",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "combobox",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui combobox pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Command",
-      "category": "Navigation",
-      "status": "available",
-      "packageImport": "import { Command, CommandPaletteInput, CommandPaletteList, CommandPaletteItem } from '@utopia-studio-design/design-system/Navigation';",
-      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
-      "shadcnFoundation": [
-        "command",
-        "cmdk",
-        "shadcn/ui command"
-      ],
-      "fallbackToShadcn": "command",
-      "requiredTokens": [
-        "--surface",
-        "--border",
-        "--radius-surface"
-      ],
-      "useWhen": [
-        "Keyboard-first navigation",
-        "Global search"
-      ],
-      "avoidWhen": [
-        "Simple menus"
-      ],
-      "neverInvent": [
-        "Hidden commands without labels",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Context Menu",
-      "category": "Navigation",
-      "status": "available",
-      "packageImport": "import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@utopia-studio-design/design-system/Navigation';",
-      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
-      "shadcnFoundation": [
-        "context-menu",
-        "Radix Context Menu"
-      ],
-      "fallbackToShadcn": "context-menu",
-      "requiredTokens": [
-        "--surface",
-        "--border",
-        "--radius-surface"
-      ],
-      "useWhen": [
-        "Secondary contextual actions"
-      ],
-      "avoidWhen": [
-        "Primary workflows"
-      ],
-      "neverInvent": [
-        "Unavailable actions with no disabled state",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Data Table",
-      "category": "Data Display",
-      "status": "available",
-      "packageImport": "import { DataTable } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "data-table",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "table",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui data-table pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Date Picker",
-      "category": "Forms",
-      "status": "available",
-      "packageImport": "import { DatePicker } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "date-picker",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "calendar plus popover",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui date-picker pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Dialog",
-      "category": "Feedback",
-      "status": "available",
-      "packageImport": "import { Dialog } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "dialog",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "dialog",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui dialog pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Direction",
-      "category": "Utilities",
-      "status": "available",
-      "packageImport": "import { Direction } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "direction",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "direction",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui direction pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Drawer",
-      "category": "Feedback",
-      "status": "available",
-      "packageImport": "import { Drawer } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "drawer",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "drawer",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui drawer pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Dropdown Menu",
-      "category": "Navigation",
-      "status": "available",
-      "packageImport": "import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@utopia-studio-design/design-system/Navigation';",
-      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
-      "shadcnFoundation": [
-        "dropdown-menu",
-        "Radix Dropdown Menu"
-      ],
-      "fallbackToShadcn": "dropdown-menu",
-      "requiredTokens": [
-        "--surface",
-        "--border",
-        "--radius-surface"
-      ],
-      "useWhen": [
-        "Compact action lists",
-        "Overflow actions"
-      ],
-      "avoidWhen": [
-        "Primary page nav"
-      ],
-      "neverInvent": [
-        "Menu items without labels",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Empty",
-      "category": "Data Display",
-      "status": "available",
-      "packageImport": "import { Empty } from '@utopia-studio-design/design-system/DataDisplay';",
-      "sourcePath": "packages/design-system/src/components/DataDisplay.tsx",
-      "shadcnFoundation": [
-        "empty",
-        "semantic empty state"
-      ],
-      "fallbackToShadcn": "empty",
-      "requiredTokens": [
-        "--surface",
-        "--border",
-        "--radius-surface"
-      ],
-      "useWhen": [
-        "No data states",
-        "First-run guidance"
-      ],
-      "avoidWhen": [
-        "Error states"
-      ],
-      "neverInvent": [
-        "Marketing filler copy",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Field",
-      "category": "Forms",
-      "status": "available",
-      "packageImport": "import { Field, FieldLabel } from '@utopia-studio-design/design-system/Forms';",
-      "sourcePath": "packages/design-system/src/components/Forms.tsx",
-      "shadcnFoundation": [
-        "field",
-        "label",
-        "input"
-      ],
-      "fallbackToShadcn": "field",
-      "requiredTokens": [
-        "--space-2",
-        "--foreground",
-        "--muted-foreground"
-      ],
-      "useWhen": [
-        "Form field composition"
-      ],
-      "avoidWhen": [
-        "Inline metadata"
-      ],
-      "neverInvent": [
-        "Placeholder-only labels",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Hover Card",
-      "category": "Surface",
-      "status": "available",
-      "packageImport": "import { HoverCard, HoverCardContent, HoverCardTrigger } from '@utopia-studio-design/design-system/Surface';",
-      "sourcePath": "packages/design-system/src/components/Surface.tsx",
-      "shadcnFoundation": [
-        "hover-card",
-        "Radix Hover Card"
-      ],
-      "fallbackToShadcn": "hover-card",
-      "requiredTokens": [
-        "--surface",
-        "--border",
-        "--shadow-popover",
-        "--radius-surface"
-      ],
-      "useWhen": [
-        "Supplemental previews",
-        "Nonessential hover detail"
-      ],
-      "avoidWhen": [
-        "Critical instructions",
-        "Touch-only flows"
-      ],
-      "neverInvent": [
-        "Required content hidden on hover",
-        "Unbounded popover widths",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Input",
-      "category": "Forms",
-      "status": "available",
-      "packageImport": "import { Input } from '@utopia-studio-design/design-system/Forms';",
-      "sourcePath": "packages/design-system/src/components/Forms.tsx",
-      "shadcnFoundation": [
-        "input",
-        "semantic form control"
-      ],
-      "fallbackToShadcn": "input",
-      "requiredTokens": [
-        "--input",
-        "--radius-control",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Single-line text entry"
-      ],
-      "avoidWhen": [
-        "Long-form writing"
-      ],
-      "neverInvent": [
-        "Placeholder-only labels",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Input Group",
-      "category": "Forms",
-      "status": "available",
-      "packageImport": "import { InputGroup } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "input-group",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "input-group",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui input-group pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Input OTP",
-      "category": "Forms",
-      "status": "available",
-      "packageImport": "import { InputOTP } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "input-otp",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "input-otp",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui input-otp pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Item",
-      "category": "Data Display",
-      "status": "available",
-      "packageImport": "import { Item } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "item",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "item",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui item pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Kbd",
-      "category": "Data Display",
-      "status": "available",
-      "packageImport": "import { Kbd } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "kbd",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "kbd",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui kbd pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Label",
-      "category": "Forms",
-      "status": "available",
-      "packageImport": "import { Label } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "label",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "label",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui label pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
-    },
-    {
-      "name": "Menubar",
-      "category": "Navigation",
-      "status": "available",
-      "packageImport": "import { Menubar } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
-      "shadcnFoundation": [
-        "menubar",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
-      ],
-      "fallbackToShadcn": "menubar",
-      "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "Use when the shadcn/ui menubar pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
-      ],
-      "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
-      ],
-      "neverInvent": [
-        "Raw shadcn theme colors",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
+        "Visible text buttons",
+        "Desktop side nav collapse; use SideNavCollapseButton"
+      ],
+      "ai": {
+        "props": {
+          "aria-label": "Required accessible label.",
+          "open": "Optional visual open state.",
+          "children": "Icon-only visual content."
+        },
+        "arabicFriendly": "Use direction-neutral menu icons unless product supplies mirrored directional icons."
+      }
     },
     {
       "name": "Native Select",
@@ -1336,19 +1850,20 @@
       "requiredTokens": [
         "--background",
         "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
+        "--input",
+        "--radius-control",
+        "--focus-ring-width",
+        "--popover-surface"
       ],
       "useWhen": [
-        "Use when the shadcn/ui native-select pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
+        "Simple native selection",
+        "Forms where browser-native behavior is preferred",
+        "Arabic-friendly forms that need platform select behavior before custom Select is necessary"
       ],
       "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
+        "Searchable or async option sets",
+        "Complex custom option rendering",
+        "Product localization rules inside reusable component logic"
       ],
       "neverInvent": [
         "Raw shadcn theme colors",
@@ -1357,10 +1872,100 @@
       ]
     },
     {
+      "category": "Navigation",
+      "status": "available",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic",
+        "Invented Arabic production copy"
+      ],
+      "name": "Nav Heading Menu",
+      "packageImport": "import { NavHeadingMenu, NavHeadingMenuContent, NavHeadingMenuTrigger } from '@utopia-studio-design/design-system/Navigation';",
+      "shadcnFoundation": [
+        "dropdown-menu",
+        "Radix DropdownMenu",
+        "heading selector menu"
+      ],
+      "fallbackToShadcn": "dropdown-menu",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--secondary",
+        "--secondary-foreground",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--popover-surface",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "A nav heading needs a workspace/version/project selector",
+        "SideNavHeading or mobile nav heading needs an end-slot menu"
+      ],
+      "avoidWhen": [
+        "Primary navigation link lists",
+        "Arbitrary action menus outside navigation headings"
+      ],
+      "ai": {
+        "props": {
+          "children": "NavHeadingMenuTrigger and NavHeadingMenuContent."
+        },
+        "arabicFriendly": "Align content using logical start/end; labels come from localization."
+      }
+    },
+    {
+      "category": "Navigation",
+      "status": "available",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic",
+        "Invented Arabic production copy"
+      ],
+      "name": "Nav Icon",
+      "packageImport": "import { NavIcon } from '@utopia-studio-design/design-system/Navigation';",
+      "shadcnFoundation": [
+        "button",
+        "icon-only button",
+        "navigation utility action"
+      ],
+      "fallbackToShadcn": "button",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--secondary",
+        "--secondary-foreground",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--popover-surface",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Top Nav, Mobile Nav, or nav heading needs icon-only utility actions like search, notifications, account, or workspace menus",
+        "A navigation icon needs Button accessibility and tokenized hover/focus states"
+      ],
+      "avoidWhen": [
+        "Content icons inside body copy",
+        "Navigation links with visible text; use TopNavItem or SideNavItem"
+      ],
+      "ai": {
+        "props": {
+          "aria-label": "Required accessible label.",
+          "active": "Selected visual state.",
+          "children": "Icon-only visual content."
+        },
+        "arabicFriendly": "Directional icons must mirror or be replaced in RTL; direction-neutral icons need no mirroring."
+      }
+    },
+    {
       "name": "Navigation Menu",
       "category": "Navigation",
       "status": "available",
-      "packageImport": "import { NavigationMenu } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "packageImport": "import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
       "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
       "shadcnFoundation": [
         "navigation-menu",
@@ -1374,16 +1979,21 @@
         "--surface",
         "--border",
         "--radius-surface",
+        "--radius-control",
+        "--secondary",
+        "--secondary-foreground",
+        "--z-popover",
         "--focus-ring-width"
       ],
       "useWhen": [
-        "Use when the shadcn/ui navigation-menu pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
+        "Top-level navigation with nested content",
+        "Documentation or product navigation where a menu trigger reveals related links",
+        "AI-generated navigation that needs explicit root, list, item, trigger, content, link, and viewport parts"
       ],
       "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
+        "Simple inline links are enough",
+        "Mobile-only navigation that should use Side Nav or Sheet",
+        "Navigation labels without product-owned copy"
       ],
       "neverInvent": [
         "Raw shadcn theme colors",
@@ -1395,7 +2005,7 @@
       "name": "Pagination",
       "category": "Navigation",
       "status": "available",
-      "packageImport": "import { Pagination } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "packageImport": "import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
       "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
       "shadcnFoundation": [
         "pagination",
@@ -1404,21 +2014,23 @@
       ],
       "fallbackToShadcn": "pagination",
       "requiredTokens": [
-        "--background",
         "--foreground",
         "--surface",
         "--border",
-        "--radius-surface",
+        "--radius-control",
+        "--secondary",
+        "--secondary-foreground",
         "--focus-ring-width"
       ],
       "useWhen": [
-        "Use when the shadcn/ui pagination pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
+        "Paged result sets",
+        "Tables or lists with known page navigation",
+        "AI-generated data views that need previous, next, and current page semantics"
       ],
       "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
+        "Infinite scrolling is the product pattern",
+        "Small result sets",
+        "Left/right icon-only previous/next controls without mirrored RTL handling"
       ],
       "neverInvent": [
         "Raw shadcn theme colors",
@@ -1441,15 +2053,20 @@
         "--surface",
         "--border",
         "--shadow-popover",
-        "--radius-surface"
+        "--radius-surface",
+        "--z-popover",
+        "--focus-ring-width",
+        "--popover-surface"
       ],
       "useWhen": [
         "Small contextual panels",
-        "Inline configuration"
+        "Inline configuration",
+        "Non-modal supplemental controls that can be dismissed"
       ],
       "avoidWhen": [
         "Long forms",
-        "Full workflows"
+        "Full workflows",
+        "Critical confirmations"
       ],
       "neverInvent": [
         "Modal behavior",
@@ -1470,13 +2087,16 @@
       "fallbackToShadcn": "progress",
       "requiredTokens": [
         "--primary",
-        "--secondary"
+        "--secondary",
+        "--radius-control"
       ],
       "useWhen": [
-        "Known progress values"
+        "Known progress values",
+        "Uploads, setup steps, or task completion where aria-valuenow is meaningful"
       ],
       "avoidWhen": [
-        "Unknown loading states"
+        "Unknown loading states",
+        "Decorative completion bars"
       ],
       "neverInvent": [
         "No aria-valuenow",
@@ -1488,7 +2108,7 @@
       "name": "Radio Group",
       "category": "Forms",
       "status": "available",
-      "packageImport": "import { RadioGroup } from '@utopia-studio-design/design-system/Forms';",
+      "packageImport": "import { RadioGroup, RadioGroupItem } from '@utopia-studio-design/design-system/Forms';",
       "sourcePath": "packages/design-system/src/components/Forms.tsx",
       "shadcnFoundation": [
         "radio-group",
@@ -1497,13 +2117,19 @@
       "fallbackToShadcn": "radio-group",
       "requiredTokens": [
         "--primary",
-        "--ring"
+        "--input",
+        "--background",
+        "--focus-ring-width"
       ],
       "useWhen": [
-        "Single choice from visible options"
+        "Single choice from visible options",
+        "Settings where all options should be visible",
+        "Arabic-friendly forms that need label and control order to mirror with dir='rtl'"
       ],
       "avoidWhen": [
-        "Independent booleans"
+        "Independent booleans",
+        "Large option sets",
+        "Compact selects are clearer"
       ],
       "neverInvent": [
         "Checkbox behavior",
@@ -1515,7 +2141,7 @@
       "name": "Resizable",
       "category": "Layout",
       "status": "available",
-      "packageImport": "import { Resizable } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "packageImport": "import { Resizable, ResizableHandle, ResizablePanel } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
       "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
       "shadcnFoundation": [
         "resizable",
@@ -1532,13 +2158,14 @@
         "--focus-ring-width"
       ],
       "useWhen": [
-        "Use when the shadcn/ui resizable pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
+        "Split-pane layouts",
+        "Inspector/editor surfaces where panel sizes are user-adjustable",
+        "AI-generated app shells that need explicit panel and handle parts"
       ],
       "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
+        "Static content layout",
+        "Mobile layouts without a resize affordance",
+        "Persistence or storage logic inside reusable component code"
       ],
       "neverInvent": [
         "Raw shadcn theme colors",
@@ -1550,7 +2177,7 @@
       "name": "Scroll Area",
       "category": "Layout",
       "status": "available",
-      "packageImport": "import { ScrollArea } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "packageImport": "import { ScrollArea, ScrollAreaViewport, ScrollBar } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
       "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
       "shadcnFoundation": [
         "scroll-area",
@@ -1567,13 +2194,14 @@
         "--focus-ring-width"
       ],
       "useWhen": [
-        "Use when the shadcn/ui scroll-area pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
+        "Constrained panels with overflow content",
+        "Scrollable side navigation regions, menus, and inspector regions",
+        "AI-generated layouts that need an explicit viewport and scrollbar contract"
       ],
       "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
+        "Page-level document scrolling is enough",
+        "Virtualized large lists",
+        "Hiding essential content behind an unlabelled scroll region"
       ],
       "neverInvent": [
         "Raw shadcn theme colors",
@@ -1585,29 +2213,80 @@
       "name": "Select",
       "category": "Forms",
       "status": "available",
-      "packageImport": "import { Select } from '@utopia-studio-design/design-system/Forms';",
+      "packageImport": "import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue } from '@utopia-studio-design/design-system/Forms';",
       "sourcePath": "packages/design-system/src/components/Forms.tsx",
       "shadcnFoundation": [
         "select",
-        "semantic selection control"
+        "semantic selection control",
+        "Radix Select",
+        "SelectGroup",
+        "SelectLabel",
+        "SelectSeparator",
+        "SelectScrollUpButton",
+        "SelectScrollDownButton"
       ],
       "fallbackToShadcn": "select",
       "requiredTokens": [
         "--input",
         "--surface",
-        "--radius-control"
+        "--radius-control",
+        "--radius-surface",
+        "--z-popover",
+        "--focus-ring-width",
+        "--popover-surface",
+        "--background",
+        "--foreground",
+        "--muted-foreground",
+        "--button-height-sm"
       ],
       "useWhen": [
-        "Compact option selection"
+        "Compact option selection",
+        "Longer option sets than Radio Group",
+        "AI-generated forms that need explicit trigger, value, content, and item parts",
+        "Grouped option lists with labels",
+        "Long option sets that need scroll buttons",
+        "Disabled options with visible state"
       ],
       "avoidWhen": [
-        "Few visible choices where radio is clearer"
+        "Few visible choices where radio is clearer",
+        "Searchable or async options that need Combobox",
+        "Native platform select is enough"
       ],
       "neverInvent": [
         "Menu without keyboard labels",
         "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
+        "Utopia brand primitives inside reusable component logic",
+        "Searchable async options; use Combobox",
+        "Unlabeled SelectTrigger controls",
+        "Physical left/right placement APIs"
+      ],
+      "ai": {
+        "parts": [
+          "Select",
+          "SelectTrigger",
+          "SelectValue",
+          "SelectContent",
+          "SelectGroup",
+          "SelectLabel",
+          "SelectItem",
+          "SelectSeparator",
+          "SelectScrollUpButton",
+          "SelectScrollDownButton"
+        ],
+        "shadcnReferencePatterns": [
+          "basic select",
+          "select with groups",
+          "disabled option",
+          "scrollable select",
+          "RTL select"
+        ],
+        "arabicFriendly": [
+          "Use aria-label or an external FieldLabel for the trigger.",
+          "Use align=start/end for content placement and let dir=rtl handle inline flow.",
+          "Keep selected indicators and labels visible for mixed-script text.",
+          "Do not use native select when a tokenized shadcn/Utopia surface is required."
+        ]
+      }
     },
     {
       "name": "Separator",
@@ -1622,21 +2301,17 @@
       ],
       "fallbackToShadcn": "separator",
       "requiredTokens": [
-        "--background",
-        "--foreground",
-        "--surface",
-        "--border",
-        "--radius-surface",
-        "--focus-ring-width"
+        "--border"
       ],
       "useWhen": [
-        "Use when the shadcn/ui separator pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
+        "Separating related sections",
+        "Visual grouping inside dense surfaces",
+        "AI-generated layouts that need semantic dividers without decorative lines"
       ],
       "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
+        "Spacing alone communicates the grouping",
+        "A heading or landmark is required",
+        "Decorative rules that do not communicate structure"
       ],
       "neverInvent": [
         "Raw shadcn theme colors",
@@ -1648,7 +2323,7 @@
       "name": "Sheet",
       "category": "Feedback",
       "status": "available",
-      "packageImport": "import { Sheet } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "packageImport": "import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
       "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
       "shadcnFoundation": [
         "sheet",
@@ -1662,16 +2337,22 @@
         "--surface",
         "--border",
         "--radius-surface",
-        "--focus-ring-width"
+        "--radius-control",
+        "--z-overlay",
+        "--z-modal",
+        "--focus-ring-width",
+        "--overlay",
+        "--modal-surface"
       ],
       "useWhen": [
-        "Use when the shadcn/ui sheet pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
+        "Supplemental panels attached to a logical side",
+        "Configuration or navigation surfaces that should not become full Dialogs",
+        "AI-generated panels that need explicit trigger, content, header, footer, title, description, and close parts"
       ],
       "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
+        "A centered Dialog is clearer",
+        "Primary page layout that should use Side Nav",
+        "Left/right side names instead of start/end or logical side handling"
       ],
       "neverInvent": [
         "Raw shadcn theme colors",
@@ -1680,39 +2361,274 @@
       ]
     },
     {
-      "name": "Sidebar",
+      "name": "Side Nav",
       "category": "Navigation",
       "status": "available",
-      "packageImport": "import { Sidebar } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "packageImport": "import { PanelIcon, SideNav, SideNavCollapseButton, SideNavContent, SideNavHeading, SideNavItem, SideNavNestedGroup, SideNavNestedItems, SideNavSearch, SideNavSection } from '@utopia-studio-design/design-system/Navigation';",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
       "shadcnFoundation": [
         "sidebar",
-        "shadcn/ui registry",
+        "navigation",
+        "shadcn/ui composition",
         "semantic Utopia wrapper"
       ],
       "fallbackToShadcn": "sidebar",
       "requiredTokens": [
         "--background",
         "--foreground",
-        "--surface",
         "--border",
-        "--radius-surface",
+        "--radius-control",
+        "--secondary",
+        "--secondary-foreground",
+        "--muted-foreground",
+        "--foreground-subtle",
+        "--button-height-sm",
         "--focus-ring-width"
       ],
       "useWhen": [
-        "Use when the shadcn/ui sidebar pattern is required",
-        "Use as a Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
+        "Persistent docs or app navigation",
+        "Grouped navigation links with current page state",
+        "A navigation surface needs package-owned content, search, section, nested group, item, heading, account, and collapse composition parts",
+        "A navigation surface should receive heading and search as SideNav props instead of hardcoding local wrappers",
+        "AI-generated app shells that need explicit section, heading, item, nested item, search, and collapse button parts"
       ],
       "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
+        "Temporary panels that should use Sheet",
+        "Top-level horizontal navigation that should use Top Nav",
+        "Navigation without accessible labels or current state"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic",
+        "Local CSS-only search, nested group, or content wrappers when SideNavSearch, SideNavNestedGroup, SideNavNestedItems, or SideNavContent are available"
+      ],
+      "ai": {
+        "props": {
+          "collapsed": "Sets the collapsed side navigation state and hides labels, badges, and account copy while preserving icon-only affordances.",
+          "density": "Use default for app navigation; use compact for docs/library sidebars with dense catalog lists.",
+          "heading": "Optional SideNavHeading node rendered before search and navigation content.",
+          "search": "Optional SideNavSearch node rendered after heading and before navigation content.",
+          "SideNavContent": "Scrollable or flexible body region for repeated SideNavSection groups.",
+          "SideNavSearch": "Package-owned search field for filtering navigation lists without local input styling.",
+          "SideNavNestedGroup": "Groups a parent SideNavItem and its nested child collection.",
+          "SideNavNestedItems": "Indented child item collection using logical inline-start spacing and border.",
+          "PanelIcon": "Direction-neutral icon exported for SideNavCollapseButton examples. Prefer it over directional arrows unless the directional icon has an RTL mirror rule."
+        },
+        "arabicFriendly": "Use logical start/end spacing in nested items and let document direction control order. Closed disclosure indicators rotate toward the inline start in LTR and RTL. Preserve scroll position when the side nav collapses and expands, and do not use left/right naming in generated side navigation layouts."
+      }
+    },
+    {
+      "name": "Side Nav Collapse Button",
+      "category": "Navigation",
+      "status": "available",
+      "packageImport": "import { PanelIcon, SideNavCollapseButton } from '@utopia-studio-design/design-system/Navigation';",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "shadcnFoundation": [
+        "button",
+        "Button variant=ghost",
+        "icon-only control",
+        "sidebar collapse control",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "button",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--radius-control",
+        "--focus-ring-width",
+        "--ghost-hover",
+        "--ghost-active"
+      ],
+      "useWhen": [
+        "A persistent side navigation can collapse or expand",
+        "The control is composed as SideNavHeading endContent",
+        "The button uses the design-system Button primitive with variant=ghost and isIconOnly",
+        "The button is icon-only with hover/focus background and an accessible label; add Tooltip when visual context is not enough",
+        "The button has aria-expanded and an accessible label",
+        "AI-generated app shells expose side nav state without inventing local controls"
+      ],
+      "avoidWhen": [
+        "The side navigation has no collapsed state",
+        "A text button is required",
+        "A temporary panel close action that should use SheetClose",
+        "Icon-only controls without accessible labels; add visible or tooltip help when context is ambiguous"
+      ],
+      "neverInvent": [
+        "Visible Collapse text inside the control",
+        "Custom button styling instead of Button variant=ghost isIconOnly",
+        "Hardcoded app icons",
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ],
+      "ai": {
+        "props": {
+          "aria-label": "Required accessible label, such as Close sidebar or Open sidebar.",
+          "aria-expanded": "Reflects the controlled side navigation state.",
+          "children": "Icon-only visual content. SideNavCollapseButton wraps Button with variant=ghost and isIconOnly; compose inside SideNavHeading endContent. Add Tooltip when the surrounding UI does not already make the action clear."
+        },
+        "usage": "Place SideNavCollapseButton in SideNavHeading endContent. Always provide aria-label and aria-expanded. When a tooltip is needed, wrap with Tooltip/TooltipTrigger asChild and keep visible helper text in TooltipContent rather than inside the button.",
+        "arabicFriendly": "PanelIcon is direction-neutral. If a product supplies a directional collapse icon, it must mirror in dir=\"rtl\" or be replaced with a neutral panel icon. Prefer direction-neutral tooltip placement, or use logical placement/RTL branching where the host app supports it."
+      }
+    },
+    {
+      "name": "Side Nav Heading",
+      "category": "Navigation",
+      "status": "available",
+      "packageImport": "import { SideNavHeading } from '@utopia-studio-design/design-system/Navigation';",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "shadcnFoundation": [
+        "sidebar group label",
+        "semantic heading",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "sidebar",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--radius-control",
+        "--radius-surface",
+        "--space-1",
+        "--space-3",
+        "--font-size-supporting",
+        "--line-height-supporting"
+      ],
+      "useWhen": [
+        "Grouping related side navigation items with variant=section",
+        "A side navigation surface needs a brand, workspace, product, or documentation heading with variant=brand",
+        "A heading needs optional icon, meta, subtitle/version, or endContent slots without hardcoding icon assets",
+        "AI-generated navigation needs stable section labels from manifest data"
+      ],
+      "avoidWhen": [
+        "A clickable navigation item is required",
+        "A dropdown menu body is required; compose SideNavHeading with a menu primitive instead",
+        "Decorative labels with no section relationship"
+      ],
+      "neverInvent": [
+        "Raw brand colors inside the component",
+        "Hardcoded app icons",
+        "Left/right-only layout rules",
+        "Arabic copy invented by the component",
+        "Utopia brand primitives inside reusable component logic"
+      ],
+      "ai": {
+        "props": {
+          "variant": "section keeps compact group-label styling; brand renders a larger app/workspace header.",
+          "icon": "Optional leading visual slot. Omit for text-only headings; artwork is app or theme owned. Large logos and wordmarks are constrained by the component.",
+          "mediaSize": "Use mark for compact square icons, wordmark for wide logos, or auto when the consumer controls sizing.",
+          "meta": "Optional line above the label, such as organization or workspace.",
+          "subtitle": "Optional line below the label.",
+          "version": "Alias for subtitle for versioned docs/product surfaces.",
+          "endContent": "Optional trailing slot for chevrons, status, or menu affordance."
+        },
+        "arabicFriendly": "Use logical layout and start/end slots. Do not bake English-only ordering into icon, label, meta, or endContent."
+      }
+    },
+    {
+      "name": "Side Nav Item",
+      "category": "Navigation",
+      "status": "available",
+      "packageImport": "import { SideNavItem } from '@utopia-studio-design/design-system/Navigation';",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "shadcnFoundation": [
+        "sidebar menu item",
+        "link",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "sidebar",
+      "requiredTokens": [
+        "--secondary",
+        "--secondary-foreground",
+        "--muted-foreground",
+        "--foreground-subtle",
+        "--radius-control",
+        "--focus-ring-width",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-6",
+        "--space-8"
+      ],
+      "useWhen": [
+        "A side navigation row links to a route or section",
+        "The current page can be marked with isCurrent or aria-current",
+        "The row needs optional icon/startContent, badge, or endContent slots while keeping spacing owned by the component.",
+        "The row is nested inside a side nav hierarchy and needs depth-based indentation",
+        "A navigation option needs disabled status without becoming a button"
+      ],
+      "avoidWhen": [
+        "Submitting actions that should use Button",
+        "Nested disclosure controls that should use a future collapsible nav primitive",
+        "Hardcoded icons or counts inside local navigation markup"
+      ],
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic",
+        "Local CSS-only side nav item layouts when SideNavItem slots are available"
+      ],
+      "ai": {
+        "props": {
+          "icon": "Optional leading visual slot. Omit for text-only rows; do not add placeholder marks.",
+          "depth": "Use 0 for root rows, 1 for items inside a top-level section, 2 for nested section children, and 3 only for rare deep navigation.",
+          "badge": "Optional trailing count or status pill aligned to the inline end.",
+          "endContent": "Optional trailing action/content slot after the badge."
+        },
+        "arabicFriendly": "Use icon/startContent for inline-start content and badge/endContent for inline-end content. In dir=\"rtl\", spacing and indentation must follow inline start/end, mixed Arabic/English labels must truncate without overlapping badges, and disabled/current states must remain keyboard and screen-reader equivalent."
+      }
+    },
+    {
+      "name": "Side Nav Section",
+      "category": "Navigation",
+      "status": "available",
+      "packageImport": "import { SideNavSection } from '@utopia-studio-design/design-system/Navigation';",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "shadcnFoundation": [
+        "sidebar group",
+        "semantic section wrapper",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "sidebar",
+      "requiredTokens": [
+        "--space-1",
+        "--space-3",
+        "--space-4",
+        "--border",
+        "--muted-foreground",
+        "--duration-fast",
+        "--duration-medium",
+        "--ease-standard"
+      ],
+      "useWhen": [
+        "Grouping a section label and related Side Nav Item rows",
+        "A side nav needs repeated IA groups from a manifest",
+        "A long side nav section should optionally collapse without inventing local disclosure controls",
+        "Nested component families that need a parent row with collapsible children should use variant=nested",
+        "AI-generated shells should map Docs, Account, Project, or Settings groups into sections"
+      ],
+      "avoidWhen": [
+        "A single clickable navigation row is required; use SideNavItem",
+        "A brand/workspace header is required; use SideNavHeading variant=brand",
+        "Content regions that should use Layout or Section"
       ],
       "neverInvent": [
         "Raw shadcn theme colors",
         "Left/right-only layout rules",
         "Utopia brand primitives inside reusable component logic"
-      ]
+      ],
+      "ai": {
+        "props": {
+          "label": "Optional section label rendered before children with SideNavHeading variant=section or a row-style nested trigger when variant=nested.",
+          "children": "SideNavItem rows or related navigation content owned by this section.",
+          "collapsible": "When true, the full section heading or nested trigger toggles the section; the chevron is a visual end indicator, not the only hit target.",
+          "variant": "Use section for top-level IA groups. Use nested for a row-style parent with indented collapsible children, such as component families.",
+          "defaultExpanded": "Initial uncontrolled expanded state for collapsible sections.",
+          "expanded": "Controlled expanded state for collapsible sections.",
+          "onExpandedChange": "Called when a collapsible section toggles."
+        },
+        "arabicFriendly": "Group order follows document direction. Use logical spacing and avoid left/right labels in generated section layouts."
+      }
     },
     {
       "name": "Skeleton",
@@ -1726,13 +2642,17 @@
       "fallbackToShadcn": "skeleton",
       "requiredTokens": [
         "--muted",
-        "--radius-surface"
+        "--radius-surface",
+        "--duration-fast"
       ],
       "useWhen": [
-        "Loading placeholders"
+        "Loading placeholders",
+        "Layout-preserving content previews",
+        "Avoiding layout shift while data loads"
       ],
       "avoidWhen": [
-        "Finished empty states"
+        "Finished empty states",
+        "Unknown long-running progress where Spinner or Progress is clearer"
       ],
       "neverInvent": [
         "Spinner-only page skeletons",
@@ -1753,13 +2673,19 @@
       "fallbackToShadcn": "slider",
       "requiredTokens": [
         "--primary",
-        "--secondary"
+        "--secondary",
+        "--background",
+        "--focus-ring-width"
       ],
       "useWhen": [
-        "Continuous numeric adjustment"
+        "Continuous numeric adjustment",
+        "Approximate values where dragging is useful",
+        "Arabic-friendly numeric controls that must mirror direction with RTL"
       ],
       "avoidWhen": [
-        "Exact numeric entry only"
+        "Exact numeric entry only",
+        "Unlabeled ranges",
+        "Business validation inside reusable component logic"
       ],
       "neverInvent": [
         "Unlabeled ranges",
@@ -1771,7 +2697,7 @@
       "name": "Sonner",
       "category": "Feedback",
       "status": "available",
-      "packageImport": "import { Sonner } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
+      "packageImport": "import { Sonner, SonnerDescription, SonnerTitle, SonnerToast } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
       "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
       "shadcnFoundation": [
         "sonner",
@@ -1785,16 +2711,19 @@
         "--surface",
         "--border",
         "--radius-surface",
+        "--shadow-popover",
+        "--muted-foreground",
         "--focus-ring-width"
       ],
       "useWhen": [
-        "Use when the shadcn/ui sonner pattern is required",
-        "Use as the Utopia semantic-token wrapper before deeper specialization",
-        "Use when AI needs a safe conversion target from shadcn source code"
+        "Nonblocking toast feedback",
+        "Status messages that should be announced politely",
+        "AI-generated examples that need explicit toast, title, and description parts"
       ],
       "avoidWhen": [
-        "A more specific Utopia primitive already exists",
-        "The behavior requires product-specific copy or data rules"
+        "Blocking errors",
+        "Long-form content",
+        "Product notification scheduling inside reusable component logic"
       ],
       "neverInvent": [
         "Raw shadcn theme colors",
@@ -1813,13 +2742,16 @@
       ],
       "fallbackToShadcn": "spinner",
       "requiredTokens": [
-        "--foreground"
+        "--foreground",
+        "--duration-fast"
       ],
       "useWhen": [
-        "Short inline loading"
+        "Short inline loading",
+        "Small pending states next to text or controls"
       ],
       "avoidWhen": [
-        "Large page loading"
+        "Large page loading",
+        "Known progress values where Progress is clearer"
       ],
       "neverInvent": [
         "Unannounced loading state",
@@ -1841,13 +2773,19 @@
       "requiredTokens": [
         "--primary",
         "--secondary",
-        "--ring"
+        "--background",
+        "--border",
+        "--focus-ring-width"
       ],
       "useWhen": [
-        "Persistent binary settings"
+        "Persistent binary settings",
+        "Preferences that save immediately",
+        "Arabic-friendly forms where switch thumb movement must mirror in RTL"
       ],
       "avoidWhen": [
-        "Submit actions"
+        "Submit actions",
+        "Temporary pressed states that should be Toggle",
+        "Mutually exclusive options that should be Radio Group"
       ],
       "neverInvent": [
         "Toggle button behavior",
@@ -1859,7 +2797,7 @@
       "name": "Table",
       "category": "Data Display",
       "status": "available",
-      "packageImport": "import { Table } from '@utopia-studio-design/design-system/DataDisplay';",
+      "packageImport": "import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@utopia-studio-design/design-system/DataDisplay';",
       "sourcePath": "packages/design-system/src/components/DataDisplay.tsx",
       "shadcnFoundation": [
         "table"
@@ -1868,13 +2806,18 @@
       "requiredTokens": [
         "--border",
         "--space-2",
-        "--space-3"
+        "--space-3",
+        "--muted-foreground"
       ],
       "useWhen": [
-        "Structured rows and columns"
+        "Structured rows and columns",
+        "Small semantic tables that do not need sorting/filtering",
+        "AI-generated static table examples with explicit header, body, row, head, and cell parts"
       ],
       "avoidWhen": [
-        "Simple metadata"
+        "Simple metadata",
+        "Interactive data grids that should use Data Table",
+        "Div-based tables"
       ],
       "neverInvent": [
         "Div-based tables",
@@ -1896,14 +2839,17 @@
       "requiredTokens": [
         "--border",
         "--secondary",
-        "--radius-control"
+        "--radius-control",
+        "--focus-ring-width"
       ],
       "useWhen": [
         "Peer views",
-        "Same-context panels"
+        "Same-context panels",
+        "Keyboard-switchable content sections"
       ],
       "avoidWhen": [
-        "Page navigation"
+        "Page navigation",
+        "Unrelated destinations"
       ],
       "neverInvent": [
         "Tabs as unrelated links",
@@ -1924,13 +2870,16 @@
       "fallbackToShadcn": "textarea",
       "requiredTokens": [
         "--input",
-        "--radius-control"
+        "--radius-control",
+        "--focus-ring-width"
       ],
       "useWhen": [
-        "Multi-line text entry"
+        "Multi-line text entry",
+        "Notes, comments, and longer form content"
       ],
       "avoidWhen": [
-        "Single-line labels"
+        "Single-line labels",
+        "Rich text editing"
       ],
       "neverInvent": [
         "Fixed tiny text areas",
@@ -1942,7 +2891,7 @@
       "name": "Toast",
       "category": "Data Display",
       "status": "available",
-      "packageImport": "import { Toast } from '@utopia-studio-design/design-system/DataDisplay';",
+      "packageImport": "import { Toast, ToastDescription, ToastTitle } from '@utopia-studio-design/design-system/DataDisplay';",
       "sourcePath": "packages/design-system/src/components/DataDisplay.tsx",
       "shadcnFoundation": [
         "sonner",
@@ -1952,13 +2901,17 @@
       "requiredTokens": [
         "--surface",
         "--border",
-        "--radius-surface"
+        "--radius-surface",
+        "--muted-foreground"
       ],
       "useWhen": [
-        "Short nonblocking feedback"
+        "Short nonblocking feedback",
+        "Small status messages rendered inline or by a toast system",
+        "AI-generated examples that need title and description structure"
       ],
       "avoidWhen": [
-        "Critical blocking errors"
+        "Critical blocking errors",
+        "Long messages or workflows"
       ],
       "neverInvent": [
         "Toast-only error handling",
@@ -1967,10 +2920,10 @@
       ]
     },
     {
-      "name": "Toggle",
+      "name": "Toggle Button",
       "category": "Action",
       "status": "available",
-      "packageImport": "import { Toggle } from '@utopia-studio-design/design-system/ToggleButton';",
+      "packageImport": "import { ToggleButton } from '@utopia-studio-design/design-system/ToggleButton';",
       "sourcePath": "packages/design-system/src/components/ToggleButton.tsx",
       "shadcnFoundation": [
         "toggle",
@@ -1980,7 +2933,10 @@
       "fallbackToShadcn": "shadcn/ui toggle",
       "requiredTokens": [
         "--secondary",
+        "--secondary-hover",
         "--secondary-active",
+        "--ghost-hover",
+        "--ghost-active",
         "--radius-control",
         "--button-height",
         "--focus-ring-width"
@@ -2000,13 +2956,33 @@
         "Checkbox behavior",
         "Left/right-only state names",
         "Utopia brand primitives inside reusable component logic"
-      ]
+      ],
+      "ai": {
+        "props": [
+          "label",
+          "isPressed",
+          "defaultPressed",
+          "onPressedChange",
+          "icon",
+          "pressedIcon",
+          "isIconOnly",
+          "isDisabled",
+          "isLoading",
+          "variant",
+          "size"
+        ],
+        "arabicFriendly": [
+          "Use logical start/end language for labels and adjacent content.",
+          "In RTL, keep persistent pressed state behavior identical; only directional layout and directional icons may mirror.",
+          "Do not invent Arabic copy; use provided localized strings or neutral test copy."
+        ]
+      }
     },
     {
-      "name": "Toggle Group",
+      "name": "Toggle Button Group",
       "category": "Action",
       "status": "available",
-      "packageImport": "import { ToggleGroup, ToggleButtonGroupItem } from '@utopia-studio-design/design-system/ToggleButton';",
+      "packageImport": "import { ToggleButtonGroup, ToggleButtonGroupItem } from '@utopia-studio-design/design-system/ToggleButtonGroup';",
       "sourcePath": "packages/design-system/src/components/ToggleButtonGroup.tsx",
       "shadcnFoundation": [
         "toggle-group",
@@ -2016,7 +2992,9 @@
       "fallbackToShadcn": "shadcn/ui toggle-group",
       "requiredTokens": [
         "--button-group-gap",
+        "--button-group-gap-compact",
         "--secondary",
+        "--secondary-hover",
         "--secondary-active",
         "--radius-control",
         "--button-height",
@@ -2037,7 +3015,30 @@
         "Button group colors",
         "Left/right-only orientation logic",
         "Utopia brand primitives inside reusable component logic"
-      ]
+      ],
+      "ai": {
+        "props": [
+          "label",
+          "type",
+          "value",
+          "defaultValue",
+          "onValueChange",
+          "onChange",
+          "orientation",
+          "isDisabled",
+          "density",
+          "ToggleButtonGroupItem.label",
+          "ToggleButtonGroupItem.value",
+          "ToggleButtonGroupItem.icon",
+          "ToggleButtonGroupItem.pressedIcon",
+          "ToggleButtonGroupItem.isIconOnly"
+        ],
+        "arabicFriendly": [
+          "Use start/end labels instead of left/right labels for alignment controls.",
+          "Preserve item order according to product meaning; rely on dir='rtl' and logical CSS for inline flow.",
+          "Icon-only items require aria-label in the localized language."
+        ]
+      }
     },
     {
       "name": "Tooltip",
@@ -2053,7 +3054,8 @@
       "requiredTokens": [
         "--surface",
         "--border",
-        "--radius-surface"
+        "--radius-surface",
+        "--popover-surface"
       ],
       "useWhen": [
         "Short helper text",
@@ -2069,6 +3071,322 @@
         "Left/right-only layout rules",
         "Utopia brand primitives inside reusable component logic"
       ]
+    },
+    {
+      "category": "Navigation",
+      "status": "available",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic",
+        "Invented Arabic production copy"
+      ],
+      "name": "Top Nav",
+      "packageImport": "import { TopNav, TopNavHeading, TopNavItem, TopNavMenu, TopNavMegaMenu, NavIcon } from '@utopia-studio-design/design-system/Navigation';",
+      "shadcnFoundation": [
+        "navigation-menu",
+        "Radix NavigationMenu",
+        "shadcn/ui navigation-menu composition",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "navigation-menu",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--secondary",
+        "--secondary-foreground",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--popover-surface",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Desktop horizontal app or docs navigation",
+        "Navigation needs brand heading, current item state, menu triggers, mega menu content, and end icon actions",
+        "AI-generated app shells need explicit top navigation parts instead of ad hoc flex rows"
+      ],
+      "avoidWhen": [
+        "Mobile-only navigation; use Mobile Nav",
+        "Persistent vertical navigation; use Side Nav",
+        "Submitting actions that should use Button"
+      ],
+      "ai": {
+        "props": {
+          "children": "Use TopNavItem, TopNavMenu, or TopNavMegaMenu children. Pair with TopNavHeading and NavIcon outside or near the root as needed."
+        },
+        "arabicFriendly": "Use document direction for order. Keep item labels as localized product content and use logical alignment for menu content."
+      }
+    },
+    {
+      "category": "Navigation",
+      "status": "available",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic",
+        "Invented Arabic production copy"
+      ],
+      "name": "Top Nav Heading",
+      "packageImport": "import { TopNavHeading } from '@utopia-studio-design/design-system/Navigation';",
+      "shadcnFoundation": [
+        "navigation brand slot",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "navigation-menu composition",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--secondary",
+        "--secondary-foreground",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--popover-surface",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Top navigation needs product, workspace, or app identity",
+        "A brand mark and label should stay aligned in a horizontal navigation bar"
+      ],
+      "avoidWhen": [
+        "Side navigation headers; use SideNavHeading",
+        "Decorative logos without accessible text"
+      ],
+      "ai": {
+        "props": {
+          "label": "Primary app/product name.",
+          "icon": "Optional leading mark slot owned by app/theme.",
+          "meta": "Optional line above label.",
+          "subtitle": "Optional line below label."
+        },
+        "arabicFriendly": "Do not assume English label order. Slot order follows inline start/end."
+      }
+    },
+    {
+      "category": "Navigation",
+      "status": "available",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic",
+        "Invented Arabic production copy"
+      ],
+      "name": "Top Nav Item",
+      "packageImport": "import { TopNavItem } from '@utopia-studio-design/design-system/Navigation';",
+      "shadcnFoundation": [
+        "navigation-menu link",
+        "Radix NavigationMenu.Link"
+      ],
+      "fallbackToShadcn": "navigation-menu link",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--secondary",
+        "--secondary-foreground",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--popover-surface",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "A top navigation row links to a route or section",
+        "The current route needs isCurrent or aria-current"
+      ],
+      "avoidWhen": [
+        "Opening nested content; use TopNavMenu or TopNavMegaMenu",
+        "Actions that should use Button"
+      ],
+      "ai": {
+        "props": {
+          "href": "Navigation target.",
+          "isCurrent": "Sets aria-current page and selected visual state.",
+          "children": "Visible label."
+        },
+        "arabicFriendly": "Mixed Arabic/English labels must not affect hit target or alignment."
+      }
+    },
+    {
+      "category": "Navigation",
+      "status": "available",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic",
+        "Invented Arabic production copy"
+      ],
+      "name": "Top Nav Mega Menu",
+      "packageImport": "import { TopNavMegaMenu, TopNavMegaMenuFeaturedCard, TopNavMegaMenuItem } from '@utopia-studio-design/design-system/Navigation';",
+      "shadcnFoundation": [
+        "navigation-menu mega menu pattern",
+        "Radix NavigationMenu.Content"
+      ],
+      "fallbackToShadcn": "navigation-menu",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--secondary",
+        "--secondary-foreground",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--popover-surface",
+        "--focus-ring-width",
+        "--surface-hover"
+      ],
+      "useWhen": [
+        "A top navigation trigger opens grouped destinations, a featured card, or multi-column navigation content",
+        "Desktop IA needs richer scanable navigation without leaving the page"
+      ],
+      "avoidWhen": [
+        "Small lists that should use TopNavMenu",
+        "Mobile panels that should use Mobile Nav"
+      ],
+      "ai": {
+        "props": {
+          "label": "Visible trigger label.",
+          "align": "Logical start/end alignment for the menu surface.",
+          "children": "Featured card and item children."
+        },
+        "arabicFriendly": "Use logical alignment and mirror only directional icons supplied by product code."
+      }
+    },
+    {
+      "category": "Navigation",
+      "status": "available",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic",
+        "Invented Arabic production copy"
+      ],
+      "name": "Top Nav Mega Menu Featured Card",
+      "packageImport": "import { TopNavMegaMenuFeaturedCard } from '@utopia-studio-design/design-system/Navigation';",
+      "shadcnFoundation": [
+        "navigation-menu link",
+        "featured destination card"
+      ],
+      "fallbackToShadcn": "navigation-menu link",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--secondary",
+        "--secondary-foreground",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--popover-surface",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Mega menu needs one prominent destination or product area"
+      ],
+      "avoidWhen": [
+        "Repeated simple rows; use TopNavMegaMenuItem"
+      ],
+      "ai": {
+        "props": {
+          "href": "Navigation target.",
+          "title": "Primary destination title.",
+          "description": "Supporting destination copy.",
+          "icon": "Optional start icon slot."
+        },
+        "arabicFriendly": "Keep title/description localized; do not invent Arabic copy."
+      }
+    },
+    {
+      "category": "Navigation",
+      "status": "available",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic",
+        "Invented Arabic production copy"
+      ],
+      "name": "Top Nav Mega Menu Item",
+      "packageImport": "import { TopNavMegaMenuItem } from '@utopia-studio-design/design-system/Navigation';",
+      "shadcnFoundation": [
+        "navigation-menu link",
+        "mega menu list item"
+      ],
+      "fallbackToShadcn": "navigation-menu link",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--secondary",
+        "--secondary-foreground",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--popover-surface",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Mega menu needs repeated destination rows with title and description"
+      ],
+      "avoidWhen": [
+        "The destination should be visually featured; use TopNavMegaMenuFeaturedCard"
+      ],
+      "ai": {
+        "props": {
+          "href": "Navigation target.",
+          "title": "Primary destination title.",
+          "description": "Supporting destination copy.",
+          "icon": "Optional start icon slot."
+        },
+        "arabicFriendly": "Logical grid columns must keep icon/title/description readable in RTL."
+      }
+    },
+    {
+      "category": "Navigation",
+      "status": "available",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "neverInvent": [
+        "Raw shadcn theme colors",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic",
+        "Invented Arabic production copy"
+      ],
+      "name": "Top Nav Menu",
+      "packageImport": "import { TopNavMenu, TopNavMenuItem } from '@utopia-studio-design/design-system/Navigation';",
+      "shadcnFoundation": [
+        "navigation-menu trigger/content",
+        "Radix NavigationMenu.Item",
+        "Radix NavigationMenu.Content"
+      ],
+      "fallbackToShadcn": "navigation-menu",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--secondary",
+        "--secondary-foreground",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--popover-surface",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "A top navigation trigger opens a compact list of links",
+        "Navigation content is too small for a mega menu"
+      ],
+      "avoidWhen": [
+        "Large grouped destination panels; use TopNavMegaMenu"
+      ],
+      "ai": {
+        "props": {
+          "label": "Visible trigger label.",
+          "children": "TopNavMenuItem children."
+        },
+        "arabicFriendly": "Trigger and content align with logical inline start/end."
+      }
     },
     {
       "name": "Typography",

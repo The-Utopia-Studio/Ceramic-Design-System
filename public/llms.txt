@@ -1,0 +1,41 @@
+# Utopia Design System
+
+This project is the standalone Utopia Design System workspace.
+
+Primary AI entrypoints:
+
+- Read `docs/design-system/quick-start-ai.md`.
+- Read `docs/design-system/guide.md`.
+- Read `docs/design-system/foundations.md`.
+- Read `docs/design-system/arabic-friendly.md`.
+- Read `docs/design-system/shadcn-conversion.md`.
+- Inspect `packages/design-system/src/manifests/catalog.json`.
+- Inspect `packages/design-system/src/manifests/components.json`.
+- Inspect `packages/design-system/src/manifests/themes.json`.
+- Inspect `packages/design-system/src/manifests/theme-utopia-default.json`.
+
+CLI discovery:
+
+- `npm run ds -- docs quick-start-ai --dense`
+- `npm run ds -- docs foundations --dense`
+- `npm run ds -- docs arabic-friendly --dense`
+- `npm run ds -- component --list --dense`
+- `npm run ds -- theme utopia-default --dense`
+
+Arabic-friendly rules:
+
+- Arabic-friendly means RTL-first layout, mixed-script tolerance, Arabic typography, localization readiness, and directional mirroring.
+- Use IBM Plex Sans Arabic in Utopia Default for Arabic body and display text.
+- Arabic display size follows the Latin display scale at about 95%.
+- Keep Arabic line-height readable for connected letterforms and diacritics.
+- Do not map Latin uppercase styling to Arabic.
+- Use logical CSS properties such as `padding-inline`, `margin-inline`, `border-inline`, `inset-inline`, `inline-size`, and `block-size`.
+- Use start/end, leading/trailing, inline/block naming. Avoid left/right-only APIs.
+- Mirror directional arrows, chevrons, navigation, carousel, progress, and sidebar affordances intentionally.
+- Do not invent Arabic production copy.
+
+shadcn/ui rule:
+
+- Utopia uses shadcn/ui as the component architecture foundation, not as the visual theme.
+- Use Utopia design-system exports before raw shadcn primitives.
+- Reusable components consume semantic tokens only.

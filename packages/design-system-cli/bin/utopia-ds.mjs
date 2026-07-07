@@ -37,7 +37,9 @@ function component() {
   const name = args[1]
 
   if (!name || name === '--list') {
-    const rows = manifest.components.map((entry) => `${entry.name}|${entry.status}|${entry.category}|${entry.packageImport}`)
+    const rows = [...manifest.components]
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }))
+      .map((entry) => `${entry.name}|${entry.status}|${entry.category}|${entry.packageImport}`)
     console.log(dense ? rows.join('\n') : rows.map((row) => `- ${row}`).join('\n'))
     return
   }

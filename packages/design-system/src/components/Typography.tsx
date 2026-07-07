@@ -27,6 +27,10 @@ export function ArabicText({ className, dir = 'rtl', lang = 'ar', ...props }: Te
   return <Text className={cn('uds-arabic-text', className)} dir={dir} lang={lang} {...props} />
 }
 
+export function ArabicDisplay({ className, dir = 'rtl', lang = 'ar', ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
+  return <h1 className={cn('uds-arabic-display', className)} dir={dir} lang={lang} {...props} />
+}
+
 export function Typography({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return <Prose className={className} {...props} />
 }

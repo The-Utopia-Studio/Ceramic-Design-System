@@ -2,10 +2,59 @@
   "defaultTheme": "utopia-default",
   "intent": "Themes are token-contract and visual-policy implementations. Utopia Default is the first locked theme, not the entire design system.",
   "coreBoundary": {
-    "owns": ["semantic token contract", "component APIs", "accessibility", "Arabic-friendly baseline", "theme extension mechanism"],
-    "doesNotOwn": ["brand palette", "brand typography", "brand icon policy", "brand voice", "brand-specific layout philosophy"]
+    "owns": [
+      "semantic token contract",
+      "component APIs",
+      "accessibility",
+      "Arabic-friendly baseline",
+      "theme extension mechanism"
+    ],
+    "doesNotOwn": [
+      "brand palette",
+      "brand typography",
+      "brand icon policy",
+      "brand voice",
+      "brand-specific layout philosophy"
+    ]
   },
-  "requiredSemanticRoles": ["--background", "--foreground", "--card", "--card-foreground", "--primary", "--primary-foreground", "--secondary", "--secondary-foreground", "--muted", "--muted-foreground", "--border", "--input", "--ring", "--radius", "--radius-control", "--radius-surface", "--font-sans", "--font-arabic", "--line-height-arabic", "--button-height", "--card-padding"],
+  "requiredSemanticRoles": [
+    "--background",
+    "--foreground",
+    "--card",
+    "--card-foreground",
+    "--primary",
+    "--primary-foreground",
+    "--secondary",
+    "--secondary-foreground",
+    "--muted",
+    "--muted-foreground",
+    "--border",
+    "--input",
+    "--ring",
+    "--radius",
+    "--radius-control",
+    "--radius-surface",
+    "--font-sans",
+    "--font-arabic",
+    "--font-arabic-body",
+    "--font-arabic-display",
+    "--font-weight-arabic-body",
+    "--font-weight-arabic-display",
+    "--font-size-display",
+    "--font-size-arabic-body",
+    "--font-size-arabic-body-lg",
+    "--font-size-arabic-display",
+    "--line-height-arabic",
+    "--line-height-arabic-body",
+    "--line-height-arabic-display",
+    "--tracking-arabic",
+    "--tracking-arabic-display",
+    "--button-height",
+    "--card-padding",
+    "--overlay",
+    "--modal-surface",
+    "--popover-surface"
+  ],
   "themes": [
     {
       "id": "utopia-default",
@@ -35,18 +84,59 @@
         "--radius-surface": "0px",
         "--font-sans": "TWK Lausanne",
         "--font-arabic": "IBM Plex Sans Arabic",
-        "--line-height-arabic": "1.75"
+        "--font-arabic-body": "IBM Plex Sans Arabic",
+        "--font-arabic-display": "IBM Plex Sans Arabic",
+        "--font-weight-arabic-body": "400",
+        "--font-weight-arabic-display": "700",
+        "--font-size-display": "clamp(44px, 8vw, 96px)",
+        "--font-size-arabic-body": "16px",
+        "--font-size-arabic-body-lg": "19px",
+        "--font-size-arabic-display": "clamp(42px, 7.6vw, 91px)",
+        "--line-height-arabic": "1.75",
+        "--line-height-arabic-body": "1.75",
+        "--line-height-arabic-display": "1.16",
+        "--tracking-arabic": "0",
+        "--tracking-arabic-display": "0",
+        "--overlay": "rgb(60 50 53 / 86%)",
+        "--modal-surface": "Special Black",
+        "--popover-surface": "Special Black"
       }
     }
   ],
   "plannedThemeSlots": [
-    { "id": "venture", "name": "Venture Proof", "purpose": "Portfolio and company proof surfaces." },
-    { "id": "operator", "name": "Operator Console", "purpose": "Dense product and internal tool interfaces." },
-    { "id": "editorial", "name": "Editorial Resource", "purpose": "Resource articles and technical guides." },
-    { "id": "application", "name": "Application Flow", "purpose": "Forms, eligibility, conversion, and onboarding flows." }
+    {
+      "id": "venture",
+      "name": "Venture Proof",
+      "purpose": "Portfolio and company proof surfaces."
+    },
+    {
+      "id": "operator",
+      "name": "Operator Console",
+      "purpose": "Dense product and internal tool interfaces."
+    },
+    {
+      "id": "editorial",
+      "name": "Editorial Resource",
+      "purpose": "Resource articles and technical guides."
+    },
+    {
+      "id": "application",
+      "name": "Application Flow",
+      "purpose": "Forms, eligibility, conversion, and onboarding flows."
+    }
   ],
   "arabicFriendly": {
     "required": true,
-    "rules": ["Support dir=\"ltr\" and dir=\"rtl\".", "Use logical CSS properties.", "Use start/end naming, not left/right APIs.", "Validate mixed English/Arabic labels.", "Do not invent Arabic copy."]
+    "rules": [
+      "Support dir=\"ltr\" and dir=\"rtl\".",
+      "Use logical CSS properties.",
+      "Use start/end naming, not left/right APIs.",
+      "Validate mixed English/Arabic labels.",
+      "Use Arabic body and display typography tokens.",
+      "Set Arabic display size from the Latin display scale at approximately 95%, with Arabic line-height preserved for readability.",
+      "Do not map Latin uppercase display styling to Arabic.",
+      "Mirror directional arrows, chevrons, navigation, carousel, progress, and sidebar affordances intentionally.",
+      "Do not invent Arabic copy."
+    ]
   }
 }
