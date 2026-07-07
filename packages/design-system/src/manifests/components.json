@@ -463,12 +463,112 @@
       "name": "Breadcrumb",
       "category": "Navigation",
       "status": "available",
-      "packageImport": "import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@utopia-studio-design/design-system/Navigation';",
+      "packageImport": "import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@utopia-studio-design/design-system/Navigation';",
       "sourcePath": "packages/design-system/src/components/Navigation.tsx",
       "shadcnFoundation": [
         "breadcrumb",
         "semantic navigation",
-        "shadcn/ui breadcrumb"
+        "shadcn/ui breadcrumb",
+        "ordered-list composition"
+      ],
+      "fallbackToShadcn": "breadcrumb",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--foreground-subtle",
+        "--surface-hover",
+        "--radius-control",
+        "--space-2",
+        "--control-height-sm",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width",
+        "--font-weight-medium"
+      ],
+      "useWhen": [
+        "A deep page needs parent-page context",
+        "Users need to understand where the current resource sits in a hierarchy",
+        "A long path may need collapsed middle items or an overflow menu"
+      ],
+      "avoidWhen": [
+        "Primary navigation is needed; use Top Nav, Side Nav, or Navigation Menu",
+        "A single-level page has no parent context",
+        "The UI is a wizard or progress flow; use steps/progress patterns"
+      ],
+      "neverInvent": [
+        "Directional icon without RTL rule",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ],
+      "ai": {
+        "props": {
+          "Breadcrumb": "Root nav landmark. Keep aria-label descriptive and localized when needed.",
+          "BreadcrumbList": "Ordered list wrapper for breadcrumb items and separators.",
+          "BreadcrumbItem": "List item wrapper for link, current page, or collapsed menu trigger.",
+          "BreadcrumbLink": "Clickable ancestor link. Use a router link only through composition.",
+          "BreadcrumbPage": "Current page label with aria-current=page.",
+          "BreadcrumbSeparator": "Visual separator. Use non-directional slash by default or mirror directional chevrons in RTL.",
+          "BreadcrumbEllipsis": "Collapsed middle path indicator. Pair with a menu when hidden parents need discovery."
+        },
+        "arabicFriendly": "Breadcrumb order, separator spacing, dropdown alignment, and focus rings must follow dir=\"rtl\" using logical properties. Arabic labels must come from localization."
+      }
+    },
+    {
+      "name": "Breadcrumb Item",
+      "category": "Navigation",
+      "status": "available",
+      "packageImport": "import { BreadcrumbItem, BreadcrumbLink, BreadcrumbPage } from '@utopia-studio-design/design-system/Navigation';",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "shadcnFoundation": [
+        "breadcrumb",
+        "semantic navigation",
+        "shadcn/ui breadcrumb item"
+      ],
+      "fallbackToShadcn": "breadcrumb",
+      "requiredTokens": [
+        "--foreground",
+        "--muted-foreground",
+        "--foreground-subtle",
+        "--space-2",
+        "--font-weight-medium",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "A breadcrumb segment needs link, current-page, or menu-trigger behavior",
+        "The page path needs consistent item spacing and accessible current-page state",
+        "A router link should inherit Utopia breadcrumb styling"
+      ],
+      "avoidWhen": [
+        "The segment is an action rather than navigation",
+        "The item is a primary nav destination outside the current hierarchy",
+        "The item label is unlocalized in an Arabic page"
+      ],
+      "neverInvent": [
+        "Raw link colors",
+        "Missing aria-current on the current page",
+        "Left/right-only spacing",
+        "Utopia brand primitives inside reusable component logic",
+        "Invented Arabic page names"
+      ],
+      "ai": {
+        "props": {
+          "BreadcrumbItem": "Wraps one path segment inside BreadcrumbList.",
+          "BreadcrumbLink": "Use for ancestor pages. Provide href or router-link composition.",
+          "BreadcrumbPage": "Use for the current page only and do not make it clickable."
+        },
+        "arabicFriendly": "The item label follows the page locale. Icons or separators around the item must mirror only when direction carries meaning."
+      }
+    },
+    {
+      "name": "Breadcrumbs",
+      "category": "Navigation",
+      "status": "available",
+      "packageImport": "import { BreadcrumbEllipsis, Breadcrumbs, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from '@utopia-studio-design/design-system/Navigation';",
+      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
+      "shadcnFoundation": [
+        "breadcrumb",
+        "semantic navigation",
+        "shadcn/ui breadcrumb list"
       ],
       "fallbackToShadcn": "breadcrumb",
       "requiredTokens": [
@@ -479,20 +579,28 @@
         "--font-weight-medium"
       ],
       "useWhen": [
-        "Hierarchical location",
-        "Deep pages",
-        "When users need parent-page context"
+        "A product or docs surface wants the compact Astryx-style Breadcrumbs alias",
+        "The ordered list is composed inside an existing nav landmark",
+        "AI-generated pages need a short import for the list primitive"
       ],
       "avoidWhen": [
-        "Primary navigation",
-        "Single-level pages",
-        "Steps or progress flows"
+        "A full nav landmark is needed; use Breadcrumb root around BreadcrumbList",
+        "The path is not hierarchical",
+        "A stepper or progress indicator is the intended pattern"
       ],
       "neverInvent": [
-        "Directional icon without RTL rule",
+        "Standalone list without a nav landmark when accessibility requires one",
+        "Directional separators without RTL rules",
         "Left/right-only layout rules",
         "Utopia brand primitives inside reusable component logic"
-      ]
+      ],
+      "ai": {
+        "props": {
+          "Breadcrumbs": "Alias for BreadcrumbList. Use inside Breadcrumb root unless the parent already owns the nav landmark.",
+          "children": "BreadcrumbItem and BreadcrumbSeparator children in hierarchy order."
+        },
+        "arabicFriendly": "Use the same DOM order as the localized hierarchy and let dir=\"rtl\" mirror layout. Do not reverse arrays manually unless the product IA is localized that way."
+      }
     },
     {
       "name": "Bubble",
@@ -795,6 +903,876 @@
         "Left/right-only layout rules",
         "Utopia brand primitives inside reusable component logic"
       ]
+    },
+    {
+      "name": "Chat Composer",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatComposer } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "textarea + button",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "textarea + button",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Chat Composer Drawer",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatComposerDrawer } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "drawer",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "drawer",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Chat Composer Input",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatComposerInput } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "textarea",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "textarea",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Chat Composer Token Element",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatComposerTokenElement } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "badge",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "badge",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Chat Dictation Button",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatDictationButton } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "button",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "button",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Chat Layout",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatLayout } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "scroll-area",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "scroll-area",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Chat Layout Scroll Button",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatLayoutScrollButton } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "button",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "button",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Chat Message",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatMessage } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "message",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "message",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Chat Message Bubble",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatMessageBubble } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "bubble",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "bubble",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Chat Message List",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatMessageList } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "message-scroller",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "message-scroller",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Chat Message Metadata",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatMessageMetadata } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "text",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "text",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Chat Send Button",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatSendButton } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "button",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "button",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Chat System Message",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatSystemMessage } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "separator",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "separator",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Chat Tokenized Text",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatTokenizedText } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "badge",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "badge",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Chat Tool Calls",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { ChatToolCalls } from '@utopia-studio-design/design-system/Chat';",
+      "sourcePath": "packages/design-system/src/components/Chat.tsx",
+      "shadcnFoundation": [
+        "collapsible",
+        "shadcn/ui registry pattern",
+        "AI/chat product primitive",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "collapsible",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--surface-elevated",
+        "--surface-hover",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--radius-control",
+        "--radius-surface",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--duration-fast",
+        "--ease-standard",
+        "--focus-ring-width"
+      ],
+      "useWhen": [
+        "Building assistant, support, collaboration, or AI product chat surfaces",
+        "Message, composer, token, metadata, and tool-call regions need consistent reusable parts",
+        "The interface must support mixed-script content and dir=\"rtl\" layout without page-local rewrites"
+      ],
+      "avoidWhen": [
+        "The content is a static marketing testimonial rather than an interactive conversation",
+        "The product needs a bespoke transcript renderer with non-chat semantics",
+        "You only need a single generic card or empty state"
+      ],
+      "neverInvent": [
+        "Left/right-only layout rules",
+        "Raw shadcn theme colors",
+        "Utopia brand primitives inside reusable component logic",
+        "Arabic production copy generated by the component package"
+      ],
+      "ai": {
+        "props": {
+          "dir": "Use inherited dir by default. Set dir=\"rtl\" only for isolated smoke tests.",
+          "role": "Use user, assistant, or system where the component exposes message role.",
+          "metadata": "Pass localized timestamp/read/tool metadata from the app layer.",
+          "children": "Use product-owned copy. The design system supplies layout and tokens only."
+        },
+        "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
     },
     {
       "name": "Checkbox",

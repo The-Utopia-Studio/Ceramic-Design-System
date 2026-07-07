@@ -1,6 +1,6 @@
 import { useState, type ElementType, type ReactNode } from 'react'
 import { motion } from 'framer-motion'
-import { Archive, Bell, Box, CalendarPlus, Clock, Component, FileCode, FileText, ListFilter, LoaderCircle, MailOpen, Menu, MoreHorizontal, Search, Tag, Trash2, UserCircle, X } from 'lucide-react'
+import { Archive, ArrowDown, ArrowUp, Bell, Box, CalendarPlus, Clock, Component, FileCode, FileText, ListFilter, LoaderCircle, MailOpen, Menu, Mic, MoreHorizontal, Search, Sparkles, Tag, Trash2, UserCircle, X } from 'lucide-react'
 import { components, slugify } from '../data/design-system'
 import { Badge } from '../../packages/design-system/src/Badge'
 import { Button } from '../../packages/design-system/src/Button'
@@ -13,7 +13,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 import { Alert, AlertDescription, AlertTitle } from '../../packages/design-system/src/Alert'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../../packages/design-system/src/AlertDialog'
 import { Attachment, AttachmentAction, AttachmentActions, AttachmentContent, AttachmentDescription, AttachmentGroup, AttachmentMedia, AttachmentTitle, AttachmentTrigger } from '../../packages/design-system/src/Attachment'
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, CommandPalette, CommandPaletteEmpty, CommandPaletteGroup, CommandPaletteInput, CommandPaletteItem, CommandPaletteList, ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, MobileNav, MobileNavContent, MobileNavToggle, MobileNavTrigger, NavHeadingMenu, NavHeadingMenuContent, NavHeadingMenuTrigger, NavIcon, PanelIcon, SideNav, SideNavCollapseButton, SideNavContent, SideNavHeading, SideNavItem, SideNavSection, Tab, TabList, TabPanel, Tabs, TopNav, TopNavHeading, TopNavItem, TopNavMegaMenu, TopNavMegaMenuFeaturedCard, TopNavMegaMenuItem, TopNavMenu, TopNavMenuItem } from '../../packages/design-system/src/Navigation'
+import { ChatComposer, ChatComposerInput, ChatComposerTokenElement, ChatDictationButton, ChatLayout, ChatLayoutScrollButton, ChatMessage, ChatMessageBubble, ChatMessageList, ChatMessageMetadata, ChatSendButton, ChatSystemMessage, ChatTokenizedText, ChatToolCalls } from '../../packages/design-system/src/Chat'
+import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Breadcrumbs, CommandPalette, CommandPaletteEmpty, CommandPaletteGroup, CommandPaletteInput, CommandPaletteItem, CommandPaletteList, ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, MobileNav, MobileNavContent, MobileNavToggle, MobileNavTrigger, NavHeadingMenu, NavHeadingMenuContent, NavHeadingMenuTrigger, NavIcon, PanelIcon, SideNav, SideNavCollapseButton, SideNavContent, SideNavHeading, SideNavItem, SideNavSection, Tab, TabList, TabPanel, Tabs, TopNav, TopNavHeading, TopNavItem, TopNavMegaMenu, TopNavMegaMenuFeaturedCard, TopNavMegaMenuItem, TopNavMenu, TopNavMenuItem } from '../../packages/design-system/src/Navigation'
 import { HoverCard, HoverCardContent, HoverCardTrigger, Popover, PopoverContent, PopoverTrigger, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../packages/design-system/src/Surface'
 import { ToggleButton } from '../../packages/design-system/src/ToggleButton'
 import { ToggleButtonGroup, ToggleButtonGroupItem } from '../../packages/design-system/src/ToggleButtonGroup'
@@ -26,6 +27,24 @@ type ComponentDetailPageProps = {
   componentId: string
   tab?: string
 }
+
+const CHAT_COMPONENTS = [
+  'Chat Composer',
+  'Chat Composer Drawer',
+  'Chat Composer Input',
+  'Chat Composer Token Element',
+  'Chat Dictation Button',
+  'Chat Layout',
+  'Chat Layout Scroll Button',
+  'Chat Message',
+  'Chat Message Bubble',
+  'Chat Message List',
+  'Chat Message Metadata',
+  'Chat Send Button',
+  'Chat System Message',
+  'Chat Tokenized Text',
+  'Chat Tool Calls',
+]
 
 export function ComponentDetailPage({ componentId, tab = 'overview' }: ComponentDetailPageProps) {
   const { locale } = useI18n()
@@ -2273,6 +2292,14 @@ function genericExamples(name: string, locale: Locale): Array<[string, ReactNode
     ]
   }
 
+  if (CHAT_COMPONENTS.includes(name)) {
+    return [
+      [isArabic ? 'معاينة المحادثة' : 'Conversation preview', <ChatPreview name={name} locale={locale} />],
+      [isArabic ? 'تخطيط RTL' : 'RTL parity', <div dir="rtl" lang="ar"><ChatPreview name={name} locale="ar" /></div>],
+      [isArabic ? 'مؤلف مع أدوات' : 'Composer with tools', <ChatPreview name="Chat Composer Drawer" locale={locale} />],
+    ]
+  }
+
   if (['Hover Card', 'Popover', 'Tooltip'].includes(name)) {
     return [
       ['Floating surface', base],
@@ -2289,7 +2316,15 @@ function genericExamples(name: string, locale: Locale): Array<[string, ReactNode
     ]
   }
 
-  if (['Breadcrumb', 'Command', 'Context Menu', 'Dropdown Menu', 'Tabs'].includes(name)) {
+  if (['Breadcrumb', 'Breadcrumb Item', 'Breadcrumbs', 'Command', 'Context Menu', 'Dropdown Menu', 'Tabs'].includes(name)) {
+    if (['Breadcrumb', 'Breadcrumb Item', 'Breadcrumbs'].includes(name)) {
+      return [
+        [isArabic ? 'المسار الأساسي' : 'Basic hierarchy', <BreadcrumbPreview locale={locale} variant={name === 'Breadcrumb Item' ? 'item' : name === 'Breadcrumbs' ? 'list' : 'root'} />],
+        [isArabic ? 'قائمة مطوية' : 'Collapsed middle path', <BreadcrumbPreview locale={locale} />],
+        [isArabic ? 'RTL / العربية' : 'Arabic / RTL', <div dir="rtl" lang="ar"><BreadcrumbPreview locale="ar" /></div>],
+      ]
+    }
+
     return [
       ['Navigation primitive', base],
       ['Composition', <ButtonGroup label={`${name} example actions`}><Button variant="secondary">Docs</Button><Button variant="secondary">Components</Button></ButtonGroup>],
@@ -2672,7 +2707,20 @@ function genericPropRows(name: string) {
     ]
   }
 
-  if (['Breadcrumb', 'Dropdown Menu', 'Context Menu', 'Navigation Menu', 'Pagination', 'Side Nav', 'Side Nav Section', 'Side Nav Heading', 'Side Nav Item', 'Side Nav Collapse Button', 'Top Nav', 'Top Nav Heading', 'Top Nav Item', 'Top Nav Menu', 'Top Nav Mega Menu', 'Top Nav Mega Menu Featured Card', 'Top Nav Mega Menu Item', 'Mobile Nav', 'Mobile Nav Toggle', 'Nav Heading Menu', 'Nav Icon', 'Menubar'].includes(name)) {
+  if (['Breadcrumb', 'Breadcrumb Item', 'Breadcrumbs', 'Dropdown Menu', 'Context Menu', 'Navigation Menu', 'Pagination', 'Side Nav', 'Side Nav Section', 'Side Nav Heading', 'Side Nav Item', 'Side Nav Collapse Button', 'Top Nav', 'Top Nav Heading', 'Top Nav Item', 'Top Nav Menu', 'Top Nav Mega Menu', 'Top Nav Mega Menu Featured Card', 'Top Nav Mega Menu Item', 'Mobile Nav', 'Mobile Nav Toggle', 'Nav Heading Menu', 'Nav Icon', 'Menubar'].includes(name)) {
+    if (name === 'Breadcrumb' || name === 'Breadcrumbs' || name === 'Breadcrumb Item') {
+      return [
+        { name: 'aria-label', type: 'string', description: 'Localized nav landmark label for the Breadcrumb root.', control: <input aria-label="aria-label value" placeholder="Breadcrumb" /> },
+        { name: 'BreadcrumbList / Breadcrumbs', type: 'ReactNode', description: 'Ordered list wrapper. Breadcrumbs is the compact alias for BreadcrumbList.', control: <input aria-label="Breadcrumbs value" placeholder="items" /> },
+        { name: 'BreadcrumbItem', type: 'ReactNode', description: 'One hierarchy segment. Wrap links, current page, or collapsed menu trigger.', control: <input aria-label="BreadcrumbItem value" placeholder="item" /> },
+        { name: 'BreadcrumbLink', type: 'AnchorProps', description: 'Clickable ancestor page. Use app router composition when needed.', control: <input aria-label="BreadcrumbLink value" placeholder="/docs" /> },
+        { name: 'BreadcrumbPage', type: 'ReactNode', description: 'Current page segment. It is non-clickable and sets aria-current=page.', control: <input aria-label="BreadcrumbPage value" placeholder="Current page" /> },
+        { name: 'BreadcrumbSeparator', type: 'ReactNode', description: 'Visual separator. Use slash by default; mirror directional separators in RTL.', control: <input aria-label="BreadcrumbSeparator value" placeholder="/" /> },
+        { name: 'BreadcrumbEllipsis', type: 'ReactNode', description: 'Collapsed middle-path indicator. Pair with Dropdown Menu when hidden parents need discovery.', control: <input aria-label="BreadcrumbEllipsis value" placeholder="..." /> },
+        ...common,
+      ]
+    }
+
     if (name === 'Top Nav') {
       return [
         { name: 'children', type: 'ReactNode', description: 'TopNavItem, TopNavMenu, or TopNavMegaMenu children rendered inside a Radix NavigationMenu list.', control: <input aria-label="children value" placeholder="items" /> },
@@ -2849,6 +2897,18 @@ function genericPropRows(name: string) {
     ]
   }
 
+  if (CHAT_COMPONENTS.includes(name)) {
+    return [
+      { name: 'role', type: "'user' | 'assistant' | 'system'", description: 'Message role used for alignment and semantic grouping where applicable.', control: <PropSelectControl label="role value" options={['user', 'assistant', 'system']} /> },
+      { name: 'metadata', type: 'ReactNode', description: 'Localized timestamp, read receipt, model name, or tool metadata supplied by the app layer.', control: <PropTextControl label="metadata value" placeholder="2:30 PM" /> },
+      { name: 'label', type: 'ReactNode', description: 'Accessible label or visible status text for buttons, system messages, and tool groups.', control: <PropTextControl label="label value" placeholder="New messages" /> },
+      { name: 'drawer', type: 'ReactNode', description: 'Optional composer drawer region for attachments, tokens, or contextual chips.', control: <PropTextControl label="drawer value" placeholder="tokens" /> },
+      { name: 'calls', type: 'ChatToolCall[]', description: 'Tool-call rows with id, label, status, description, and duration.', control: <PropTextControl label="calls value" placeholder="tool calls" /> },
+      { name: 'tokenType', type: "'command' | 'mention' | 'tag' | 'tool'", description: 'Semantic token chip type. Visual treatment stays token-driven.', control: <PropSelectControl label="tokenType value" options={['command', 'mention', 'tag', 'tool']} /> },
+      ...common,
+    ]
+  }
+
   if (['Resizable', 'Scroll Area', 'Separator', 'Direction'].includes(name)) {
     return [
       { name: 'gap', type: '0 | 1 | 2 | 3 | 4 | 6 | 8 | 12', description: 'Spacing token scale. Never pass raw pixel strings.', control: <select aria-label="gap value"><option>2</option><option>4</option><option>6</option><option>8</option></select> },
@@ -2896,6 +2956,270 @@ function genericPropRows(name: string) {
   return common
 }
 
+function ChatPreview({ locale, name }: { locale: Locale; name: string }) {
+  const isArabic = locale === 'ar'
+  const copy = {
+    date: isArabic ? '١٥ مارس ٢٠٢٦' : 'March 15, 2026',
+    user1: isArabic ? 'دفعت آخر تغييرات التحقق إلى الفرع.' : 'I just pushed the refactored auth module.',
+    user2: isArabic ? 'هل يمكنك مراجعة التحقق من الرموز؟' : 'Can you review the token validation changes?',
+    assistant: isArabic ? 'يبدو جيدًا. تدوير الرموز ومعالجة الأخطاء واضحان.' : 'Looks good — the refresh token rotation is solid and the error handling covers the edge cases. Ship it.',
+    read: isArabic ? 'تمت القراءة · ٢:٣٠ م' : 'Read · 2:30 PM',
+    delivered: isArabic ? 'تم التسليم · ٢:٣١ م' : 'Delivered · 2:31 PM',
+    joined: isArabic ? 'انضم أليكس إلى المحادثة' : 'Alex joined the conversation',
+    thinking: isArabic ? 'المساعد يفكر...' : 'Agent is thinking...',
+    today: isArabic ? 'اليوم' : 'Today',
+    resolved: isArabic ? 'تم وضع علامة على المحادثة كمحلولة' : 'Conversation marked as resolved',
+    placeholder: isArabic ? 'اكتب رسالة...' : 'Type a message...',
+    dictation: isArabic ? 'اضغط على الميكروفون لبدء الإملاء.' : 'Click the microphone to start dictating. Speech is transcribed into the input.',
+    drawer: isArabic ? 'ملفات مرفقة' : 'Attached context',
+    newMessages: isArabic ? 'رسائل جديدة' : 'New messages',
+  }
+  const sendIcon = isArabic ? <ArrowUp size={18} /> : <ArrowUp size={18} />
+  const composer = (
+    <ChatComposer
+      actions={(
+        <>
+          <ChatDictationButton icon={<Mic size={18} />} label={isArabic ? 'ابدأ الإملاء' : 'Start dictation'} />
+          <ChatSendButton icon={sendIcon} label={isArabic ? 'إرسال الرسالة' : 'Send message'} />
+        </>
+      )}
+      input={<ChatComposerInput aria-label={isArabic ? 'رسالة المحادثة' : 'Chat message'} placeholder={copy.placeholder} />}
+    />
+  )
+  const drawerComposer = (
+    <ChatComposer
+      drawer={(
+        <>
+          <ChatComposerTokenElement tokenType="tool" variant="secondary">design-spec.pdf</ChatComposerTokenElement>
+          <ChatComposerTokenElement tokenType="tool" variant="secondary">api-schema.json</ChatComposerTokenElement>
+          <ChatComposerTokenElement tokenType="tool" variant="secondary">screenshot.png</ChatComposerTokenElement>
+          <ChatComposerTokenElement tokenType="command" variant="info">/review</ChatComposerTokenElement>
+        </>
+      )}
+      actions={<ChatSendButton icon={sendIcon} label={isArabic ? 'إرسال الرسالة' : 'Send message'} />}
+      input={<ChatComposerInput aria-label={isArabic ? 'رسالة مع مرفقات' : 'Message with attachments'} placeholder={copy.placeholder} />}
+    />
+  )
+  const messages = (
+    <ChatMessageList>
+      <ChatSystemMessage label={copy.date} />
+      <ChatMessage metadata={copy.read} role="user">
+        <ChatMessageBubble role="user">{copy.user1}</ChatMessageBubble>
+        <ChatMessageBubble role="user">{copy.user2}</ChatMessageBubble>
+      </ChatMessage>
+      <ChatMessage metadata={`2:31 PM · Claude Opus 4.6`} role="assistant">
+        <ChatMessageBubble>{copy.assistant}</ChatMessageBubble>
+      </ChatMessage>
+    </ChatMessageList>
+  )
+  const toolCalls = (
+    <ChatToolCalls
+      calls={[
+        { id: 'diff', label: 'bash', description: 'git diff --stat', duration: '340ms', status: 'success' },
+        { id: 'read', label: 'read', description: 'src/utils/formatDate.ts', duration: '45ms', status: 'success' },
+        { id: 'edit', label: 'edit', description: 'src/utils/formatDate.ts', duration: '+12 -3 · 120ms', status: 'success' },
+      ]}
+      label={isArabic ? '٣ استدعاءات أدوات' : '3 tool calls'}
+    />
+  )
+
+  if (name === 'Chat Composer') {
+    return <div className="chat-preview chat-preview--composer">{composer}</div>
+  }
+  if (name === 'Chat Composer Drawer') {
+    return <div className="chat-preview chat-preview--composer">{drawerComposer}</div>
+  }
+  if (name === 'Chat Composer Input') {
+    return <div className="chat-preview chat-preview--composer"><ChatComposer input={<ChatComposerInput aria-label="Composer input" placeholder={isArabic ? 'اسأل عن Ceramic...' : 'Ask me anything about Ceramic...'} />} actions={<ChatSendButton icon={sendIcon} />} /></div>
+  }
+  if (name === 'Chat Composer Token Element') {
+    return (
+      <div className="chat-preview">
+        <ChatTokenizedText>
+          <ChatComposerTokenElement tokenType="mention" variant="info">@Cindy</ChatComposerTokenElement>
+          <span>{isArabic ? 'أضافت' : 'filed'}</span>
+          <ChatComposerTokenElement tokenType="tag" variant="destructive">#bug</ChatComposerTokenElement>
+          <span>{isArabic ? 'و' : 'and'}</span>
+          <ChatComposerTokenElement tokenType="tag" variant="success">#feature</ChatComposerTokenElement>
+        </ChatTokenizedText>
+      </div>
+    )
+  }
+  if (name === 'Chat Dictation Button') {
+    return (
+      <div className="chat-preview chat-preview--composer">
+        <p className="chat-preview-note">{copy.dictation}</p>
+        <ChatComposer
+          actions={<><ChatDictationButton icon={<Mic size={18} />} /><ChatSendButton icon={sendIcon} /></>}
+          input={<ChatComposerInput aria-label="Dictation composer" placeholder={copy.placeholder} />}
+        />
+      </div>
+    )
+  }
+  if (name === 'Chat Layout') {
+    return (
+      <div className="chat-preview">
+        <ChatLayout composer={composer} messages={<ChatMessage role="user"><ChatMessageBubble role="user"><ChatComposerTokenElement tokenType="command" variant="info">/review</ChatComposerTokenElement> {isArabic ? 'التغييرات في هذا الملف' : 'the changes in this file'}</ChatMessageBubble></ChatMessage>}>
+          <ChatSystemMessage>{isArabic ? 'تتم قراءة الملف الآن...' : 'Reading the file now...'}</ChatSystemMessage>
+        </ChatLayout>
+      </div>
+    )
+  }
+  if (name === 'Chat Layout Scroll Button') {
+    return (
+      <div className="chat-preview chat-preview--stack">
+        <span>{isArabic ? 'مخفي عند أسفل المحادثة' : 'Hidden (user is at bottom)'}</span>
+        <span>{isArabic ? 'ظاهر بعد التمرير للأعلى' : 'Visible (user scrolled up)'}</span>
+        <ChatLayoutScrollButton icon={<ArrowDown size={18} />} label={copy.newMessages} />
+      </div>
+    )
+  }
+  if (name === 'Chat Message') return <div className="chat-preview">{messages}</div>
+  if (name === 'Chat Message Bubble') {
+    return (
+      <div className="chat-preview">
+        <ChatMessageList>
+          <ChatMessage metadata={copy.read} role="user"><ChatMessageBubble role="user">{copy.user1}</ChatMessageBubble><ChatMessageBubble role="user">{copy.user2}</ChatMessageBubble></ChatMessage>
+          <ChatMessage metadata="9:16 AM" role="assistant"><span>{isArabic ? 'تبدو التغييرات جيدة.' : 'The changes look great. Ship it!'}</span></ChatMessage>
+        </ChatMessageList>
+      </div>
+    )
+  }
+  if (name === 'Chat Message List') return <div className="chat-preview">{messages}</div>
+  if (name === 'Chat Message Metadata') {
+    return (
+      <div className="chat-preview">
+        <ChatMessage role="assistant">
+          <span>{isArabic ? 'رد قصير من المساعد.' : 'Short assistant reply.'}</span>
+          <ChatMessageMetadata>{copy.delivered}</ChatMessageMetadata>
+        </ChatMessage>
+      </div>
+    )
+  }
+  if (name === 'Chat Send Button') {
+    return (
+      <div className="chat-preview chat-preview--row">
+        <ChatSendButton icon={<ArrowUp size={18} />} />
+        <ChatSendButton icon={<Sparkles size={18} />} label="Send with AI" />
+        <ChatSendButton disabled icon={<Component size={18} />} label="Send disabled" variant="secondary" />
+      </div>
+    )
+  }
+  if (name === 'Chat System Message') {
+    return (
+      <div className="chat-preview">
+        <ChatMessageList>
+          <ChatSystemMessage label={copy.date} />
+          <ChatSystemMessage>{copy.joined}</ChatSystemMessage>
+          <ChatSystemMessage>{copy.thinking}</ChatSystemMessage>
+          <ChatSystemMessage label={copy.today} />
+          <ChatSystemMessage>{copy.resolved}</ChatSystemMessage>
+        </ChatMessageList>
+      </div>
+    )
+  }
+  if (name === 'Chat Tokenized Text') {
+    return (
+      <div className="chat-preview">
+        <ChatTokenizedText>
+          <ChatComposerTokenElement tokenType="command" variant="info">/review</ChatComposerTokenElement>
+          <span>{isArabic ? 'التغييرات في هذا الملف' : 'the changes in this file'}</span>
+        </ChatTokenizedText>
+      </div>
+    )
+  }
+  if (name === 'Chat Tool Calls') return <div className="chat-preview">{toolCalls}</div>
+
+  return <div className="chat-preview"><ChatLayout messages={messages} composer={composer} /></div>
+}
+
+function BreadcrumbPreview({ locale, openMenu = true, variant = 'root' }: { locale: Locale; openMenu?: boolean; variant?: 'root' | 'item' | 'list' }) {
+  const isArabic = locale === 'ar'
+  const labels = isArabic
+    ? {
+        home: 'الرئيسية',
+        docs: 'المستندات',
+        components: 'المكونات',
+        navigation: 'التنقل',
+        current: 'مسار التنقل',
+        more: 'المزيد',
+        themes: 'الثيمات',
+        github: 'GitHub',
+      }
+    : {
+        home: 'Home',
+        docs: 'Docs',
+        components: 'Components',
+        navigation: 'Navigation',
+        current: 'Breadcrumb',
+        more: 'More',
+        themes: 'Themes',
+        github: 'GitHub',
+      }
+
+  if (variant === 'item') {
+    return (
+      <div className="breadcrumb-demo-stack" dir={isArabic ? 'rtl' : 'ltr'} lang={isArabic ? 'ar' : 'en'}>
+        <Breadcrumb aria-label={isArabic ? 'مسار تنقل تجريبي' : 'Example breadcrumb'}>
+          <BreadcrumbList>
+            <BreadcrumbItem><BreadcrumbLink href="#/">{labels.home}</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><BreadcrumbPage>{labels.current}</BreadcrumbPage></BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <Breadcrumb aria-label={isArabic ? 'مسار تنقل مع حالة حالية' : 'Current item breadcrumb'}>
+          <BreadcrumbList>
+            <BreadcrumbItem><BreadcrumbLink href="#/docs">{labels.docs}</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><BreadcrumbPage>{labels.components}</BreadcrumbPage></BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+    )
+  }
+
+  if (variant === 'list') {
+    return (
+      <Breadcrumb aria-label={isArabic ? 'مسارات تنقل تجريبية' : 'Example breadcrumbs'} dir={isArabic ? 'rtl' : 'ltr'} lang={isArabic ? 'ar' : 'en'}>
+        <Breadcrumbs>
+          <BreadcrumbItem><BreadcrumbLink href="#/">{labels.home}</BreadcrumbLink></BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem><BreadcrumbLink href="#/docs">{labels.docs}</BreadcrumbLink></BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem><BreadcrumbPage>{labels.current}</BreadcrumbPage></BreadcrumbItem>
+        </Breadcrumbs>
+      </Breadcrumb>
+    )
+  }
+
+  return (
+    <Breadcrumb aria-label={isArabic ? 'مسار التنقل' : 'Breadcrumb'} dir={isArabic ? 'rtl' : 'ltr'} lang={isArabic ? 'ar' : 'en'}>
+      <BreadcrumbList>
+        <BreadcrumbItem><BreadcrumbLink href="#/">{labels.home}</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <DropdownMenu defaultOpen={openMenu}>
+            <DropdownMenuTrigger asChild>
+              <button aria-label={labels.more} className="breadcrumb-demo-ellipsis" type="button">
+                <BreadcrumbEllipsis />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem>{labels.docs}</DropdownMenuItem>
+              <DropdownMenuItem>{labels.themes}</DropdownMenuItem>
+              <DropdownMenuItem>{labels.github}</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem><BreadcrumbLink href="#/components">{labels.components}</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem><BreadcrumbPage>{labels.current}</BreadcrumbPage></BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+
 function renderGenericPreview(name: string, locale: Locale = 'en') {
   const isArabic = locale === 'ar'
 
@@ -2907,6 +3231,7 @@ function renderGenericPreview(name: string, locale: Locale = 'en') {
   if (name === 'Message') return <MessagePreview locale={locale} />
   if (name === 'Message Scroller') return <MessageScrollerPreview locale={locale} />
   if (name === 'Marker') return <MarkerPreview locale={locale} />
+  if (CHAT_COMPONENTS.includes(name)) return <ChatPreview name={name} locale={locale} />
 
   if (name === 'Typography') {
     return (
@@ -2941,17 +3266,9 @@ function renderGenericPreview(name: string, locale: Locale = 'en') {
   if (name === 'Aspect Ratio') {
     return <AspectRatio ratio={16 / 9}><Center>16:9</Center></AspectRatio>
   }
-  if (name === 'Breadcrumb') {
-    return (
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem><BreadcrumbLink href="#/components">Components</BreadcrumbLink></BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-    )
-  }
+  if (name === 'Breadcrumb') return <BreadcrumbPreview locale={locale} />
+  if (name === 'Breadcrumb Item') return <BreadcrumbPreview locale={locale} variant="item" />
+  if (name === 'Breadcrumbs') return <BreadcrumbPreview locale={locale} variant="list" />
   if (name === 'Side Nav Heading') {
     return (
       <div className="side-nav-heading-preview">
@@ -4134,6 +4451,62 @@ export function Example() {
 }`
   }
 
+  if (CHAT_COMPONENTS.includes(name)) {
+    return isArabic ? `import {
+  ChatComposer,
+  ChatComposerInput,
+  ChatLayout,
+  ChatMessage,
+  ChatMessageBubble,
+  ChatMessageList,
+  ChatSendButton,
+} from '@utopia-studio-design/design-system/Chat';
+
+export function Example() {
+  return (
+    <ChatLayout dir="rtl" lang="ar">
+      <ChatMessageList>
+        <ChatMessage role="user" metadata="تمت القراءة · ٢:٣٠ م">
+          <ChatMessageBubble role="user">
+            نص تجريبي لا يمثل نسخة إنتاجية.
+          </ChatMessageBubble>
+        </ChatMessage>
+      </ChatMessageList>
+      <ChatComposer
+        input={<ChatComposerInput placeholder="اكتب رسالة..." />}
+        actions={<ChatSendButton label="إرسال الرسالة" />}
+      />
+    </ChatLayout>
+  );
+}` : `import {
+  ChatComposer,
+  ChatComposerInput,
+  ChatLayout,
+  ChatMessage,
+  ChatMessageBubble,
+  ChatMessageList,
+  ChatSendButton,
+} from '@utopia-studio-design/design-system/Chat';
+
+export function Example() {
+  return (
+    <ChatLayout>
+      <ChatMessageList>
+        <ChatMessage role="user" metadata="Read · 2:30 PM">
+          <ChatMessageBubble role="user">
+            Can you review this change?
+          </ChatMessageBubble>
+        </ChatMessage>
+      </ChatMessageList>
+      <ChatComposer
+        input={<ChatComposerInput placeholder="Type a message..." />}
+        actions={<ChatSendButton label="Send message" />}
+      />
+    </ChatLayout>
+  );
+}`
+  }
+
   if (name === 'Badge') {
     return isArabic ? `import { Badge } from '@utopia-studio-design/design-system/Badge';
 
@@ -4845,28 +5218,34 @@ export function Example() {
 }`
   }
 
-  if (name === 'Breadcrumb') {
+  if (name === 'Breadcrumb' || name === 'Breadcrumb Item' || name === 'Breadcrumbs') {
     return `import {
   Breadcrumb,
+  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
+  Breadcrumbs,
 } from '@utopia-studio-design/design-system/Navigation';
 
 export function Example() {
   return (
     <Breadcrumb>
-      <BreadcrumbList>
+      <Breadcrumbs>
         <BreadcrumbItem>
           <BreadcrumbLink href="/components">Components</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
+          <BreadcrumbEllipsis />
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
           <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
         </BreadcrumbItem>
-      </BreadcrumbList>
+      </Breadcrumbs>
     </Breadcrumb>
   );
 }`

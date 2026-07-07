@@ -34,6 +34,7 @@ export * from './Accordion'
 export * from './Alert'
 export * from './AlertDialog'
 export * from './Attachment'
+export * from './Chat'
 export { IconButton, type IconButtonProps } from './IconButton'
 export { ToggleButton, type ToggleButtonProps } from './ToggleButton'
 export {

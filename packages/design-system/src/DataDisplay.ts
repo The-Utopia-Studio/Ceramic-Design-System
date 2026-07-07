@@ -9,7 +9,6 @@ export {
   Banner,
   Blockquote,
   Calendar,
-  Chat,
   CodeBlock,
   EmptyState,
   EmptyState as Empty,

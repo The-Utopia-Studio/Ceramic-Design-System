@@ -35,6 +35,23 @@ export function BreadcrumbSeparator({ className, children = '/', ...props }: Rea
   return <li aria-hidden="true" className={cn('uds-breadcrumb-separator', className)} {...props}>{children}</li>
 }
 
+export function BreadcrumbEllipsis({
+  className,
+  children = '...',
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement>) {
+  return (
+    <span
+      aria-hidden="true"
+      className={cn('uds-breadcrumb-ellipsis', className)}
+      role="presentation"
+      {...props}
+    >
+      {children}
+    </span>
+  )
+}
+
 export const Breadcrumbs = BreadcrumbList
 
 export function TopNav({ children, className, ...props }: React.ComponentProps<typeof NavigationMenuPrimitive.Root>) {
