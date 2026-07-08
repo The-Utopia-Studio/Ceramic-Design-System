@@ -10,6 +10,7 @@ import { DocsPage } from './pages/DocsPage'
 import { TemplatesPage } from './pages/TemplatesPage'
 import { ThemesPage } from './pages/ThemesPage'
 import { I18nProvider, categoryLabel, docsLabel, routeLabel, sideNavLabel, t, type Locale } from './i18n'
+import { ThemeProvider, useTheme } from './theme'
 import {
   SideNav,
   SideNavCollapseButton,
@@ -155,6 +156,7 @@ function getToc(path: string, tab: string) {
   if (path === '/themes') {
     return [
       { id: 'utopia-default', label: 'Utopia Default' },
+      { id: 'dextrum', label: 'Dextrum' },
       { id: 'theme-policy', label: 'Theme policy' },
       { id: 'icon-policy', label: 'Icon policy' },
       { id: 'core-boundary', label: 'Core boundary' },
@@ -223,6 +225,15 @@ function getInitialLocale(): Locale {
 }
 
 export function App() {
+  return (
+    <ThemeProvider>
+      <AppShell />
+    </ThemeProvider>
+  )
+}
+
+function AppShell() {
+  const { brand } = useTheme()
   const [path, setPath] = useState(getCurrentPath)
   const [section, setSection] = useState(getCurrentSection)
   const [tab, setTab] = useState(getCurrentTab)
@@ -363,10 +374,10 @@ export function App() {
                 <PanelIcon />
               </SideNavCollapseButton>
             )}
-            icon={<img alt="" src="/brand/the-utopia-studio-wordmark.avif" />}
-            label="Ceramic"
+            icon={<img alt={brand.logoAlt} src={brand.logo} />}
+            label={brand.label}
             mediaSize="wordmark"
-            subtitle="Design System"
+            subtitle={brand.subtitle}
             variant="brand"
           />
         )}
