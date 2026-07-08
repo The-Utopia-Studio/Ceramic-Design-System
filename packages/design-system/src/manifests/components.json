@@ -513,95 +513,7 @@
         "arabicFriendly": "Breadcrumb order, separator spacing, dropdown alignment, and focus rings must follow dir=\"rtl\" using logical properties. Arabic labels must come from localization."
       }
     },
-    {
-      "name": "Breadcrumb Item",
-      "category": "Navigation",
-      "status": "available",
-      "packageImport": "import { BreadcrumbItem, BreadcrumbLink, BreadcrumbPage } from '@utopia-studio-design/design-system/Navigation';",
-      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
-      "shadcnFoundation": [
-        "breadcrumb",
-        "semantic navigation",
-        "shadcn/ui breadcrumb item"
-      ],
-      "fallbackToShadcn": "breadcrumb",
-      "requiredTokens": [
-        "--foreground",
-        "--muted-foreground",
-        "--foreground-subtle",
-        "--space-2",
-        "--font-weight-medium",
-        "--focus-ring-width"
-      ],
-      "useWhen": [
-        "A breadcrumb segment needs link, current-page, or menu-trigger behavior",
-        "The page path needs consistent item spacing and accessible current-page state",
-        "A router link should inherit Utopia breadcrumb styling"
-      ],
-      "avoidWhen": [
-        "The segment is an action rather than navigation",
-        "The item is a primary nav destination outside the current hierarchy",
-        "The item label is unlocalized in an Arabic page"
-      ],
-      "neverInvent": [
-        "Raw link colors",
-        "Missing aria-current on the current page",
-        "Left/right-only spacing",
-        "Utopia brand primitives inside reusable component logic",
-        "Invented Arabic page names"
-      ],
-      "ai": {
-        "props": {
-          "BreadcrumbItem": "Wraps one path segment inside BreadcrumbList.",
-          "BreadcrumbLink": "Use for ancestor pages. Provide href or router-link composition.",
-          "BreadcrumbPage": "Use for the current page only and do not make it clickable."
-        },
-        "arabicFriendly": "The item label follows the page locale. Icons or separators around the item must mirror only when direction carries meaning."
-      }
-    },
-    {
-      "name": "Breadcrumbs",
-      "category": "Navigation",
-      "status": "available",
-      "packageImport": "import { BreadcrumbEllipsis, Breadcrumbs, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from '@utopia-studio-design/design-system/Navigation';",
-      "sourcePath": "packages/design-system/src/components/Navigation.tsx",
-      "shadcnFoundation": [
-        "breadcrumb",
-        "semantic navigation",
-        "shadcn/ui breadcrumb list"
-      ],
-      "fallbackToShadcn": "breadcrumb",
-      "requiredTokens": [
-        "--foreground",
-        "--muted-foreground",
-        "--foreground-subtle",
-        "--space-2",
-        "--font-weight-medium"
-      ],
-      "useWhen": [
-        "A product or docs surface wants the compact Astryx-style Breadcrumbs alias",
-        "The ordered list is composed inside an existing nav landmark",
-        "AI-generated pages need a short import for the list primitive"
-      ],
-      "avoidWhen": [
-        "A full nav landmark is needed; use Breadcrumb root around BreadcrumbList",
-        "The path is not hierarchical",
-        "A stepper or progress indicator is the intended pattern"
-      ],
-      "neverInvent": [
-        "Standalone list without a nav landmark when accessibility requires one",
-        "Directional separators without RTL rules",
-        "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ],
-      "ai": {
-        "props": {
-          "Breadcrumbs": "Alias for BreadcrumbList. Use inside Breadcrumb root unless the parent already owns the nav landmark.",
-          "children": "BreadcrumbItem and BreadcrumbSeparator children in hierarchy order."
-        },
-        "arabicFriendly": "Use the same DOM order as the localized hierarchy and let dir=\"rtl\" mirror layout. Do not reverse arrays manually unless the product IA is localized that way."
-      }
-    },
+
     {
       "name": "Bubble",
       "category": "Data Display",
@@ -762,37 +674,59 @@
       "sourcePath": "packages/design-system/src/components/DataDisplay.tsx",
       "shadcnFoundation": [
         "calendar",
+        "react-day-picker",
         "semantic date grid",
-        "shadcn/ui calendar"
+        "shadcn/ui calendar",
+        "controlled/uncontrolled state"
       ],
       "fallbackToShadcn": "calendar",
       "requiredTokens": [
         "--surface",
+        "--background",
         "--foreground",
         "--muted-foreground",
         "--foreground-subtle",
         "--border",
+        "--input",
         "--radius-surface",
         "--radius-control",
         "--primary",
         "--primary-foreground",
+        "--surface-hover",
+        "--button-height-sm",
+        "--duration-fast",
+        "--ease-standard",
         "--focus-ring-width"
       ],
       "useWhen": [
-        "Date browsing",
-        "Date picking",
-        "Month-grid previews that have product-owned localization rules"
+        "Date browsing and date picking with visible month/year navigation",
+        "Product forms need controlled or uncontrolled selected date state",
+        "Month-grid previews need product-owned localization rules and RTL-safe layout"
       ],
       "avoidWhen": [
         "Hijri calendar without localization requirements",
-        "Date math that belongs in product logic",
+        "Date math or booking rules that belong in product logic",
         "Unverified locale-specific calendar behavior"
       ],
       "neverInvent": [
         "Locale-specific calendar behavior",
         "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
+        "Utopia brand primitives inside reusable component logic",
+        "Business disabled-date rules inside the design-system package"
+      ],
+      "ai": {
+        "props": {
+          "month": "Controlled visible month. Pair with onMonthChange.",
+          "defaultMonth": "Initial visible month for uncontrolled usage.",
+          "selectedDate": "Controlled selected date. Pair with onSelect.",
+          "defaultSelectedDate": "Initial selected date for uncontrolled usage.",
+          "onSelect": "Called with a Date when an enabled day is selected.",
+          "onMonthChange": "Called when previous/next or month/year controls change the visible month.",
+          "weekStartsOn": "Use product locale requirements. 0 is Sunday, 1 Monday, 6 Saturday.",
+          "disabledDates": "Product-owned predicate for disabled days."
+        },
+        "arabicFriendly": "Calendar supports dir inheritance, localized month/day labels, logical layout, Arabic numerals through Intl, and configurable week start. Hijri support must be explicit product work, not assumed."
+      }
     },
     {
       "name": "Card",
@@ -927,14 +861,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -985,14 +921,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -1043,14 +981,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -1101,14 +1041,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -1159,14 +1101,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -1217,14 +1161,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -1275,14 +1221,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -1333,14 +1281,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -1391,14 +1341,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -1449,14 +1401,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -1507,14 +1461,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -1565,14 +1521,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -1623,14 +1581,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -1681,14 +1641,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -1739,14 +1701,16 @@
         "--border",
         "--radius-control",
         "--radius-surface",
-        "--radius-full",
         "--space-1",
         "--space-2",
         "--space-3",
         "--space-4",
         "--duration-fast",
         "--ease-standard",
-        "--focus-ring-width"
+        "--focus-ring-width",
+        "--radius-chat-bubble",
+        "--radius-chat-composer",
+        "--radius-chat-token"
       ],
       "useWhen": [
         "Building assistant, support, collaboration, or AI product chat surfaces",
@@ -1994,12 +1958,15 @@
       "name": "Date Picker",
       "category": "Forms",
       "status": "available",
-      "packageImport": "import { DatePicker } from '@utopia-studio-design/design-system/ShadcnPrimitives';",
-      "sourcePath": "packages/design-system/src/components/ShadcnPrimitives.tsx",
+      "packageImport": "import { DatePicker } from '@utopia-studio-design/design-system/DataDisplay';",
+      "sourcePath": "packages/design-system/src/components/DataDisplay.tsx",
       "shadcnFoundation": [
         "date-picker",
-        "shadcn/ui registry",
-        "semantic Utopia wrapper"
+        "react-day-picker",
+        "Radix Popover",
+        "shadcn/ui date picker",
+        "semantic Utopia wrapper",
+        "controlled/uncontrolled state"
       ],
       "fallbackToShadcn": "calendar plus popover",
       "requiredTokens": [
@@ -2012,6 +1979,13 @@
         "--input",
         "--primary",
         "--primary-foreground",
+        "--surface-hover",
+        "--button-height-sm",
+        "--button-height-lg",
+        "--z-popover",
+        "--shadow-popover",
+        "--duration-fast",
+        "--ease-standard",
         "--focus-ring-width"
       ],
       "useWhen": [
@@ -2027,8 +2001,21 @@
       "neverInvent": [
         "Raw shadcn theme colors",
         "Left/right-only layout rules",
-        "Utopia brand primitives inside reusable component logic"
-      ]
+        "Utopia brand primitives inside reusable component logic",
+        "Product-specific date validation inside the reusable primitive"
+      ],
+      "ai": {
+        "props": {
+          "defaultSelectedDate": "Initial selected date for uncontrolled usage.",
+          "selectedDate": "Controlled selected date. Pair with onSelect.",
+          "onSelect": "Called with a Date and closes the popover by default.",
+          "locale": "Use a BCP 47 locale. Arabic locales switch the trigger, popover, and calendar to RTL.",
+          "weekStartsOn": "Use product locale requirements. 0 is Sunday, 1 Monday, 6 Saturday.",
+          "label": "Visible trigger label. Localize this in product copy.",
+          "placeholder": "Visible trigger placeholder. Localize this in product copy."
+        },
+        "arabicFriendly": "Date Picker mirrors the popover alignment and trigger direction for Arabic, delegates calendar labels to react-day-picker locale data, and keeps Hijri/calendar-system support explicit."
+      }
     },
     {
       "name": "Dialog",

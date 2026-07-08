@@ -1,5 +1,9 @@
 import * as React from 'react'
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
+import * as PopoverPrimitive from '@radix-ui/react-popover'
+import { CalendarPlus, ChevronDown } from 'lucide-react'
+import { DayPicker } from 'react-day-picker'
+import { arSA, enUS } from 'react-day-picker/locale'
 import { cn } from '../lib/utils'
 
 export interface AccountStatusProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -127,17 +131,62 @@ export function MetadataList({ className, ...props }: React.HTMLAttributes<HTMLD
   return <dl className={cn('uds-metadata-list', className)} {...props} />
 }
 
-export function ProgressBar({ className, value = 0, ...props }: React.HTMLAttributes<HTMLDivElement> & { value?: number }) {
-  return <div aria-valuemax={100} aria-valuemin={0} aria-valuenow={value} className={cn('uds-progress', className)} role="progressbar" {...props}><span style={{ inlineSize: `${value}%` }} /></div>
+export function ProgressBar({
+  className,
+  label,
+  showValue = false,
+  value = 0,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & {
+  label?: React.ReactNode
+  showValue?: boolean
+  value?: number
+}) {
+  const bar = (
+    <div aria-valuemax={100} aria-valuemin={0} aria-valuenow={value} className="uds-progress" role="progressbar" {...props}>
+      <span style={{ inlineSize: `${Math.max(0, Math.min(100, value))}%` }} />
+    </div>
+  )
+
+  if (!label && !showValue) {
+    return (
+      <div aria-valuemax={100} aria-valuemin={0} aria-valuenow={value} className={cn('uds-progress', className)} role="progressbar" {...props}>
+        <span style={{ inlineSize: `${Math.max(0, Math.min(100, value))}%` }} />
+      </div>
+    )
+  }
+
+  return (
+    <div className={cn('uds-progress-root', className)}>
+      <div className="uds-progress-header">
+        {label ? <span className="uds-progress-label">{label}</span> : <span />}
+        {showValue ? <span className="uds-progress-value">{Math.round(value)}%</span> : null}
+      </div>
+      {bar}
+    </div>
+  )
+}
+export const Progress = ProgressBar
+
+export function Skeleton({
+  className,
+  variant = 'block',
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & {
+  variant?: 'block' | 'circle' | 'line'
+}) {
+  return <div className={cn('uds-skeleton', `uds-skeleton--${variant}`, className)} {...props} />
 }
 
-export function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('uds-skeleton', className)} {...props} />
-}
 
-export function Spinner({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
-  const isDecorative = !props['aria-label'] && !props['aria-labelledby'] && !props.role
-  return <span aria-hidden={isDecorative ? true : undefined} className={cn('uds-spinner', className)} {...props} />
+export function Spinner({
+  className,
+  size = 'sm',
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement> & {
+  size?: 'sm' | 'md' | 'lg'
+}) {
+  return <span className={cn('uds-spinner', `uds-spinner--${size}`, className)} {...props} />
 }
 
 export function StatusDot({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
@@ -169,7 +218,11 @@ export function TableCell({ className, ...props }: React.TdHTMLAttributes<HTMLTa
 }
 
 export function Toast({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('uds-toast', className)} role="status" {...props} />
+  return <div aria-live="polite" className={cn('uds-toast', className)} role="status" {...props} />
+}
+
+export function ToastIcon({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
+  return <span aria-hidden="true" className={cn('uds-toast-icon', className)} {...props} />
 }
 
 export function ToastTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
@@ -180,78 +233,197 @@ export function ToastDescription({ className, ...props }: React.HTMLAttributes<H
   return <div className={cn('uds-toast-description', className)} {...props} />
 }
 
-export interface CalendarProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface CalendarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+  captionLayout?: 'label' | 'dropdown' | 'dropdown-months' | 'dropdown-years'
+  defaultMonth?: Date
+  defaultSelectedDate?: Date
+  disabledDates?: (date: Date) => boolean
   locale?: string
   month?: Date
+  onMonthChange?: (month: Date) => void
+  onSelect?: (date: Date) => void
   selectedDate?: Date
-  weekStartsOn?: 0 | 1
+  weekStartsOn?: WeekDayIndex
+  yearRange?: number
 }
 
 export function Calendar({
+  captionLayout = 'dropdown',
   className,
+  defaultMonth,
+  defaultSelectedDate,
+  disabledDates,
   locale = 'en-US',
-  month = new Date(),
+  month,
+  onMonthChange,
+  onSelect,
   selectedDate,
   weekStartsOn = 0,
+  yearRange = 6,
   ...props
 }: CalendarProps) {
-  const visibleMonth = new Date(month.getFullYear(), month.getMonth(), 1)
-  const days = getCalendarDays(visibleMonth, weekStartsOn)
-  const weekDays = getWeekDays(locale, weekStartsOn)
-  const monthLabel = new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' }).format(visibleMonth)
+  const initialMonth = startOfMonth(month ?? defaultMonth ?? selectedDate ?? defaultSelectedDate ?? new Date())
+  const [uncontrolledMonth, setUncontrolledMonth] = React.useState(initialMonth)
+  const [uncontrolledSelectedDate, setUncontrolledSelectedDate] = React.useState<Date | undefined>(defaultSelectedDate)
+  const visibleMonth = startOfMonth(month ?? uncontrolledMonth)
+  const activeDate = selectedDate ?? uncontrolledSelectedDate
+  const isArabicLocale = locale.toLowerCase().startsWith('ar')
+  const fromMonth = new Date(visibleMonth.getFullYear() - yearRange, 0, 1)
+  const toMonth = new Date(visibleMonth.getFullYear() + yearRange, 11, 1)
+
+  const setVisibleMonth = (nextMonth: Date) => {
+    const normalized = startOfMonth(nextMonth)
+    if (month === undefined) {
+      setUncontrolledMonth(normalized)
+    }
+    onMonthChange?.(normalized)
+  }
+
+  const selectDay = (day: Date) => {
+    if (disabledDates?.(day)) return
+    const nextDate = new Date(day.getFullYear(), day.getMonth(), day.getDate())
+    if (selectedDate === undefined) {
+      setUncontrolledSelectedDate(nextDate)
+    }
+    if (day.getMonth() !== visibleMonth.getMonth()) {
+      setVisibleMonth(day)
+    }
+    onSelect?.(nextDate)
+  }
 
   return (
     <div className={cn('uds-calendar', className)} {...props}>
-      <div className="uds-calendar-header">{monthLabel}</div>
-      <div className="uds-calendar-grid" role="grid" aria-label={monthLabel}>
-        {weekDays.map((day) => (
-          <div key={day} className="uds-calendar-weekday" role="columnheader">{day}</div>
-        ))}
-        {days.map((day) => {
-          const outside = day.getMonth() !== visibleMonth.getMonth()
-          const selected = selectedDate ? isSameDay(day, selectedDate) : false
-          return (
-            <button
-              key={day.toISOString()}
-              aria-selected={selected}
-              className="uds-calendar-day"
-              data-outside={outside ? 'true' : undefined}
-              data-selected={selected ? 'true' : undefined}
-              role="gridcell"
-              type="button"
-            >
-              {new Intl.DateTimeFormat(locale, { day: 'numeric' }).format(day)}
-            </button>
-          )
-        })}
-      </div>
+      <DayPicker
+        captionLayout={captionLayout}
+        classNames={calendarClassNames}
+        defaultMonth={initialMonth}
+        dir={isArabicLocale ? 'rtl' : undefined}
+        disabled={disabledDates}
+        fixedWeeks
+        locale={isArabicLocale ? arSA : enUS}
+        mode="single"
+        month={visibleMonth}
+        navLayout="around"
+        onMonthChange={setVisibleMonth}
+        onSelect={(date) => {
+          if (date) selectDay(date)
+        }}
+        selected={activeDate}
+        showOutsideDays
+        startMonth={fromMonth}
+        endMonth={toMonth}
+        weekStartsOn={weekStartsOn}
+      />
     </div>
   )
 }
 
-function getCalendarDays(month: Date, weekStartsOn: 0 | 1) {
-  const start = new Date(month.getFullYear(), month.getMonth(), 1)
-  const offset = (start.getDay() - weekStartsOn + 7) % 7
-  start.setDate(start.getDate() - offset)
-
-  return Array.from({ length: 42 }, (_, index) => {
-    const day = new Date(start)
-    day.setDate(start.getDate() + index)
-    return day
-  })
+function startOfMonth(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1)
 }
 
-function getWeekDays(locale: string, weekStartsOn: 0 | 1) {
-  const sunday = new Date(2026, 0, 4)
-  return Array.from({ length: 7 }, (_, index) => {
-    const day = new Date(sunday)
-    day.setDate(sunday.getDate() + ((index + weekStartsOn) % 7))
-    return new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(day)
-  })
+type WeekDayIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6
+
+const calendarClassNames = {
+  root: 'uds-calendar-rdp-root',
+  months: 'uds-calendar-months',
+  month: 'uds-calendar-month',
+  nav: 'uds-calendar-nav',
+  button_previous: 'uds-calendar-nav-button uds-calendar-nav-button-previous',
+  button_next: 'uds-calendar-nav-button uds-calendar-nav-button-next',
+  month_caption: 'uds-calendar-caption',
+  caption_label: 'uds-calendar-title',
+  dropdowns: 'uds-calendar-dropdowns',
+  dropdown: 'uds-calendar-select',
+  dropdown_root: 'uds-calendar-select-root',
+  chevron: 'uds-calendar-chevron',
+  month_grid: 'uds-calendar-grid',
+  weekdays: 'uds-calendar-weekdays',
+  weekday: 'uds-calendar-weekday',
+  weeks: 'uds-calendar-weeks',
+  week: 'uds-calendar-week',
+  day: 'uds-calendar-day',
+  day_button: 'uds-calendar-day-button',
+  outside: 'uds-calendar-day-outside',
+  selected: 'uds-calendar-day-selected',
+  today: 'uds-calendar-day-today',
+  disabled: 'uds-calendar-day-disabled',
 }
 
-function isSameDay(a: Date, b: Date) {
-  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
+export interface DatePickerProps extends Omit<CalendarProps, 'children'> {
+  label?: React.ReactNode
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  placeholder?: React.ReactNode
+  triggerClassName?: string
+  valueFormatter?: (date: Date, locale: string) => React.ReactNode
+}
+
+export function DatePicker({
+  captionLayout = 'label',
+  className,
+  defaultSelectedDate,
+  label,
+  locale = 'en-US',
+  onOpenChange,
+  onSelect,
+  open,
+  placeholder,
+  selectedDate,
+  triggerClassName,
+  valueFormatter,
+  ...calendarProps
+}: DatePickerProps) {
+  const [uncontrolledDate, setUncontrolledDate] = React.useState<Date | undefined>(defaultSelectedDate)
+  const activeDate = selectedDate ?? uncontrolledDate
+  const isArabicLocale = locale.toLowerCase().startsWith('ar')
+  const triggerLabel = label ?? (isArabicLocale ? 'اختر التاريخ' : 'Select date')
+  const triggerPlaceholder = placeholder ?? (isArabicLocale ? 'اختر تاريخاً' : 'Pick a date')
+  const formattedValue = activeDate
+    ? valueFormatter?.(activeDate, locale) ?? new Intl.DateTimeFormat(locale, { dateStyle: 'long' }).format(activeDate)
+    : triggerPlaceholder
+
+  const handleSelect = (date: Date) => {
+    if (selectedDate === undefined) {
+      setUncontrolledDate(date)
+    }
+    onSelect?.(date)
+    onOpenChange?.(false)
+  }
+
+  return (
+    <PopoverPrimitive.Root open={open} onOpenChange={onOpenChange}>
+      <PopoverPrimitive.Trigger asChild>
+        <button className={cn('uds-date-picker-trigger', triggerClassName)} dir={isArabicLocale ? 'rtl' : undefined} type="button">
+          <span className="uds-date-picker-trigger-copy">
+            <span className="uds-date-picker-label">{triggerLabel}</span>
+            <strong data-placeholder={!activeDate || undefined}>{formattedValue}</strong>
+          </span>
+          <span className="uds-date-picker-trigger-icons" aria-hidden="true">
+            <CalendarPlus />
+            <ChevronDown />
+          </span>
+        </button>
+      </PopoverPrimitive.Trigger>
+      <PopoverPrimitive.Portal>
+        <PopoverPrimitive.Content
+          align={isArabicLocale ? 'end' : 'start'}
+          className={cn('uds-date-picker-content', className)}
+          dir={isArabicLocale ? 'rtl' : undefined}
+          sideOffset={8}
+        >
+          <Calendar
+            {...calendarProps}
+            captionLayout={captionLayout}
+            defaultSelectedDate={defaultSelectedDate}
+            locale={locale}
+            onSelect={handleSelect}
+            selectedDate={activeDate}
+          />
+        </PopoverPrimitive.Content>
+      </PopoverPrimitive.Portal>
+    </PopoverPrimitive.Root>
+  )
 }
 
 export const Markdown = EmptyState

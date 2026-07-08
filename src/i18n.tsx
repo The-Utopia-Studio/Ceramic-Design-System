@@ -187,8 +187,6 @@ const componentLabels: Record<string, string> = {
   Avatar: 'الصورة الرمزية',
   Badge: 'شارة',
   Breadcrumb: 'مسار التنقل',
-  'Breadcrumb Item': 'عنصر مسار التنقل',
-  Breadcrumbs: 'مسارات التنقل',
   Bubble: 'فقاعة',
   Button: 'زر',
   'Button Group': 'مجموعة أزرار',

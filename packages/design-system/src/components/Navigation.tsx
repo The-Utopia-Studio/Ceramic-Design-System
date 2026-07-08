@@ -35,23 +35,6 @@ export function BreadcrumbSeparator({ className, children = '/', ...props }: Rea
   return <li aria-hidden="true" className={cn('uds-breadcrumb-separator', className)} {...props}>{children}</li>
 }
 
-export function BreadcrumbEllipsis({
-  className,
-  children = '...',
-  ...props
-}: React.HTMLAttributes<HTMLSpanElement>) {
-  return (
-    <span
-      aria-hidden="true"
-      className={cn('uds-breadcrumb-ellipsis', className)}
-      role="presentation"
-      {...props}
-    >
-      {children}
-    </span>
-  )
-}
-
 export const Breadcrumbs = BreadcrumbList
 
 export function TopNav({ children, className, ...props }: React.ComponentProps<typeof NavigationMenuPrimitive.Root>) {
@@ -607,6 +590,13 @@ export function Tab({ className, selected, ...props }: React.ComponentProps<type
 export function TabPanel({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Content>) {
   return <TabsPrimitive.Content className={cn('uds-tab-panel', className)} {...props} />
 }
+
+export const Sidebar = SideNav
+export const SidebarContent = SideNavContent
+export const SidebarSection = SideNavSection
+export const SidebarHeading = SideNavHeading
+export const SidebarItem = SideNavItem
+export const SidebarCollapseButton = SideNavCollapseButton
 
 export function DropdownMenu(props: React.ComponentProps<typeof DropdownMenuPrimitive.Root>) {
   return <DropdownMenuPrimitive.Root {...props} />

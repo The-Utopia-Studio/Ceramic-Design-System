@@ -122,8 +122,6 @@
           "label": "Navigation",
           "items": [
             "Breadcrumb",
-            "Breadcrumb Item",
-            "Breadcrumbs",
             "Command",
             "Context Menu",
             "Dropdown Menu",

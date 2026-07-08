@@ -9,6 +9,7 @@ export {
   Banner,
   Blockquote,
   Calendar,
+  DatePicker,
   CodeBlock,
   EmptyState,
   EmptyState as Empty,
@@ -28,6 +29,7 @@ export {
   TableRow,
   Toast,
   ToastDescription,
+  ToastIcon,
   ToastTitle,
   TreeList,
 } from './components/DataDisplay'

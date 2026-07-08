@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { ArrowUp, Check, ChevronDown, LoaderCircle, Mic, Wrench, X } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { Badge, type BadgeProps } from './Badge'
 import { Button, type ButtonProps } from './Button'
@@ -117,13 +118,16 @@ export function ChatToolCalls({
   return (
     <details className={cn('uds-chat-tool-calls', className)} open={defaultExpanded} {...props}>
       <summary className="uds-chat-tool-calls-summary">
-        <span aria-hidden="true" className="uds-chat-tool-calls-icon">⌁</span>
+        <Wrench aria-hidden="true" className="uds-chat-tool-calls-icon" />
         <span>{label ?? `${calls.length} tool calls`}</span>
+        <ChevronDown aria-hidden="true" className="uds-chat-tool-calls-disclosure" />
       </summary>
       <div className="uds-chat-tool-calls-list">
         {calls.map((call) => (
           <div className="uds-chat-tool-call" data-status={call.status ?? 'pending'} key={call.id}>
-            <span aria-hidden="true" className="uds-chat-tool-call-status" />
+            <span aria-hidden="true" className="uds-chat-tool-call-status">
+              <ChatToolCallStatusIcon status={call.status ?? 'pending'} />
+            </span>
             <span className="uds-chat-tool-call-label">{call.label}</span>
             {call.description ? <span className="uds-chat-tool-call-description">{call.description}</span> : null}
             {call.duration ? <span className="uds-chat-tool-call-duration">{call.duration}</span> : null}
@@ -133,6 +137,12 @@ export function ChatToolCalls({
       </div>
     </details>
   )
+}
+
+function ChatToolCallStatusIcon({ status }: { status: NonNullable<ChatToolCall['status']> }) {
+  if (status === 'success') return <Check />
+  if (status === 'error') return <X />
+  return <LoaderCircle />
 }
 
 export interface ChatComposerProps extends React.FormHTMLAttributes<HTMLFormElement> {
@@ -178,7 +188,7 @@ export interface ChatSendButtonProps extends Omit<ButtonProps, 'children' | 'isI
 
 export function ChatSendButton({
   className,
-  icon = '↑',
+  icon = <ArrowUp />,
   label = 'Send message',
   variant = 'default',
   ...props
@@ -197,7 +207,7 @@ export interface ChatDictationButtonProps extends Omit<ButtonProps, 'children' |
 
 export function ChatDictationButton({
   className,
-  icon = '⌕',
+  icon = <Mic />,
   label = 'Start dictation',
   variant = 'ghost',
   ...props

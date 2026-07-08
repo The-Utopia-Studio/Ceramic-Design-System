@@ -1,6 +1,6 @@
 import { useState, type ElementType, type ReactNode } from 'react'
 import { motion } from 'framer-motion'
-import { Archive, ArrowDown, ArrowUp, Bell, Box, CalendarPlus, Clock, Component, FileCode, FileText, ListFilter, LoaderCircle, MailOpen, Menu, Mic, MoreHorizontal, Search, Sparkles, Tag, Trash2, UserCircle, X } from 'lucide-react'
+import { Archive, ArrowDown, ArrowUp, Bell, Box, CalendarPlus, Clock, Component, FileCode, FileText, ListFilter, LoaderCircle, MailOpen, Menu, Mic, MoreHorizontal, Search, Tag, Trash2, UserCircle, X } from 'lucide-react'
 import { components, slugify } from '../data/design-system'
 import { Badge } from '../../packages/design-system/src/Badge'
 import { Button } from '../../packages/design-system/src/Button'
@@ -14,11 +14,11 @@ import { Alert, AlertDescription, AlertTitle } from '../../packages/design-syste
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../../packages/design-system/src/AlertDialog'
 import { Attachment, AttachmentAction, AttachmentActions, AttachmentContent, AttachmentDescription, AttachmentGroup, AttachmentMedia, AttachmentTitle, AttachmentTrigger } from '../../packages/design-system/src/Attachment'
 import { ChatComposer, ChatComposerInput, ChatComposerTokenElement, ChatDictationButton, ChatLayout, ChatLayoutScrollButton, ChatMessage, ChatMessageBubble, ChatMessageList, ChatMessageMetadata, ChatSendButton, ChatSystemMessage, ChatTokenizedText, ChatToolCalls } from '../../packages/design-system/src/Chat'
-import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Breadcrumbs, CommandPalette, CommandPaletteEmpty, CommandPaletteGroup, CommandPaletteInput, CommandPaletteItem, CommandPaletteList, ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, MobileNav, MobileNavContent, MobileNavToggle, MobileNavTrigger, NavHeadingMenu, NavHeadingMenuContent, NavHeadingMenuTrigger, NavIcon, PanelIcon, SideNav, SideNavCollapseButton, SideNavContent, SideNavHeading, SideNavItem, SideNavSection, Tab, TabList, TabPanel, Tabs, TopNav, TopNavHeading, TopNavItem, TopNavMegaMenu, TopNavMegaMenuFeaturedCard, TopNavMegaMenuItem, TopNavMenu, TopNavMenuItem } from '../../packages/design-system/src/Navigation'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Breadcrumbs, CommandPalette, CommandPaletteEmpty, CommandPaletteGroup, CommandPaletteInput, CommandPaletteItem, CommandPaletteList, ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, MobileNav, MobileNavContent, MobileNavToggle, MobileNavTrigger, NavHeadingMenu, NavHeadingMenuContent, NavHeadingMenuTrigger, NavIcon, PanelIcon, SideNav, SideNavCollapseButton, SideNavContent, SideNavHeading, SideNavItem, SideNavSection, Tab, TabList, TabPanel, Tabs, TopNav, TopNavHeading, TopNavItem, TopNavMegaMenu, TopNavMegaMenuFeaturedCard, TopNavMegaMenuItem, TopNavMenu, TopNavMenuItem } from '../../packages/design-system/src/Navigation'
 import { HoverCard, HoverCardContent, HoverCardTrigger, Popover, PopoverContent, PopoverTrigger, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../packages/design-system/src/Surface'
 import { ToggleButton } from '../../packages/design-system/src/ToggleButton'
 import { ToggleButtonGroup, ToggleButtonGroupItem } from '../../packages/design-system/src/ToggleButtonGroup'
-import { AccountStatus, Avatar, AvatarGroup, AvatarOverflow, Calendar, EmptyState, ProgressBar, Skeleton, Spinner, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Toast, ToastDescription, ToastTitle } from '../../packages/design-system/src/DataDisplay'
+import { AccountStatus, Avatar, AvatarGroup, AvatarOverflow, Calendar, DatePicker, EmptyState, ProgressBar, Skeleton, Spinner, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Toast, ToastDescription, ToastTitle } from '../../packages/design-system/src/DataDisplay'
 import * as ShadcnPrimitives from '../../packages/design-system/src/ShadcnPrimitives'
 import { ArabicText, Heading, Prose, Text } from '../../packages/design-system/src/Typography'
 import { componentIntro, componentLabel, t, useI18n, type Locale } from '../i18n'
@@ -49,6 +49,12 @@ const CHAT_COMPONENTS = [
 export function ComponentDetailPage({ componentId, tab = 'overview' }: ComponentDetailPageProps) {
   const { locale } = useI18n()
   const aliases: Record<string, string> = {
+    markernew: 'marker',
+    messagenew: 'message',
+    'message-scrollernew': 'message-scroller',
+    progressbar: 'progress',
+    sidebar: 'side-nav',
+    'text-area': 'textarea',
     toggle: 'toggle-button',
     'toggle-group': 'toggle-button-group',
   }
@@ -2716,7 +2722,7 @@ function genericPropRows(name: string) {
         { name: 'BreadcrumbLink', type: 'AnchorProps', description: 'Clickable ancestor page. Use app router composition when needed.', control: <input aria-label="BreadcrumbLink value" placeholder="/docs" /> },
         { name: 'BreadcrumbPage', type: 'ReactNode', description: 'Current page segment. It is non-clickable and sets aria-current=page.', control: <input aria-label="BreadcrumbPage value" placeholder="Current page" /> },
         { name: 'BreadcrumbSeparator', type: 'ReactNode', description: 'Visual separator. Use slash by default; mirror directional separators in RTL.', control: <input aria-label="BreadcrumbSeparator value" placeholder="/" /> },
-        { name: 'BreadcrumbEllipsis', type: 'ReactNode', description: 'Collapsed middle-path indicator. Pair with Dropdown Menu when hidden parents need discovery.', control: <input aria-label="BreadcrumbEllipsis value" placeholder="..." /> },
+
         ...common,
       ]
     }
@@ -2945,6 +2951,21 @@ function genericPropRows(name: string) {
     ]
   }
 
+  if (name === 'Calendar') {
+    return [
+      { name: 'month', type: 'Date', description: 'Controlled visible month. Pair with onMonthChange for previous/next and month/year select controls.', control: <input aria-label="month value" placeholder="2026-07-01" /> },
+      { name: 'defaultMonth', type: 'Date', description: 'Initial visible month for uncontrolled calendars.', control: <input aria-label="defaultMonth value" placeholder="2026-07-01" /> },
+      { name: 'selectedDate', type: 'Date', description: 'Controlled selected date. Pair with onSelect when product state owns selection.', control: <input aria-label="selectedDate value" placeholder="2026-07-06" /> },
+      { name: 'defaultSelectedDate', type: 'Date', description: 'Initial selected date for uncontrolled calendars.', control: <input aria-label="defaultSelectedDate value" placeholder="2026-07-06" /> },
+      { name: 'onSelect', type: '(date: Date) => void', description: 'Called when a user selects an enabled day. Outside-month dates move the visible month.', control: <input aria-label="onSelect value" placeholder="setSelectedDate" /> },
+      { name: 'onMonthChange', type: '(month: Date) => void', description: 'Called by previous/next controls and month/year selectors.', control: <input aria-label="onMonthChange value" placeholder="setMonth" /> },
+      { name: 'weekStartsOn', type: '0 | 1 | 2 | 3 | 4 | 5 | 6', description: 'Week start contract. Use locale/product requirements; Arabic previews can start on Saturday when required.', control: <select aria-label="weekStartsOn value"><option value="0">0</option><option value="1">1</option><option value="6">6</option></select> },
+      { name: 'yearRange', type: 'number', description: 'Number of years before and after the visible year shown in the year selector.', control: <input aria-label="yearRange value" placeholder="8" /> },
+      { name: 'disabledDates', type: '(date: Date) => boolean', description: 'Disable product-owned dates without hardcoding business rules in the component.', control: <input aria-label="disabledDates value" placeholder="date => false" /> },
+      ...common,
+    ]
+  }
+
   if (['Avatar', 'Badge', 'Calendar', 'Carousel', 'Chart', 'Data Table', 'Empty', 'Item', 'Kbd', 'Progress', 'Skeleton', 'Spinner', 'Table', 'Attachment', 'Bubble', 'Marker', 'Message', 'Message Scroller'].includes(name)) {
     return [
       { name: 'aria-label', type: 'string', description: 'Accessible label when visible text is insufficient.', control: <input aria-label="aria-label value" placeholder={`${name} label`} /> },
@@ -2962,7 +2983,7 @@ function ChatPreview({ locale, name }: { locale: Locale; name: string }) {
     date: isArabic ? '١٥ مارس ٢٠٢٦' : 'March 15, 2026',
     user1: isArabic ? 'دفعت آخر تغييرات التحقق إلى الفرع.' : 'I just pushed the refactored auth module.',
     user2: isArabic ? 'هل يمكنك مراجعة التحقق من الرموز؟' : 'Can you review the token validation changes?',
-    assistant: isArabic ? 'يبدو جيدًا. تدوير الرموز ومعالجة الأخطاء واضحان.' : 'Looks good — the refresh token rotation is solid and the error handling covers the edge cases. Ship it.',
+    assistant: isArabic ? 'يبدو جيدًا. تدوير الرموز ومعالجة الأ' : 'Looks good — the refresh token rotation is solid and the error handling covers the edge cases. Ship it.',
     read: isArabic ? 'تمت القراءة · ٢:٣٠ م' : 'Read · 2:30 PM',
     delivered: isArabic ? 'تم التسليم · ٢:٣١ م' : 'Delivered · 2:31 PM',
     joined: isArabic ? 'انضم أليكس إلى المحادثة' : 'Alex joined the conversation',
@@ -3100,8 +3121,8 @@ function ChatPreview({ locale, name }: { locale: Locale; name: string }) {
     return (
       <div className="chat-preview chat-preview--row">
         <ChatSendButton icon={<ArrowUp size={18} />} />
-        <ChatSendButton icon={<Sparkles size={18} />} label="Send with AI" />
-        <ChatSendButton disabled icon={<Component size={18} />} label="Send disabled" variant="secondary" />
+        <ChatSendButton icon={<span className="uds-chat-ai-glyph">AI</span>} label="Send with AI" variant="secondary" />
+        <ChatSendButton disabled icon={<ArrowUp size={18} />} label="Send disabled" variant="secondary" />
       </div>
     )
   }
@@ -3201,7 +3222,7 @@ function BreadcrumbPreview({ locale, openMenu = true, variant = 'root' }: { loca
           <DropdownMenu defaultOpen={openMenu}>
             <DropdownMenuTrigger asChild>
               <button aria-label={labels.more} className="breadcrumb-demo-ellipsis" type="button">
-                <BreadcrumbEllipsis />
+                <span style={{ cursor: 'pointer', padding: '0 4px' }}>...</span>
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
@@ -3217,6 +3238,27 @@ function BreadcrumbPreview({ locale, openMenu = true, variant = 'root' }: { loca
         <BreadcrumbItem><BreadcrumbPage>{labels.current}</BreadcrumbPage></BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
+  )
+}
+
+function CalendarPreview({ locale }: { locale: Locale }) {
+  const isArabic = locale === 'ar'
+  const [month, setMonth] = useState(() => new Date(2026, 6, 1))
+  const [selectedDate, setSelectedDate] = useState(() => new Date(2026, 6, 6))
+
+  return (
+    <div className="calendar-detail-preview" dir={isArabic ? 'rtl' : 'ltr'} lang={isArabic ? 'ar' : 'en'}>
+      <Calendar
+        captionLayout="label"
+        locale={isArabic ? 'ar' : 'en-US'}
+        month={month}
+        onMonthChange={setMonth}
+        onSelect={setSelectedDate}
+        selectedDate={selectedDate}
+        weekStartsOn={isArabic ? 6 : 0}
+        yearRange={8}
+      />
+    </div>
   )
 }
 
@@ -3415,7 +3457,19 @@ function renderGenericPreview(name: string, locale: Locale = 'en') {
   if (name === 'Switch') return <SwitchPreview locale={locale} />
   if (name === 'Account Status') return <AccountStatus avatarAlt={isArabic ? 'مستخدم تجريبي' : 'Y K'} avatarFallback={isArabic ? 'م' : 'YK'} description={isArabic ? 'محترف' : 'Pro'} label={isArabic ? 'مستخدم تجريبي' : 'ykkkk12314'} />
   if (name === 'Avatar') return <AvatarPreview locale={locale} />
-  if (name === 'Calendar') return <Calendar locale={isArabic ? 'ar' : 'en-US'} month={new Date(2026, 6, 1)} selectedDate={new Date(2026, 6, 6)} />
+  if (name === 'Calendar') return <CalendarPreview locale={locale} />
+  if (name === 'Date Picker') {
+    return (
+      <div className="date-picker-detail-preview" dir={isArabic ? 'rtl' : 'ltr'} lang={isArabic ? 'ar' : 'en'}>
+        <DatePicker
+          defaultSelectedDate={new Date(2026, 6, 6)}
+          locale={isArabic ? 'ar' : 'en-US'}
+          weekStartsOn={isArabic ? 6 : 0}
+          yearRange={8}
+        />
+      </div>
+    )
+  }
   if (name === 'Empty') return <EmptyState>{isArabic ? 'لا توجد عناصر بعد.' : 'No items yet.'}</EmptyState>
   if (name === 'Progress') return <Field><FieldLabel>{isArabic ? 'تقدم الرفع ٦٢٪' : 'Upload progress 62%'}</FieldLabel><ProgressBar value={62} /></Field>
   if (name === 'Skeleton') return <Field><FieldLabel>{isArabic ? 'تحميل الملف الشخصي' : 'Loading profile'}</FieldLabel><Skeleton /></Field>
@@ -3957,6 +4011,19 @@ function renderShadcnMappedPreview(name: string, locale: Locale = 'en') {
     )
   }
 
+  if (name === 'Date Picker') {
+    return (
+      <div className="date-picker-detail-preview" dir={isArabic ? 'rtl' : 'ltr'} lang={isArabic ? 'ar' : 'en'}>
+        <DatePicker
+          defaultSelectedDate={new Date(2026, 6, 6)}
+          locale={isArabic ? 'ar' : 'en-US'}
+          weekStartsOn={isArabic ? 6 : 0}
+          yearRange={8}
+        />
+      </div>
+    )
+  }
+
   if (['Accordion', 'Collapsible'].includes(name)) {
     if (name === 'Accordion') {
       return (
@@ -4144,11 +4211,7 @@ function renderShadcnMappedPreview(name: string, locale: Locale = 'en') {
     }
   }
 
-  if (['Combobox', 'Date Picker', 'Input Group'].includes(name)) {
-    if (name === 'Date Picker') {
-      return <ShadcnPrimitives.DatePicker />
-    }
-
+  if (['Combobox', 'Input Group'].includes(name)) {
     if (name === 'Combobox') {
       return (
         <ShadcnPrimitives.Combobox>
@@ -5007,13 +5070,21 @@ export function Example() {
   }
 
   if (name === 'Calendar') {
-    return `import { Calendar } from '@utopia-studio-design/design-system/DataDisplay';
+    return `import { useState } from 'react';
+import { Calendar } from '@utopia-studio-design/design-system/DataDisplay';
 
 export function Example() {
+  const [month, setMonth] = useState(new Date(2026, 6, 1));
+  const [selectedDate, setSelectedDate] = useState(new Date(2026, 6, 6));
+
   return (
     <Calendar
-      month={new Date(2026, 6, 1)}
-      selectedDate={new Date(2026, 6, 6)}
+      locale="en-US"
+      month={month}
+      onMonthChange={setMonth}
+      onSelect={setSelectedDate}
+      selectedDate={selectedDate}
+      weekStartsOn={0}
     />
   );
 }`
@@ -5221,7 +5292,6 @@ export function Example() {
   if (name === 'Breadcrumb' || name === 'Breadcrumb Item' || name === 'Breadcrumbs') {
     return `import {
   Breadcrumb,
-  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
@@ -5239,7 +5309,7 @@ export function Example() {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbEllipsis />
+          <span style={{ cursor: 'pointer', padding: '0 4px' }}>...</span>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -5399,13 +5469,13 @@ export function Example() {
   }
 
   if (name === 'Date Picker') {
-    return `import { DatePicker } from '@utopia-studio-design/design-system/ShadcnPrimitives';
+    return `import { DatePicker } from '@utopia-studio-design/design-system/DataDisplay';
 
 export function Example() {
   return (
     <DatePicker
-      label="Select date"
-      value="July 6, 2026"
+      defaultSelectedDate={new Date(2026, 6, 6)}
+      locale="en-US"
     />
   );
 }`
