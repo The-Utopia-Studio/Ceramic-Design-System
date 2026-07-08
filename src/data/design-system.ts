@@ -69,3 +69,16 @@ export function getComponentFamilies() {
     items: [...family.items].sort(compareDisplayName),
   }))
 }
+
+export function getDocFamilies() {
+  return (catalog.docFamilies ?? []).map((family) => ({
+    ...family,
+    items: [...family.items].sort(compareDisplayName),
+  }))
+}
+
+export function dextrumTypographyHref(item: string) {
+  if (item === 'Marketing & Sales') return '#/docs/foundations/typography/dextrum/marketing-sales'
+  if (item === 'App & Website') return '#/docs/foundations/typography/dextrum/app-website'
+  return null
+}

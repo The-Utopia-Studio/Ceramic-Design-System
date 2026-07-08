@@ -489,6 +489,15 @@ function FoundationsPage({ page, slug }: { page: typeof foundationPages[keyof ty
             <FoundationSection id="type-scale" title="Type Scale">
               <TypeScale />
             </FoundationSection>
+            {slug === 'typography' ? (
+              <FoundationSection id="dextrum-typography" title="Dextrum Typography">
+                <p>Theme-specific font pairings for the Dextrum brand — marketing display type and product UI type. Activate Dextrum under Themes for accurate specimens.</p>
+                <div className="dextrum-type-links">
+                  <a href="#/docs/foundations/typography/dextrum/marketing-sales">Marketing &amp; Sales typography →</a>
+                  <a href="#/docs/foundations/typography/dextrum/app-website">App &amp; Website typography →</a>
+                </div>
+              </FoundationSection>
+            ) : null}
             <FoundationSection id="arabic-display" title="Arabic Display Is Not Uppercase">
               <ArabicDisplayPreview />
             </FoundationSection>

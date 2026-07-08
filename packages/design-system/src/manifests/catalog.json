@@ -47,14 +47,6 @@
             "@utopia-studio-design/design-system-cli",
             "shadcn/ui foundation"
           ]
-        },
-        {
-          "id": "dextrum-typography",
-          "label": "Dextrum Typography",
-          "items": [
-            "Marketing & Sales",
-            "App & Website"
-          ]
         }
       ]
     },
@@ -464,6 +456,19 @@
     ],
     "planned": []
   },
+  "docFamilies": [
+    {
+      "id": "dextrum-typography",
+      "label": "Dextrum Typography",
+      "parent": "Typography",
+      "group": "foundations",
+      "items": [
+        "Marketing & Sales",
+        "App & Website"
+      ],
+      "description": "Dextrum theme font pairings for marketing surfaces and product UI."
+    }
+  ],
   "componentFamilies": [
     {
       "id": "side-nav",
