@@ -47,9 +47,9 @@ export function ComponentsPage() {
         <div className="component-gallery-grid">
           {checklistAliases.map((alias) => (
             <article className="component-gallery-card" key={alias.label}>
-              <span className="component-gallery-preview" aria-hidden="true">
+              <div className="component-gallery-preview" role="group" aria-label={`${componentLabel(locale, alias.previewName)} ${locale === 'ar' ? 'معاينة' : 'preview'}`}>
                 <ComponentPreview name={alias.previewName} />
-              </span>
+              </div>
               <a className="component-gallery-name" href={`#/components/${alias.target}`}>
                 {alias.label}
               </a>
@@ -84,9 +84,9 @@ export function ComponentsPage() {
                         <div className="component-gallery-family-grid">
                           {[entry.name, ...family.items].sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })).map((familyItem) => (
                             <article className="component-gallery-card" key={familyItem}>
-                              <span className="component-gallery-preview" aria-hidden="true">
+                              <div className="component-gallery-preview" role="group" aria-label={`${componentLabel(locale, familyItem)} ${locale === 'ar' ? 'معاينة' : 'preview'}`}>
                                 <ComponentPreview name={familyItem} />
-                              </span>
+                              </div>
                               <a className="component-gallery-name" href={`#/components/${slugify(familyItem)}`}>{componentLabel(locale, familyItem)}</a>
                             </article>
                           ))}
@@ -97,9 +97,9 @@ export function ComponentsPage() {
 
                   return (
                     <article className="component-gallery-card" key={entry.name}>
-                      <span className="component-gallery-preview" aria-hidden="true">
+                      <div className="component-gallery-preview" role="group" aria-label={`${componentLabel(locale, entry.name)} ${locale === 'ar' ? 'معاينة' : 'preview'}`}>
                         <ComponentPreview name={entry.name} />
-                      </span>
+                      </div>
                       <a className="component-gallery-name" href={`#/components/${slugify(entry.name)}`}>{componentLabel(locale, entry.name)}</a>
                     </article>
                   )
