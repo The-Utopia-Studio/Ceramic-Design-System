@@ -314,12 +314,38 @@ export function SideNavSection({
     if (!node) return undefined
 
     const updateContentSize = () => setContentSize(node.scrollHeight)
+    let animationFrame = 0
+    const scheduleContentSizeUpdate = () => {
+      window.cancelAnimationFrame(animationFrame)
+      animationFrame = window.requestAnimationFrame(updateContentSize)
+    }
+
     updateContentSize()
 
-    const observer = new ResizeObserver(updateContentSize)
-    observer.observe(node)
+    const resizeObserver = new ResizeObserver(scheduleContentSizeUpdate)
+    const observeContentTree = () => {
+      resizeObserver.observe(node)
+      node.querySelectorAll<HTMLElement>('.uds-side-nav-section-content').forEach((content) => {
+        resizeObserver.observe(content)
+      })
+    }
+    observeContentTree()
+    const mutationObserver = new MutationObserver(() => {
+      observeContentTree()
+      scheduleContentSizeUpdate()
+    })
+    mutationObserver.observe(node, {
+      attributes: true,
+      attributeFilter: ['aria-expanded', 'data-state'],
+      childList: true,
+      subtree: true,
+    })
 
-    return () => observer.disconnect()
+    return () => {
+      window.cancelAnimationFrame(animationFrame)
+      resizeObserver.disconnect()
+      mutationObserver.disconnect()
+    }
   }, [children])
 
   const handleToggle = () => {
