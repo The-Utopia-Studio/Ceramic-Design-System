@@ -699,7 +699,10 @@
       ],
       "ai": {
         "props": {
-          "motion": "Optional boolean. Defaults to the MotionProvider policy and disables this component pattern when false."
+          "motion": "Optional boolean. Defaults to the MotionProvider policy and disables this component pattern when false.",
+          "contentAlign": "Use 'start' for leading-aligned labels, 'center' for the default action layout, or 'between' to pin endContent to the logical inline end.",
+          "startContent": "Optional leading icon or content slot with package-owned alignment.",
+          "endContent": "Optional trailing content slot. With contentAlign='between', it remains pinned while the label truncates."
         }
       }
     },
@@ -3617,7 +3620,7 @@
       "name": "Side Nav",
       "category": "Navigation",
       "status": "available",
-      "packageImport": "import { PanelIcon, SideNav, SideNavCollapseButton, SideNavContent, SideNavHeading, SideNavItem, SideNavNestedGroup, SideNavNestedItems, SideNavSearch, SideNavSection } from '@utopia-studio-design/design-system/Navigation';",
+      "packageImport": "import { PanelIcon, SideNav, SideNavAccount, SideNavAuxiliary, SideNavCollapseButton, SideNavCommand, SideNavContent, SideNavFooter, SideNavHeader, SideNavHeading, SideNavItem, SideNavMain, SideNavNestedGroup, SideNavNestedItems, SideNavSearch, SideNavSection, SideNavStatus, SideNavWorkspaceSwitcher } from '@utopia-studio-design/design-system/Navigation';",
       "sourcePath": "packages/design-system/src/components/Navigation.tsx",
       "shadcnFoundation": [
         "sidebar",
@@ -3641,6 +3644,8 @@
       "useWhen": [
         "Persistent docs or app navigation",
         "Grouped navigation links with current page state",
+        "An application shell needs fixed header and footer regions with only the main navigation scrolling",
+        "Search, AI commands, status, and account controls must adapt to expanded and collapsed states without app CSS overrides",
         "A navigation surface needs package-owned content, search, section, nested group, item, heading, account, and collapse composition parts",
         "A navigation surface should receive heading and search as SideNav props instead of hardcoding local wrappers",
         "AI-generated app shells that need explicit section, heading, item, nested item, search, and collapse button parts"
@@ -3654,7 +3659,7 @@
         "Raw shadcn theme colors",
         "Left/right-only layout rules",
         "Utopia brand primitives inside reusable component logic",
-        "Local CSS-only search, nested group, or content wrappers when SideNavSearch, SideNavNestedGroup, SideNavNestedItems, or SideNavContent are available"
+        "Local CSS-only search, command, account, footer, or content wrappers when the corresponding SideNav composition parts are available"
       ],
       "ai": {
         "props": {
@@ -3662,7 +3667,15 @@
           "density": "Use default for app navigation; use compact for docs/library sidebars with dense catalog lists.",
           "heading": "Optional SideNavHeading node rendered before search and navigation content.",
           "search": "Optional SideNavSearch node rendered after heading and before navigation content.",
-          "SideNavContent": "Scrollable or flexible body region for repeated SideNavSection groups.",
+          "SideNavContent": "Compatibility body region. Set layout='stack' for a flex column that supports an auto-positioned footer, or layout='grid' for the legacy grid flow.",
+          "SideNavHeader": "Fixed header region for brand, workspace, and collapse controls.",
+          "SideNavMain": "The only independently scrolling navigation region. It defaults to layout='stack' and fills remaining height.",
+          "SideNavFooter": "Bottom-pinned, bounded footer region for status and account controls.",
+          "SideNavCommand": "Full-width icon, label, and shortcut action. It derives collapsed state, accessible name, and tooltip title from SideNav context.",
+          "SideNavAccount": "Stable avatar, single-line identity, and action layout. Use asChild or trigger to compose an app-owned popover/auth trigger.",
+          "SideNavStatus": "Status indicator with label and optional description. Collapsed navigation retains the label for assistive technology and exposes a tooltip title.",
+          "SideNavWorkspaceSwitcher": "Fixed region for an app-owned organization or workspace switcher.",
+          "SideNavAuxiliary": "Fixed auxiliary action region outside the independently scrolling main navigation.",
           "SideNavSearch": "Package-owned search field for filtering navigation lists without local input styling.",
           "SideNavNestedGroup": "Groups a parent SideNavItem and its nested child collection.",
           "SideNavNestedItems": "Indented child item collection using logical inline-start spacing and border.",
@@ -3823,6 +3836,7 @@
       ],
       "ai": {
         "props": {
+          "asChild": "Use with a framework-native link such as Next.js Link so the link remains the single interactive element while SideNavItem supplies styling and state.",
           "icon": "Optional leading visual slot. Omit for text-only rows; do not add placeholder marks.",
           "depth": "Use 0 for root rows, 1 for items inside a top-level section, 2 for nested section children, and 3 only for rare deep navigation.",
           "badge": "Optional trailing count or status pill aligned to the inline end.",
@@ -4087,6 +4101,54 @@
           "aria-label": "Localized accessible name when no visible label is rendered. Without either label, Spinner is decorative and aria-hidden."
         },
         "arabicFriendly": "Loading labels come from product localization. The spinner is direction-neutral and must not be mirrored."
+      }
+    },
+    {
+      "name": "Utopia Wordmark Loader",
+      "category": "Data Display",
+      "status": "available",
+      "packageImport": "import { UtopiaWordmarkLoader } from '@utopia-studio-design/design-system/UtopiaWordmarkLoader';",
+      "sourcePath": "packages/design-system/src/components/UtopiaWordmarkLoader.tsx",
+      "shadcnFoundation": [
+        "spinner status semantics",
+        "full-screen loading state"
+      ],
+      "fallbackToShadcn": "spinner",
+      "requiredTokens": [
+        "--brand-loader-background",
+        "--brand-loader-accent",
+        "--brand-loader-foreground",
+        "--brand-loader-size",
+        "--brand-loader-duration-enter",
+        "--brand-loader-duration-cycle",
+        "--brand-loader-duration-stagger",
+        "--brand-loader-duration-exit",
+        "--brand-loader-distance-exit"
+      ],
+      "useWhen": [
+        "A Utopia product needs a branded full-page or contained loading transition",
+        "Workspace or route loading should end as soon as the consumer loading state resolves",
+        "The Utopia Default theme is active and the stacked studio wordmark is appropriate"
+      ],
+      "avoidWhen": [
+        "Short inline pending states; use Spinner",
+        "Layout-preserving content loading; use Skeleton",
+        "A non-Utopia product theme needs its own brand mark"
+      ],
+      "neverInvent": [
+        "A timer that delays navigation after the real loading state resolves",
+        "Left/right-only layout rules",
+        "Utopia brand primitives outside this explicitly branded component contract"
+      ],
+      "ai": {
+        "props": {
+          "label": "Required localized loading text announced through role=status.",
+          "phase": "Use intro while loading and exit after the consumer loading state resolves.",
+          "fullscreen": "Defaults to true. Set false for a contained loading region.",
+          "size": "sm is the production default; md and lg are available for larger brand moments.",
+          "onExitComplete": "Called after the exit motion so the consumer can unmount the overlay."
+        },
+        "arabicFriendly": "The mark is direction-neutral and must not mirror. The localized status label is visually hidden and remains consumer-owned."
       }
     },
     {

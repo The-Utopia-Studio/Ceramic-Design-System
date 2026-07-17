@@ -1,256 +1,215 @@
 {
-
   "$schema": "https://utopia-studio.co/design-system/theme.schema.json",
-
   "id": "dextrum",
-
   "name": "Dextrum",
-
   "type": "theme-policy",
-
   "locked": false,
-
-  "summary": "Dextrum brand theme mapped to the Ceramic semantic contract. Ocean blue accents on dark blue surfaces with Manrope driving product UI, docs, and default headings. Clash Grotesk is reserved for explicit marketing surfaces.",
-
+  "summary": "Dextrum keeps its immutable brand anchors while using supporting charcoal and gray neutrals for a calm governance workspace. Dark is the default; Light is a plain cool-neutral canvas.",
   "sourceFiles": [
-
     "packages/design-system/src/themes/dextrum.css",
-
     "packages/design-system/src/manifests/theme-dextrum.json"
-
   ],
   "motionProfile": "swift",
-
   "brandPrimitives": {
-
     "colors": {
-
-      "darkBlue": "#192B39",
-
-      "oceanBlue": "#3E8ECC",
-
-      "charcoalBlue": "#2F3F4C",
-
-      "matteBlack": "#141414",
-
-      "timidWhite": "#EAEAEA",
-
-      "logoTeal": "#063946"
-
+      "darkBlue": { "value": "#192B39", "token": "--dx-brand-dark-blue", "immutable": true, "use": "Light text and structural brand surfaces" },
+      "oceanBlue": { "value": "#3E8ECC", "token": "--dx-brand-ocean-blue", "immutable": true, "use": "Dark primary actions, links, focus, and current navigation" },
+      "oceanHover": { "value": "#4A9AD4", "token": "--dx-brand-ocean-hover", "immutable": true, "use": "Dark primary hover" },
+      "oceanDeep": { "value": "#26689A", "token": "--dx-brand-ocean-deep", "immutable": true, "use": "Light primary and Dark primary active" },
+      "logoTeal": { "value": "#063946", "token": "--dx-brand-logo-teal", "immutable": true, "use": "Logo and explicit brand expression only" },
+      "timidWhite": { "value": "#EAEAEA", "token": "--dx-brand-timid-white", "immutable": true, "use": "Dark foreground" },
+      "charcoal950": "#0E1215",
+      "charcoal925": "#11161A",
+      "charcoal900": "#171C20",
+      "charcoal850": "#1B2126",
+      "charcoal800": "#20272C",
+      "neutral50": "#EAEAEA",
+      "successDark": "#79B98E",
+      "successLight": "#3F7953",
+      "warningDark": "#D2A363",
+      "warningLight": "#916026",
+      "criticalDark": "#C86E64",
+      "criticalLight": "#A94F47"
     },
-
     "typography": {
-
       "marketingSales": {
-
         "display": "Clash Grotesk",
-
         "body": "Satoshi",
-
-        "use": "Pitch decks, campaigns, sales collateral, and website headers"
-
+        "use": "Explicit marketing and sales surfaces only"
       },
-
       "appWebsite": {
-
         "ui": "Manrope",
-
         "support": "Satoshi",
-
-        "use": "Product UI, dashboards, documentation, and long-form web reading"
-
+        "mono": "JetBrains Mono",
+        "use": "Product UI, dashboards, documentation, evidence identifiers, and long-form web reading"
       },
-
       "arabicFamily": "IBM Plex Sans Arabic",
-
       "weights": {
-
         "clashGrotesk": [300, 400, 500, 600, 700],
-
         "satoshi": [400, 500, 700],
-
-        "manrope": [300, 400, 500, 600, 700, 800]
-
+        "manrope": [300, 400, 500, 600, 700, 800],
+        "jetBrainsMono": [400, 500, 600]
       },
-
       "arabicWeights": [400, 500, 700],
-
       "headlineCasing": "sentence",
-
       "headlineTracking": "-0.03em to -0.05em",
-
       "arabicDisplayFamily": "IBM Plex Sans Arabic",
-
       "arabicDisplayCasing": "none",
-
       "arabicDisplayRule": "Use Arabic display scale and IBM Plex Sans Arabic. Do not apply Latin negative tracking rules to Arabic.",
-
-      "rationale": "Marketing type sets brand vibe; app type optimizes readability on small screens and in dark mode. Marketing display may still appear in website headers."
-
+      "rationale": "Manrope optimizes dense product UI; Satoshi supports labels; JetBrains Mono identifies evidence and records; Clash Grotesk remains marketing-only."
     },
-
     "geometry": {
-
       "surfaceRadius": "8px",
-
       "controlRadius": "6px",
-
-      "elevation": "calm surfaces with subtle borders; restrained shadow on floating layers only"
-
+      "elevation": "Thin semantic borders establish hierarchy; shadows are reserved for floating layers."
     }
-
   },
-
   "semanticMappings": {
-
-    "--background": "Dark Blue",
-
-    "--foreground": "Timid White",
-
-    "--primary": "Ocean Blue",
-
-    "--secondary": "Charcoal Blue",
-
+    "defaultMode": "dark",
+    "dark": {
+      "--background": "#0E1215",
+      "--foreground": "#EAEAEA",
+      "--foreground-muted": "#ADB4B8",
+      "--foreground-subtle": "#7F898F",
+      "--card": "#171C20",
+      "--card-foreground": "#EAEAEA",
+      "--popover": "#1B2126",
+      "--popover-foreground": "#EAEAEA",
+      "--primary": "#3E8ECC",
+      "--primary-foreground": "#101619",
+      "--primary-hover": "#4A9AD4",
+      "--primary-active": "#26689A",
+      "--secondary": "#1B2126",
+      "--secondary-foreground": "#EAEAEA",
+      "--muted": "#171C20",
+      "--muted-foreground": "#909BA2",
+      "--accent": "#20272C",
+      "--accent-foreground": "#EAEAEA",
+      "--border": "rgb(238 240 241 / 10%)",
+      "--input": "rgb(238 240 241 / 15%)",
+      "--ring": "#3E8ECC",
+      "--surface": "rgb(255 255 255 / 2.8%)",
+      "--surface-strong": "rgb(255 255 255 / 5%)",
+      "--surface-elevated": "#1B2126",
+      "--surface-hover": "rgb(255 255 255 / 7%)",
+      "--overlay": "rgb(5 8 10 / 78%)",
+      "--modal-surface": "#1B2126",
+      "--popover-surface": "#1B2126",
+      "--sidebar": "#11161A",
+      "--sidebar-foreground": "#EAEAEA",
+      "--sidebar-primary": "#3E8ECC",
+      "--sidebar-primary-foreground": "#101619",
+      "--sidebar-accent": "rgb(62 142 204 / 12%)",
+      "--sidebar-accent-foreground": "#EAEAEA",
+      "--sidebar-border": "rgb(238 240 241 / 8%)",
+      "--sidebar-ring": "#3E8ECC"
+    },
+    "light": {
+      "--background": "#F7F7F5",
+      "--foreground": "#192B39",
+      "--foreground-muted": "#59636A",
+      "--foreground-subtle": "#7A8389",
+      "--card": "#FFFFFF",
+      "--card-foreground": "#192B39",
+      "--popover": "#FFFFFF",
+      "--popover-foreground": "#192B39",
+      "--primary": "#26689A",
+      "--primary-foreground": "#FFFFFF",
+      "--primary-hover": "#1F557E",
+      "--primary-active": "#194664",
+      "--secondary": "#F0F1EF",
+      "--secondary-foreground": "#192B39",
+      "--muted": "#EFF0EE",
+      "--muted-foreground": "#667078",
+      "--accent": "#ECEEEC",
+      "--accent-foreground": "#192B39",
+      "--border": "rgb(29 32 35 / 11%)",
+      "--input": "rgb(29 32 35 / 16%)",
+      "--ring": "#26689A",
+      "--surface": "#FFFFFF",
+      "--surface-strong": "#F0F1EF",
+      "--surface-elevated": "#FFFFFF",
+      "--surface-hover": "rgb(29 32 35 / 5%)",
+      "--overlay": "rgb(29 32 35 / 28%)",
+      "--modal-surface": "#FFFFFF",
+      "--popover-surface": "#FFFFFF",
+      "--sidebar": "#F1F2F0",
+      "--sidebar-foreground": "#192B39",
+      "--sidebar-primary": "#26689A",
+      "--sidebar-primary-foreground": "#FFFFFF",
+      "--sidebar-accent": "rgb(38 104 154 / 9%)",
+      "--sidebar-accent-foreground": "#192B39",
+      "--sidebar-border": "rgb(29 32 35 / 9%)",
+      "--sidebar-ring": "#26689A"
+    },
     "--radius-control": "6px rounded controls",
-
     "--radius-surface": "8px rounded surfaces",
-
-    "--font-display": "Manrope (product UI headings and display scale)",
-
+    "--font-display": "Manrope",
     "--font-sans": "Manrope",
-
     "--font-ui-support": "Satoshi",
-
+    "--font-mono": "JetBrains Mono",
     "--font-marketing-display": "Clash Grotesk (marketing surfaces only)",
-
     "--font-arabic": "IBM Plex Sans Arabic",
-
-    "--overlay": "Dark Blue modal dim",
-
-    "--modal-surface": "Charcoal Blue",
-
-    "--popover-surface": "Charcoal Blue"
-
+    "--sidebar-width-collapsed": "Owned by core; remains 4rem"
   },
-
+  "governanceStatus": {
+    "success": { "dark": "#79B98E", "light": "#3F7953" },
+    "warning": { "dark": "#D2A363", "light": "#916026" },
+    "critical": { "dark": "#C86E64", "light": "#A94F47" },
+    "surfaceAlpha": { "dark": "12%", "light": "9%" },
+    "rule": "Status colors communicate governance state only; never use them as decorative accents."
+  },
   "visualPolicy": {
-
-    "tone": [
-
-      "precise",
-
-      "technical",
-
-      "calm",
-
-      "confident"
-
-    ],
-
+    "tone": ["precise", "technical", "calm", "confident"],
     "allow": [
-
-      "dark blue structural surfaces",
-
-      "ocean blue accents for action and links",
-
-      "rounded controls and cards",
-
-      "muted neutral hierarchy",
-
-      "Clash Grotesk for marketing display and website headers",
-
+      "neutral charcoal dark workspaces",
+      "plain cool-neutral light canvases with white cards",
+      "Ocean Blue for Dark primary actions, links, current location, and focus",
+      "Ocean Deep for accessible Light primary actions and focus",
+      "Logo Teal only for the logo and explicit brand expression",
+      "thin semantic borders",
       "Manrope for product UI and long reading"
-
     ],
-
     "avoid": [
-
-      "Utopia brick red palette",
-
-      "square Utopia geometry defaults",
-
-      "decorative gradients",
-
+      "navy or blue-washed structural surfaces",
+      "blue as a full-page wash",
+      "status colors used decoratively",
+      "raw colors inside component rules",
       "heavy glass effects",
-
       "startup-cute styling",
-
-      "fancy marketing display fonts in dense app menus or long paragraphs"
-
+      "marketing display fonts in dense application UI"
     ]
-
   },
-
   "iconPolicy": {
-
     "system": "lucide",
-
-    "description": "Dextrum uses standard lucide icons inside product UI while keeping the Dextrum mark for brand surfaces.",
-
-    "allow": [
-
-      "lucide icons in components",
-
-      "monochrome currentColor icons",
-
-      "directional mirroring in RTL"
-
-    ],
-
-    "avoid": [
-
-      "Utopia dot-bar icon policy",
-
-      "emoji",
-
-      "mixed icon families in one surface"
-
-    ],
-
+    "description": "Dextrum uses standard Lucide icons in product UI and keeps the Dextrum mark for brand surfaces.",
+    "allow": ["lucide icons in components", "monochrome currentColor icons", "directional mirroring in RTL"],
+    "avoid": ["Utopia dot-bar icon policy", "emoji", "mixed icon families in one surface"],
     "coreNote": "Icon policy is theme-owned. Core components remain icon-system neutral."
-
   },
-
   "translations": {
-
     "ar": {
-
-      "summary": "ثيم Dextrum مربوط بعقد Ceramic الدلالي. يستخدم لمسات Ocean Blue فوق أسطح Dark Blue، ويقود Manrope واجهة المنتج والتوثيق والعناوين الافتراضية، بينما يقتصر Clash Grotesk على أسطح التسويق الصريحة.",
-
+      "summary": "ثيم Dextrum هو مساحة حوكمة محايدة بالفحمي، مع الوضع الداكن افتراضيا ووضع فاتح بسيط. يقتصر الأزرق المعدني على الإجراءات والروابط والتركيز.",
       "iconPolicy": {
-
         "system": "Lucide",
-
         "description": "يستخدم Dextrum أيقونات Lucide القياسية داخل واجهة المنتج، مع إبقاء علامة Dextrum لأسطح العلامة.",
-
         "allow": ["أيقونات Lucide في المكونات", "أيقونات أحادية بلون currentColor", "عكس الاتجاه في RTL"]
-
       }
-
     }
-
   },
-
   "aiRules": [
-
     "Read this theme policy after the core semantic contract.",
-
-    "Map Dextrum palette through semantic tokens only.",
-
-    "Use Ocean Blue for primary actions and links, not as a full-page wash.",
-
-    "Prefer dark blue and charcoal surfaces with timid white type.",
-
-    "Use Manrope for Latin app UI and body copy in this theme.",
-
-    "Use Clash Grotesk for marketing display and website headers only.",
-
-    "Use Satoshi for marketing body copy and supporting UI labels where needed.",
-
+    "Default Dextrum to Dark; support explicit Light and system preference.",
+    "Map Dextrum primitives through semantic tokens only.",
+    "Keep Dark Blue, Ocean Blue, Ocean Deep, Logo Teal, and Timid White immutable.",
+    "Use Ocean Blue for Dark primary actions, links, current location, and focus, never as a page wash.",
+    "Use Ocean Deep for accessible Light primary actions and focus.",
+    "Use Logo Teal only for the logo and explicit brand expression.",
+    "Use governance colors only for success, warning, and critical state.",
+    "Do not override core layout tokens such as --sidebar-width-collapsed in products.",
+    "Use Manrope for Latin app UI, Satoshi for supporting labels, and JetBrains Mono for evidence identifiers.",
+    "Use Clash Grotesk for explicit marketing display only.",
     "Keep Arabic on IBM Plex Sans Arabic tokens.",
-
     "Do not import Utopia brand primitives into Dextrum-themed surfaces."
-
   ]
-
 }

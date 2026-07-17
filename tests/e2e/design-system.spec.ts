@@ -43,6 +43,21 @@ test('supports skip navigation and documentation tab keys', async ({ page }, tes
   await expect(page.getByRole('tab').nth(1)).toBeFocused()
 })
 
+test('uses the Utopia wordmark loader while switching between English and Arabic', async ({ page }) => {
+  await page.goto('/#/docs')
+
+  await page.locator('.locale-switch select').selectOption('ar')
+
+  const loader = page.locator('.uds-utopia-wordmark-loader')
+  await expect(loader).toBeVisible()
+  await expect(loader).toHaveAttribute('dir', 'rtl')
+  await expect(loader).toHaveAttribute('lang', 'ar')
+  await expect(loader).toHaveAttribute('data-phase', 'exit')
+  await expect(loader).toBeHidden()
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ar')
+})
+
 test('opens and closes the mobile navigation without leaking scroll', async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.startsWith('mobile'), 'Mobile navigation contract')
   await page.goto('/#/components')
@@ -118,6 +133,233 @@ test('keeps foundation documentation inside a 320px viewport', async ({ page }, 
     const widths = await page.evaluate(() => ({ client: document.documentElement.clientWidth, scroll: document.documentElement.scrollWidth }))
     expect(widths.scroll, route).toBeLessThanOrEqual(widths.client)
   }
+})
+
+test('keeps the Side Nav shell, footer, account, and keyboard contract stable', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/#/components/side-nav')
+
+  const nav = page.getByRole('navigation', { name: 'Utopia Studio primary navigation' }).first()
+  const main = nav.locator('[data-slot="main"]')
+  const footer = nav.locator('[data-slot="footer"]')
+  const accountName = nav.locator('[data-slot="name"]')
+  const command = nav.getByRole('button', { name: 'Search' })
+
+  await expect(nav).toHaveAttribute('data-slot', 'side-nav')
+  await expect(nav.locator('[data-slot="item"][aria-current="page"]')).toContainText('Dashboard')
+  await expect(command).toContainText('⌘K')
+  await command.focus()
+  await expect(command).toBeFocused()
+  await expect(accountName).toHaveCSS('white-space', 'nowrap')
+
+  const layout = await nav.evaluate((element) => {
+    const mainElement = element.querySelector<HTMLElement>('[data-slot="main"]')!
+    const footerElement = element.querySelector<HTMLElement>('[data-slot="footer"]')!
+    const navRect = element.getBoundingClientRect()
+    const mainRect = mainElement.getBoundingClientRect()
+    const footerRect = footerElement.getBoundingClientRect()
+    return {
+      footerAtBottom: Math.abs(navRect.bottom - footerRect.bottom) < 2,
+      mainBeforeFooter: mainRect.bottom <= footerRect.top,
+      mainOverflow: getComputedStyle(mainElement).overflowY,
+    }
+  })
+  expect(layout).toEqual({ footerAtBottom: true, mainBeforeFooter: true, mainOverflow: 'auto' })
+  await expect(page.locator('.side-nav-type-one-preview').first()).toHaveScreenshot('side-nav-shell-expanded.png', { animations: 'disabled' })
+
+  await nav.getByRole('button', { name: 'Close sidebar' }).click()
+  await expect(nav).toHaveAttribute('data-collapsed', 'true')
+  await expect(command).toHaveAttribute('title', 'Search')
+  await expect(footer).toBeVisible()
+  await expect(main).toBeVisible()
+  await expect(page.locator('.side-nav-type-one-preview').first()).toHaveScreenshot('side-nav-shell.png', { animations: 'disabled' })
+})
+
+test('centers collapsed Side Nav items and commands on the LTR rail', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/#/components/side-nav')
+
+  const nav = page.getByRole('navigation', { name: 'Utopia Studio primary navigation' }).first()
+  await nav.getByRole('button', { name: 'Close sidebar' }).click()
+
+  const centers = await nav.evaluate((element) => {
+    const center = (target: Element) => {
+      const rect = target.getBoundingClientRect()
+      return rect.left + rect.width / 2
+    }
+    return {
+      rail: center(element),
+      command: center(element.querySelector('.uds-side-nav-command')!),
+      item: center(element.querySelector('.uds-side-nav-item')!),
+    }
+  })
+
+  expect(Math.abs(centers.command - centers.rail)).toBeLessThanOrEqual(1)
+  expect(Math.abs(centers.item - centers.rail)).toBeLessThanOrEqual(1)
+})
+
+test('centers collapsed Side Nav items and commands on the RTL rail', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/#/components/side-nav')
+
+  const nav = page.getByRole('navigation', { name: 'Utopia Studio primary navigation' }).first()
+  await nav.evaluate((element) => { element.setAttribute('dir', 'rtl') })
+  await nav.getByRole('button', { name: 'Close sidebar' }).click()
+
+  const centers = await nav.evaluate((element) => {
+    const center = (target: Element) => {
+      const rect = target.getBoundingClientRect()
+      return rect.left + rect.width / 2
+    }
+    return {
+      rail: center(element),
+      command: center(element.querySelector('.uds-side-nav-command')!),
+      item: center(element.querySelector('.uds-side-nav-item')!),
+    }
+  })
+
+  expect(Math.abs(centers.command - centers.rail)).toBeLessThanOrEqual(1)
+  expect(Math.abs(centers.item - centers.rail)).toBeLessThanOrEqual(1)
+})
+
+test('matches the Dextrum charcoal Dark and plain Light theme contracts', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: 'light' })
+  await page.goto('/#/themes')
+  await page.getByRole('button', { name: 'Activate Dextrum', exact: true }).click()
+  await page.goto('/#/components/side-nav')
+
+  const root = page.locator('html')
+  const shell = page.locator('.component-detail-shell')
+  const preview = page.locator('.side-nav-type-one-preview').first()
+  await expect(root).toHaveAttribute('data-theme', 'dextrum')
+  await expect(shell).toHaveAttribute('data-theme', 'dextrum')
+  await shell.evaluate((element) => { element.dataset.colorMode = 'dark' })
+  expect(await shell.evaluate((element) => {
+    const styles = getComputedStyle(element)
+    return {
+      background: styles.getPropertyValue('--background').trim(),
+      foreground: styles.getPropertyValue('--foreground').trim(),
+      oceanBlue: styles.getPropertyValue('--dx-brand-ocean-blue').trim(),
+      logoTeal: styles.getPropertyValue('--dx-brand-logo-teal').trim(),
+      primary: styles.getPropertyValue('--primary').trim(),
+      ring: styles.getPropertyValue('--ring').trim(),
+      sidebarPrimary: styles.getPropertyValue('--sidebar-primary').trim(),
+    }
+  })).toEqual({
+    background: '#0e1215',
+    foreground: '#eaeaea',
+    oceanBlue: '#3e8ecc',
+    logoTeal: '#063946',
+    primary: '#3e8ecc',
+    ring: '#3e8ecc',
+    sidebarPrimary: '#3e8ecc',
+  })
+  await expect(preview).toHaveScreenshot('dextrum-side-nav-dark.png', { animations: 'disabled' })
+  await preview.getByRole('button', { name: 'Close sidebar' }).click()
+  await expect(preview.locator('.uds-side-nav')).toHaveAttribute('data-collapsed', 'true')
+  await expect(preview.locator('[data-slot="heading"][data-variant="brand"]')).toBeVisible()
+  await expect(preview.locator('[data-slot="command"]')).toBeVisible()
+  await expect(preview.locator('[data-slot="auxiliary"]')).toBeVisible()
+  await expect(preview.locator('[data-slot="status"]')).toBeVisible()
+  await expect(preview.locator('[data-slot="account"]')).toBeVisible()
+  await expect(preview.locator('.uds-side-nav-item[aria-current="page"]')).toHaveAttribute('aria-current', 'page')
+  await expect(preview).toHaveScreenshot('dextrum-side-nav-dark-collapsed.png', { animations: 'disabled' })
+  await preview.getByRole('button', { name: 'Open sidebar' }).click()
+
+  await shell.evaluate((element) => { element.dataset.colorMode = 'light' })
+  expect(await shell.evaluate((element) => getComputedStyle(element).getPropertyValue('--background').trim())).toBe('#f7f7f5')
+  await expect(preview).toHaveScreenshot('dextrum-side-nav-light.png', { animations: 'disabled' })
+  await preview.getByRole('button', { name: 'Close sidebar' }).click()
+  await expect(preview).toHaveScreenshot('dextrum-side-nav-light-collapsed.png', { animations: 'disabled' })
+
+  const tokens = await shell.evaluate((element) => {
+    const styles = getComputedStyle(element)
+    return {
+      background: styles.getPropertyValue('--background').trim(),
+      card: styles.getPropertyValue('--card').trim(),
+      collapsed: styles.getPropertyValue('--sidebar-width-collapsed').trim(),
+      foreground: styles.getPropertyValue('--foreground').trim(),
+      primary: styles.getPropertyValue('--primary').trim(),
+      ring: styles.getPropertyValue('--ring').trim(),
+      sidebar: styles.getPropertyValue('--sidebar').trim(),
+      sidebarPrimary: styles.getPropertyValue('--sidebar-primary').trim(),
+    }
+  })
+  expect(tokens).toEqual({
+    background: '#f7f7f5',
+    card: '#ffffff',
+    collapsed: '4rem',
+    foreground: '#192b39',
+    primary: '#26689a',
+    ring: '#26689a',
+    sidebar: '#f1f2f0',
+    sidebarPrimary: '#26689a',
+  })
+})
+
+test('separates the Barrier Intelligence brand from color mode and exposes its marketing contracts', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: 'light' })
+  await page.goto('/#/themes')
+  await page.locator('html').evaluate((element) => { element.dataset.colorMode = 'light' })
+  await page.getByRole('button', { name: 'Activate Barrier Intelligence', exact: true }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-brand', 'barrier-intelligence')
+  await expect(page.locator('html')).toHaveAttribute('data-color-mode', 'light')
+  await page.goto('/#/components/side-nav')
+
+  const shell = page.locator('.component-detail-shell')
+  const preview = page.locator('.side-nav-type-one-preview').first()
+  await expect(shell).toHaveAttribute('data-brand', 'barrier-intelligence')
+
+  await shell.evaluate((element) => {
+    element.removeAttribute('data-theme')
+    element.dataset.colorMode = 'dark'
+  })
+  const dark = await shell.evaluate((element) => {
+    const styles = getComputedStyle(element)
+    return {
+      background: styles.getPropertyValue('--background').trim(),
+      containerStandard: styles.getPropertyValue('--container-standard').trim(),
+      containerWide: styles.getPropertyValue('--container-wide').trim(),
+      detector: styles.getPropertyValue('--detector-active').trim(),
+      fontMono: styles.getPropertyValue('--font-mono').trim(),
+      gutter: styles.getPropertyValue('--page-gutter').trim(),
+      marketingH1: styles.getPropertyValue('--font-size-marketing-h1').trim(),
+      motionPage: styles.getPropertyValue('--motion-duration-page').trim(),
+      revealDistance: styles.getPropertyValue('--motion-distance-reveal').trim(),
+      verified: styles.getPropertyValue('--assurance-verified').trim(),
+    }
+  })
+  expect(dark).toEqual({
+    background: '#000000',
+    containerStandard: '72rem',
+    containerWide: '90rem',
+    detector: '#a6b86a',
+    fontMono: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+    gutter: 'clamp(1rem, 3vw, 2.5rem)',
+    marketingH1: 'clamp(3rem, 6vw, 5.75rem)',
+    motionPage: '0ms',
+    revealDistance: '0px',
+    verified: '#a6b86a',
+  })
+  await expect(preview).toHaveScreenshot('barrier-side-nav-dark.png', { animations: 'disabled' })
+
+  await shell.evaluate((element) => { element.dataset.colorMode = 'light' })
+  expect(await shell.evaluate((element) => {
+    const styles = getComputedStyle(element)
+    return {
+      background: styles.getPropertyValue('--background').trim(),
+      detector: styles.getPropertyValue('--detector-active').trim(),
+      lost: styles.getPropertyValue('--assurance-lost').trim(),
+      primary: styles.getPropertyValue('--primary').trim(),
+    }
+  })).toEqual({ background: '#f5f5f2', detector: '#657437', lost: '#9c4942', primary: '#8a6637' })
+  await expect(preview).toHaveScreenshot('barrier-side-nav-light.png', { animations: 'disabled' })
+
+  await shell.evaluate((element) => { element.dataset.colorMode = 'system' })
+  await expect(shell).toHaveCSS('color-scheme', 'light')
+  expect(await shell.evaluate((element) => getComputedStyle(element).getPropertyValue('--background').trim())).toBe('#f5f5f2')
+  await page.waitForTimeout(300)
+  await expect(preview).toHaveScreenshot('barrier-side-nav-system-light.png', { animations: 'disabled' })
 })
 
 test('matches the released component and MCP visual baselines', async ({ page }) => {

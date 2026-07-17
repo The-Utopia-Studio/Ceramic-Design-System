@@ -1,0 +1,50 @@
+{
+  "name": "@utopia-studio-design/clerk",
+  "version": "0.1.0",
+  "description": "Optional Clerk integration layer for Utopia Studio semantic tokens and product wrappers",
+  "type": "module",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "src/dextrum.css",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "check": "tsc --noEmit -p tsconfig.json",
+    "prepack": "npm run build"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./appearance": {
+      "types": "./dist/appearance.d.mts",
+      "import": "./dist/appearance.mjs"
+    },
+    "./dextrum.css": "./src/dextrum.css"
+  },
+  "sideEffects": [
+    "src/dextrum.css"
+  ],
+  "peerDependencies": {
+    "@clerk/nextjs": "^7.5.0",
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@clerk/nextjs": "^7.5.19",
+    "@types/react": "^19.0.2",
+    "next": "^16.2.10",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsdown": "^0.22.5",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

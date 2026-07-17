@@ -1,0 +1,119 @@
+/*
+ * Optional Clerk bridge for the Dextrum theme.
+ * Clerk owns authentication behavior; this layer only maps its element hooks
+ * to the design system's semantic tokens.
+ */
+.dextrum-clerk-org-root {
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  overflow: hidden;
+}
+
+.dextrum-clerk-org-trigger {
+  display: flex;
+  min-block-size: var(--button-height, 2.5rem);
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  overflow: hidden;
+  border: var(--border-width-hairline, 1px) solid var(--sidebar-border);
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--sidebar) 88%, var(--surface));
+  color: var(--sidebar-foreground);
+  box-shadow: none;
+  transition:
+    border-color var(--motion-duration-press) var(--motion-ease-standard),
+    background var(--motion-duration-press) var(--motion-ease-standard);
+}
+
+.dextrum-clerk-org-trigger:hover,
+.dextrum-clerk-org-trigger:focus-visible {
+  border-color: color-mix(in srgb, var(--sidebar-foreground) 28%, var(--sidebar-border));
+  background: var(--surface-hover);
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--sidebar-ring, var(--ring));
+  outline: none;
+}
+
+.dextrum-clerk-org-preview,
+.dextrum-clerk-org-preview-copy {
+  min-inline-size: 0;
+  flex: 1 1 auto;
+}
+
+.dextrum-clerk-org-name {
+  display: block;
+  overflow: hidden;
+  color: var(--sidebar-foreground);
+  font-size: var(--font-size-supporting);
+  font-weight: var(--font-weight-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dextrum-clerk-org-trigger-icon {
+  flex: 0 0 auto;
+  color: var(--muted-foreground);
+}
+
+.dextrum-clerk-user-box {
+  display: flex;
+}
+
+.dextrum-clerk-user-trigger {
+  border-radius: var(--radius-control);
+  box-shadow: none;
+  outline: none;
+}
+
+.dextrum-clerk-user-trigger:hover,
+.dextrum-clerk-user-trigger:focus-visible {
+  background: var(--surface-hover);
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--ring);
+  outline: none;
+}
+
+.dextrum-clerk-user-avatar {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+}
+
+.dextrum-clerk-popover-root {
+  z-index: var(--z-popover);
+}
+
+.dextrum-clerk-popover-card {
+  overflow: hidden;
+  border: var(--border-width-hairline, 1px) solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--popover-surface);
+  color: var(--foreground);
+  box-shadow: var(--shadow-popover);
+}
+
+.dextrum-clerk-popover-main,
+.dextrum-clerk-popover-actions {
+  background: var(--popover-surface);
+}
+
+.dextrum-clerk-popover-action {
+  min-block-size: 2.75rem;
+  border-radius: 0;
+  color: var(--foreground);
+}
+
+.dextrum-clerk-popover-action:hover,
+.dextrum-clerk-popover-action:focus-visible {
+  background: var(--surface-hover);
+  outline: none;
+}
+
+.dextrum-clerk-popover-action-icon {
+  color: var(--muted-foreground);
+}
+
+.dextrum-clerk-popover-footer {
+  border-block-start: var(--border-width-hairline, 1px) solid var(--border);
+  background: var(--popover-surface);
+}

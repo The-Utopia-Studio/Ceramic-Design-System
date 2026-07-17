@@ -17,11 +17,12 @@ import { Alert, AlertDescription, AlertTitle } from '../../packages/design-syste
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../../packages/design-system/src/AlertDialog'
 import { Attachment, AttachmentAction, AttachmentActions, AttachmentContent, AttachmentDescription, AttachmentGroup, AttachmentMedia, AttachmentTitle, AttachmentTrigger } from '../../packages/design-system/src/Attachment'
 import { ChatComposer, ChatComposerInput, ChatComposerTokenElement, ChatDictationButton, ChatLayout, ChatLayoutScrollButton, ChatMessage, ChatMessageBubble, ChatMessageList, ChatMessageMetadata, ChatSendButton, ChatSystemMessage, ChatTokenizedText, ChatToolCalls } from '../../packages/design-system/src/Chat'
-import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Breadcrumbs, CommandPalette, CommandPaletteEmpty, CommandPaletteGroup, CommandPaletteInput, CommandPaletteItem, CommandPaletteList, CommandPaletteSeparator, CommandPaletteShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, MobileNav, MobileNavContent, MobileNavToggle, MobileNavTrigger, NavHeadingMenu, NavHeadingMenuContent, NavHeadingMenuTrigger, NavIcon, PanelIcon, SideNav, SideNavCollapseButton, SideNavContent, SideNavHeading, SideNavItem, SideNavSection, Tab, TabList, TabPanel, Tabs, TopNav, TopNavHeading, TopNavItem, TopNavMegaMenu, TopNavMegaMenuFeaturedCard, TopNavMegaMenuItem, TopNavMenu, TopNavMenuItem } from '../../packages/design-system/src/Navigation'
+import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Breadcrumbs, CommandPalette, CommandPaletteEmpty, CommandPaletteGroup, CommandPaletteInput, CommandPaletteItem, CommandPaletteList, CommandPaletteSeparator, CommandPaletteShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, MobileNav, MobileNavContent, MobileNavToggle, MobileNavTrigger, NavHeadingMenu, NavHeadingMenuContent, NavHeadingMenuTrigger, NavIcon, PanelIcon, SideNav, SideNavAccount, SideNavAuxiliary, SideNavCollapseButton, SideNavCommand, SideNavContent, SideNavFooter, SideNavHeader, SideNavHeading, SideNavItem, SideNavMain, SideNavSection, SideNavStatus, Tab, TabList, TabPanel, Tabs, TopNav, TopNavHeading, TopNavItem, TopNavMegaMenu, TopNavMegaMenuFeaturedCard, TopNavMegaMenuItem, TopNavMenu, TopNavMenuItem } from '../../packages/design-system/src/Navigation'
 import { HoverCard, HoverCardContent, HoverCardTrigger, Popover, PopoverClose, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../packages/design-system/src/Surface'
 import { ToggleButton } from '../../packages/design-system/src/ToggleButton'
 import { ToggleButtonGroup, ToggleButtonGroupItem } from '../../packages/design-system/src/ToggleButtonGroup'
 import { AccountStatus, Avatar, AvatarGroup, AvatarOverflow, Calendar, DatePicker, EmptyState, ProgressBar, ProgressIndicator, ProgressLabel, ProgressTrack, ProgressValue, Skeleton, Spinner, Table, TableBody, TableCaption, TableCell, TableContainer, TableFooter, TableHead, TableHeader, TableRow, Toast, ToastDescription, ToastTitle } from '../../packages/design-system/src/DataDisplay'
+import { UtopiaWordmarkLoader } from '../../packages/design-system/src/UtopiaWordmarkLoader'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '../../packages/design-system/src/Sidebar'
 import * as ShadcnPrimitives from '../../packages/design-system/src/ShadcnPrimitives'
 import { ArabicText, Heading, Prose, Text } from '../../packages/design-system/src/Typography'
@@ -2744,7 +2745,6 @@ function MobileNavRtlExample() {
 }
 
 function SideNavTypeOne({ isArabic = false }: { isArabic?: boolean }) {
-  const layoutMotion = useMotionRecipe('layout')
   const [collapsed, setCollapsed] = useState(false)
   const collapseLabel = collapsed
     ? (isArabic ? 'فتح الشريط الجانبي' : 'Open sidebar')
@@ -2753,36 +2753,32 @@ function SideNavTypeOne({ isArabic = false }: { isArabic?: boolean }) {
   return (
     <div className="side-nav-type-one-preview" data-collapsed={collapsed ? 'true' : undefined}>
       <SideNav aria-label="Utopia Studio primary navigation" className="side-nav-type-one" collapsed={collapsed} id="side-nav-type-one">
-        <SideNavHeading
-          endContent={
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <SideNavCollapseButton
-                    aria-controls="side-nav-type-one"
-                    aria-expanded={!collapsed}
-                    aria-label={collapseLabel}
-                    onClick={() => setCollapsed((value) => !value)}
-                  >
-                    <PanelIcon />
-                  </SideNavCollapseButton>
-                </TooltipTrigger>
-                <TooltipContent side="top">{collapseLabel}</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          }
-          label="Utopia Studio"
-          subtitle="Design System"
-          variant="brand"
-        />
-        <motion.div
-          animate={collapsed ? { opacity: 0, x: -8 } : { opacity: 1, x: 0 }}
-          aria-hidden={collapsed}
-          className="side-nav-type-one-body"
-          inert={collapsed ? true : undefined}
-          initial={false}
-          transition={toFramerTransition(layoutMotion.enter.timing)}
-        >
+        <SideNavHeader>
+          <SideNavHeading
+            endContent={
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <SideNavCollapseButton
+                      aria-controls="side-nav-type-one"
+                      aria-expanded={!collapsed}
+                      aria-label={collapseLabel}
+                      onClick={() => setCollapsed((value) => !value)}
+                    >
+                      <PanelIcon />
+                    </SideNavCollapseButton>
+                  </TooltipTrigger>
+                  <TooltipContent side="top">{collapseLabel}</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            }
+            label="Utopia Studio"
+            subtitle="Design System"
+            variant="brand"
+          />
+          <SideNavCommand icon={<Search aria-hidden="true" />} label="Search" shortcut="⌘K" />
+        </SideNavHeader>
+        <SideNavMain className="side-nav-type-one-body">
           <SideNavSection collapsible label="Overview">
             <SideNavItem icon={<span aria-hidden="true">⌂</span>} isCurrent label="Dashboard" />
             <SideNavItem icon={<span aria-hidden="true">▥</span>} label="Analytics" />
@@ -2798,15 +2794,26 @@ function SideNavTypeOne({ isArabic = false }: { isArabic?: boolean }) {
             <SideNavItem icon={<span aria-hidden="true">○</span>} label="Profile" />
             <SideNavItem icon={<span aria-hidden="true">⚙</span>} label="Settings" />
           </SideNavSection>
-          <AccountStatus
-            aria-label="Signed in user"
-            avatarAlt="Y K"
-            avatarFallback="YK"
-            className="side-nav-type-one-user"
-            description="Pro"
-            label="ykkkk12314"
+        </SideNavMain>
+        <SideNavAuxiliary>
+          <SideNavItem icon={<span aria-hidden="true">?</span>} label="Help and support" />
+        </SideNavAuxiliary>
+        <SideNavFooter>
+          <SideNavStatus
+            description="3 controls · 1 record"
+            label="Neutral layer online"
+            tone="positive"
           />
-        </motion.div>
+          <SideNavAccount
+            actions={[
+              { icon: <Bell aria-hidden="true" />, label: 'Notifications' },
+              { icon: <Settings aria-hidden="true" />, label: 'Settings' },
+            ]}
+            avatar={<span aria-hidden="true">YK</span>}
+            name="Aiden Yongwoo Kim with an intentionally long account name"
+            secondary="aiden@example.com"
+          />
+        </SideNavFooter>
       </SideNav>
     </div>
   )
@@ -3155,6 +3162,7 @@ function genericPropRows(name: string) {
 
     if (name === 'Side Nav Item') {
       return [
+        { name: 'asChild', type: 'boolean', description: 'Composes styling and navigation state onto one framework-native link child, such as Next.js Link.', control: <input aria-label="asChild value" type="checkbox" /> },
         { name: 'label', type: 'ReactNode', description: 'Primary visible label. Prefer this over ad hoc children when agents need predictable item text.', control: <input aria-label="label value" placeholder="Inbox" /> },
         { name: 'icon', type: 'ReactNode', description: 'Optional leading icon slot. Omit it when the item should be text-only.', control: <input aria-label="icon value" placeholder="icon" /> },
         { name: 'startContent', type: 'ReactNode', description: 'Optional leading slot for an app-owned icon or mark. The component owns spacing, not the icon asset.', control: <input aria-label="startContent value" placeholder="icon" /> },
@@ -3813,6 +3821,16 @@ function renderGenericPreview(name: string, locale: Locale = 'en') {
   if (name === 'Skeleton') return <Field><FieldLabel>{isArabic ? 'تحميل الملف الشخصي' : 'Loading profile'}</FieldLabel><Skeleton /></Field>
   if (name === 'Toast') return <ToastPreview locale={locale} />
   if (name === 'Badge') return <Badge>{isArabic ? 'افتراضي' : 'Default'}</Badge>
+  if (name === 'Utopia Wordmark Loader') {
+    return (
+      <div className="utopia-wordmark-loader-preview">
+        <UtopiaWordmarkLoader
+          fullscreen={false}
+          label={isArabic ? 'جار تحميل مساحة العمل' : 'Loading workspace'}
+        />
+      </div>
+    )
+  }
   if (isShadcnMappedPrimitive(name)) {
     return renderShadcnMappedPreview(name, locale)
   }
@@ -6072,6 +6090,7 @@ const buttonProps = [
   { name: 'children', type: 'ReactNode', description: 'Visible button content.', control: <input aria-label="children value" placeholder="value" /> },
   { name: 'startContent', type: 'ReactNode', description: 'Leading content rendered before the visible label.', control: <input aria-label="startContent value" type="checkbox" /> },
   { name: 'endContent', type: 'ReactNode', description: 'Trailing content rendered after the visible label.', control: <input aria-label="endContent value" type="checkbox" /> },
+  { name: 'contentAlign', type: "'start' | 'center' | 'between'", description: 'Aligns the internal start, label, and end slots without consumer layout overrides.', control: <select aria-label="contentAlign value" defaultValue="center"><option>start</option><option>center</option><option>between</option></select> },
   { name: 'variant', type: "'default' | 'secondary' | 'outline' | 'ghost' | 'destructive'", description: 'Visual style variant.', control: <select aria-label="variant value" defaultValue="default"><option>default</option><option>secondary</option><option>outline</option><option>ghost</option><option>destructive</option></select> },
   { name: 'size', type: "'sm' | 'default' | 'lg' | 'icon'", description: 'Size variant.', control: <select aria-label="size value" defaultValue="default"><option>sm</option><option>default</option><option>lg</option><option>icon</option></select> },
   { name: 'loading', type: 'boolean', description: 'Shows progress, sets aria-busy, and blocks duplicate activation.', control: <input aria-label="loading value" type="checkbox" /> },
@@ -6214,29 +6233,35 @@ export function Example() {
   }
 
   if (name === 'Side Nav Item') {
-    return isArabic ? `import { SideNavItem } from '@utopia-studio-design/design-system/Navigation';
+    return isArabic ? `import Link from 'next/link';
+import { SideNavItem } from '@utopia-studio-design/design-system/Navigation';
 
 export function Example() {
   return (
     <SideNavItem
-      href="/inbox"
+      asChild
       isCurrent
       label="الوارد"
       badge={12}
       icon={<span aria-hidden="true" />}
-    />
+    >
+      <Link href="/inbox" />
+    </SideNavItem>
   );
-}` : `import { SideNavItem } from '@utopia-studio-design/design-system/Navigation';
+}` : `import Link from 'next/link';
+import { SideNavItem } from '@utopia-studio-design/design-system/Navigation';
 
 export function Example() {
   return (
     <SideNavItem
-      href="/inbox"
+      asChild
       isCurrent
       label="Inbox"
       badge={12}
       icon={<span aria-hidden="true" />}
-    />
+    >
+      <Link href="/inbox" />
+    </SideNavItem>
   );
 }`
   }

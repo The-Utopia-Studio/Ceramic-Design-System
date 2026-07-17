@@ -2,6 +2,7 @@ import { useMemo, useState, type ReactNode } from 'react'
 import { Check, Copy, Moon, PanelTop, Languages } from 'lucide-react'
 import { components, slugify } from '../data/design-system'
 import { useI18n } from '../i18n'
+import { useTheme } from '../theme'
 import { Button } from '../../packages/design-system/src/Button'
 import { Badge } from '../../packages/design-system/src/Badge'
 
@@ -9,6 +10,7 @@ type ComponentManifestEntry = typeof components.components[number]
 
 export function ComponentDetailWorkbench({ children, entry }: { children: ReactNode; entry: ComponentManifestEntry }) {
   const { locale } = useI18n()
+  const { themeId } = useTheme()
   const isArabic = locale === 'ar'
   const [previewRtl, setPreviewRtl] = useState(false)
   const [previewDark, setPreviewDark] = useState(false)
@@ -30,8 +32,9 @@ export function ComponentDetailWorkbench({ children, entry }: { children: ReactN
   return (
     <div
       className="component-detail-shell"
+      data-brand={themeId}
       data-color-mode={previewDark ? 'dark' : 'light'}
-      data-theme="utopia-default"
+      data-theme={themeId}
       dir={previewRtl ? 'rtl' : undefined}
     >
       <section aria-label="Component workbench" className="component-workbench">

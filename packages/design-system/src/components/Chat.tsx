@@ -70,8 +70,10 @@ export interface ChatSystemMessageProps extends React.HTMLAttributes<HTMLDivElem
 export function ChatSystemMessage({ children, className, label, ...props }: ChatSystemMessageProps) {
   return (
     <div className={cn('uds-chat-system-message', className)} role="status" {...props}>
-      {label ? <span className="uds-chat-system-message-label">{label}</span> : null}
-      {children ? <span className="uds-chat-system-message-body">{children}</span> : null}
+      <span className="uds-chat-system-message-content">
+        {label ? <span className="uds-chat-system-message-label">{label}</span> : null}
+        {children ? <span className="uds-chat-system-message-body">{children}</span> : null}
+      </span>
     </div>
   )
 }

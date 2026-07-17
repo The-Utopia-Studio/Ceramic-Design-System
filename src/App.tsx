@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   catalog,
@@ -14,7 +14,7 @@ import { LocaleTransitionOverlay } from './components/LocaleTransitionOverlay'
 import { GlobalCommandPalette } from './components/GlobalCommandPalette'
 import { RouteErrorBoundary } from './components/RouteErrorBoundary'
 import { TopNavigation } from './components/TopNavigation'
-import { I18nProvider, categoryLabel, docsLabel, routeLabel, sideNavLabel, t, type Locale } from './i18n'
+import { I18nProvider, categoryLabel, docsLabel, isAvailableLocale, routeLabel, sideNavLabel, t, type Locale } from './i18n'
 import { ThemeProvider, useTheme } from './theme'
 import { getMotionThemeProfile, MotionProvider, useMotionRecipe, useMotionSystem, type MotionState } from '../packages/design-system/src/Motion'
 import { framerMotionAdapter, toFramerMotionState, toFramerTransition } from '../packages/design-system/src/MotionFramer'
@@ -28,6 +28,10 @@ import {
   SideNavSearch,
   PanelIcon,
 } from '../packages/design-system/src/Navigation'
+
+const DevelopmentKoreanTranslationBridge = import.meta.env.DEV
+  ? lazy(() => import('./components/KoreanTranslationBridge').then((module) => ({ default: module.KoreanTranslationBridge })))
+  : null
 
 const ComponentDetailPage = lazy(() => import('./pages/ComponentDetailPage').then((module) => ({ default: module.ComponentDetailPage })))
 const ComponentsPage = lazy(() => import('./pages/ComponentsPage').then((module) => ({ default: module.ComponentsPage })))
@@ -261,9 +265,10 @@ function getCurrentTab() {
 
 function getInitialLocale(): Locale {
   const urlLocale = new URLSearchParams(window.location.search).get('lang')
-  if (urlLocale === 'ar' || urlLocale === 'en') return urlLocale
+  if (isAvailableLocale(urlLocale)) return urlLocale
   const savedLocale = window.localStorage.getItem('utopia-ds-locale')
-  return savedLocale === 'ar' ? 'ar' : 'en'
+  if (isAvailableLocale(savedLocale)) return savedLocale
+  return import.meta.env.PROD ? 'en' : 'ko'
 }
 
 function RouteScrollManager({ path, section }: { path: string; section: string }) {
@@ -320,7 +325,7 @@ function AppShell() {
   const [isMobileShell, setIsMobileShell] = useState(false)
   const [locale, setLocale] = useState<Locale>(getInitialLocale)
   const [pendingLocale, setPendingLocale] = useState<Locale | null>(null)
-  const transitionTimers = useRef<number[]>([])
+  const [localeTransitionPhase, setLocaleTransitionPhase] = useState<'intro' | 'exit'>('intro')
   const dir = locale === 'ar' ? 'rtl' : 'ltr'
   const resolvedSidebarCollapsed = isMobileShell ? false : sidebarCollapsed
   const directionAware = (state: MotionState) => ({
@@ -328,24 +333,19 @@ function AppShell() {
     ...(state.x === undefined ? {} : { x: dir === 'rtl' ? -state.x : state.x }),
   })
 
-  function clearLocaleTransitionTimers() {
-    transitionTimers.current.forEach((timer) => window.clearTimeout(timer))
-    transitionTimers.current = []
+  function transitionLocale(nextLocale: Locale) {
+    if (!isAvailableLocale(nextLocale)) return
+    if (nextLocale === locale || nextLocale === pendingLocale) return
+    setLocaleTransitionPhase('intro')
+    setPendingLocale(nextLocale)
+    setLocale(nextLocale)
   }
 
-  function transitionLocale(nextLocale: Locale) {
-    if (nextLocale === locale || nextLocale === pendingLocale) return
-    clearLocaleTransitionTimers()
-    setPendingLocale(nextLocale)
-    transitionTimers.current = [
-      window.setTimeout(() => {
-        setLocale(nextLocale)
-      }, 180),
-      window.setTimeout(() => {
-        setPendingLocale(null)
-      }, 560),
-    ]
-  }
+  useEffect(() => {
+    if (!pendingLocale || pendingLocale !== locale) return
+    const frame = window.requestAnimationFrame(() => setLocaleTransitionPhase('exit'))
+    return () => window.cancelAnimationFrame(frame)
+  }, [locale, pendingLocale])
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -402,13 +402,11 @@ function AppShell() {
   }, [mobileNavOpen])
 
   useEffect(() => {
-    document.documentElement.lang = locale === 'ar' ? 'ar' : 'en'
+    document.documentElement.lang = locale
     document.documentElement.dir = dir
-    document.title = 'Ceramic Design System'
+    document.title = locale === 'ko' ? 'Ceramic 디자인 시스템' : 'Ceramic Design System'
     window.localStorage.setItem('utopia-ds-locale', locale)
   }, [dir, locale])
-
-  useEffect(() => () => clearLocaleTransitionTimers(), [])
 
   const route = useMemo(() => {
     if (path.startsWith('/components/')) return routeMap.find((item) => item.id === 'components')!
@@ -481,14 +479,15 @@ function AppShell() {
     <div
       className={isComponentsOverview ? 'app-shell components-overview-shell' : 'app-shell'}
       aria-busy={pendingLocale ? 'true' : undefined}
+      data-area={getActiveAreaId(path)}
       data-sidebar-collapsed={resolvedSidebarCollapsed ? 'true' : undefined}
       data-mobile-nav-open={mobileNavOpen ? 'true' : undefined}
       data-locale={locale}
       dir={dir}
-      lang={locale === 'ar' ? 'ar' : 'en'}
+      lang={locale}
     >
       <a className="skip-link" href="#main-content">
-        {locale === 'ar' ? 'انتقل إلى المحتوى' : 'Skip to content'}
+        {locale === 'ar' ? 'انتقل إلى المحتوى' : locale === 'ko' ? '본문으로 건너뛰기' : 'Skip to content'}
       </a>
       <TopNavigation
         links={navLinks}
@@ -730,10 +729,19 @@ function AppShell() {
           </motion.aside>
         )}
       </AnimatePresence>
-      <AnimatePresence>
-        {pendingLocale ? <LocaleTransitionOverlay nextLocale={pendingLocale} /> : null}
-      </AnimatePresence>
+      {pendingLocale ? (
+        <LocaleTransitionOverlay
+          nextLocale={pendingLocale}
+          onExitComplete={() => setPendingLocale(null)}
+          phase={localeTransitionPhase}
+        />
+      ) : null}
       <GlobalCommandPalette locale={locale} onOpenChange={setCommandPaletteOpen} open={commandPaletteOpen} />
+      {DevelopmentKoreanTranslationBridge ? (
+        <Suspense fallback={null}>
+          <DevelopmentKoreanTranslationBridge active={locale === 'ko'} />
+        </Suspense>
+      ) : null}
     </div>
     </I18nProvider>
   )

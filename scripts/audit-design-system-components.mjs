@@ -118,7 +118,8 @@ const expectedComponents = [
   'Top Nav Mega Menu Featured Card',
   'Top Nav Mega Menu Item',
   'Top Nav Menu',
-  'Typography'
+  'Typography',
+  'Utopia Wordmark Loader'
 ]
 
 const removedPublicComponents = [

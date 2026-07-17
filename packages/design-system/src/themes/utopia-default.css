@@ -68,7 +68,7 @@
 }
 
 :root,
-[data-theme="utopia-default"] {
+:is([data-brand="utopia-default"], [data-theme="utopia-default"]) {
   color-scheme: dark;
 
   --utopia-brick-red: #cc5536;
@@ -86,6 +86,22 @@
   --utopia-red-60: #e3a385;
   --utopia-red-40: #f0c6af;
   --utopia-red-20: #f6e2d7;
+
+  /* Brand-studio visual grammar */
+  --brand-panel-dark: var(--utopia-special-black);
+  --brand-panel-accent: var(--utopia-brick-red);
+  --brand-panel-light: var(--utopia-light-grey);
+  --brand-ink-dark: var(--utopia-special-black);
+  --brand-ink-deep: #100b0c;
+  --brand-ink-light: var(--utopia-white);
+  --brand-rule-dark: rgb(60 50 53 / 24%);
+  --brand-rule-light: rgb(255 255 255 / 18%);
+  --brand-display-size: clamp(3.25rem, 7vw, 6.75rem);
+  --brand-display-leading: 0.88;
+  --brand-display-tracking: -0.035em;
+  --brand-label-tracking: 0.1em;
+  --brand-panel-gutter: clamp(1.5rem, 5vw, 4.5rem);
+  --brand-section-space: clamp(4.5rem, 9vw, 8rem);
 
   --background: var(--utopia-special-black);
   --foreground: var(--utopia-white);
@@ -248,7 +264,7 @@
   text-transform: none;
 }
 
-[data-theme="utopia-default"][data-color-mode="light"] {
+:is([data-brand="utopia-default"], [data-theme="utopia-default"])[data-color-mode="light"] {
   color-scheme: light;
   --background: var(--utopia-white);
   --foreground: var(--utopia-special-black);

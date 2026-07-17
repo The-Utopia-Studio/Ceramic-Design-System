@@ -109,7 +109,10 @@
       "large uppercase headlines",
       "Brick Red as a 5-15% accent",
       "hairline borders",
-      "solid Special Black, Light Grey, Brick Red, and White surfaces"
+      "solid Special Black, Light Grey, Brick Red, and White surfaces",
+      "editorial whitespace that isolates one dominant message",
+      "three-bar signatures as structural punctuation",
+      "full-bleed brand panels that alternate dark, accent, and light colourways"
     ],
     "avoid": [
       "startup-cute styling",
@@ -118,7 +121,38 @@
       "glassmorphism",
       "textures",
       "rounded marketing cards",
-      "pure black"
+      "pure black",
+      "uniform card grids with equal visual weight",
+      "low-contrast grey-on-grey hierarchy",
+      "using Brick Red for small body copy when contrast is insufficient"
+    ]
+  },
+  "visualGrammar": {
+    "thesis": "The interface should feel authored by a brand studio before it feels like a generic software dashboard.",
+    "composition": [
+      "Give every page one dominant typographic entry point.",
+      "Use asymmetric whitespace and offset alignment instead of centering every block.",
+      "Alternate Special Black, Brick Red, and Light Grey as large editorial fields; do not reduce them to small UI accents.",
+      "Use boxes only when containment communicates function. Prefer rules, fields, and spacing for editorial grouping."
+    ],
+    "typography": [
+      "Latin display headlines use TWK Lausanne 700, uppercase, tight line-height, and compact tracking.",
+      "Korean and Arabic retain native casing while matching the same visual mass, weight, and tight rhythm.",
+      "Small labels are concise, medium-weight, and widely tracked; body copy remains calm and readable."
+    ],
+    "signature": [
+      "Use the three-bar mark as punctuation at major page entries, never as repeated decoration.",
+      "Use a Brick Red full stop or short rule to terminate key Latin headlines."
+    ],
+    "interaction": [
+      "Active navigation is expressed with a Brick Red rule and stronger text, not a soft grey pill.",
+      "Hover states shift fields or rules directly; avoid floating card shadows and playful bounce.",
+      "Motion is deliberate, planar, and ceremonial with short directional travel."
+    ],
+    "accessibility": [
+      "Brick Red on Special Black is a graphic accent only, not normal-size body text.",
+      "White on Brick Red is reserved for large or strong text; smaller copy uses the deep brand ink token with verified contrast.",
+      "Functional focus rings use the accessible ring token even when the graphic brand accent differs."
     ]
   },
   "iconPolicy": {

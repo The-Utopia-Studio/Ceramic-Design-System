@@ -1,6 +1,14 @@
 import { createContext, useContext, type ReactNode } from 'react'
 
-export type Locale = 'en' | 'ar'
+export type Locale = 'en' | 'ko' | 'ar'
+
+export const availableLocales: readonly Locale[] = import.meta.env.PROD
+  ? ['en', 'ar']
+  : ['ko', 'en', 'ar']
+
+export function isAvailableLocale(value: string | null | undefined): value is Locale {
+  return Boolean(value && availableLocales.includes(value as Locale))
+}
 
 export type Direction = 'ltr' | 'rtl'
 
@@ -107,6 +115,37 @@ const uiText = {
     usage: 'الاستخدام',
     whatsNew: 'ما الجديد',
   },
+  ko: {
+    aiRules: 'AI 규칙',
+    arabicFriendly: '아랍어 친화',
+    arabicMode: '언어',
+    arabicPreview: '아랍어 미리보기',
+    bestPractices: '모범 사례',
+    browseLibrary: '라이브러리 둘러보기',
+    browseLibraryIntro: '모든 컴포넌트의 변형, 상태, 패턴별로 바로 복사해 쓸 수 있는 예제를 제공합니다.',
+    components: '컴포넌트',
+    docs: '문서',
+    exampleApps: '예제 앱',
+    examples: '예제',
+    foundations: '기초',
+    getStarted: '시작하기',
+    gettingStarted: '시작하기',
+    guide: '가이드',
+    installCoreLibrary: '코어 라이브러리 설치',
+    libraries: '라이브러리',
+    noCatalogTitle: '현재 카탈로그에 없음',
+    noCatalogBody: '이 경로는 현재 shadcn/ui 기반 컴포넌트 세트에 포함되지 않습니다.',
+    onThisPage: '이 페이지에서',
+    overview: '개요',
+    props: '속성',
+    searchComponents: '컴포넌트 검색',
+    searchComponentsPlaceholder: '컴포넌트 검색...',
+    templates: '템플릿',
+    themes: '테마',
+    tokens: '토큰',
+    usage: '사용법',
+    whatsNew: '새로운 소식',
+  },
 } as const
 
 export type UiTextKey = keyof typeof uiText.en
@@ -115,14 +154,14 @@ export function t(locale: Locale, key: UiTextKey) {
   return uiText[locale][key] ?? uiText.en[key]
 }
 
-const routeLabels: Record<string, Record<Locale, string>> = {
-  docs: { en: 'Docs', ar: 'المستندات' },
-  components: { en: 'Components', ar: 'المكونات' },
-  templates: { en: 'Templates', ar: 'القوالب' },
-  themes: { en: 'Themes', ar: 'الثيمات' },
+const routeLabels: Record<string, Partial<Record<Locale, string>>> = {
+  docs: { en: 'Docs', ko: '문서', ar: 'المستندات' },
+  components: { en: 'Components', ko: '컴포넌트', ar: 'المكونات' },
+  templates: { en: 'Templates', ko: '템플릿', ar: 'القوالب' },
+  themes: { en: 'Themes', ko: '테마', ar: 'الثيمات' },
 }
 
-const categoryLabels: Record<string, Record<Locale, string>> = {
+const categoryLabels: Record<string, Partial<Record<Locale, string>>> = {
   Action: { en: 'Action', ar: 'الإجراءات' },
   'Data Display': { en: 'Data Display', ar: 'عرض البيانات' },
   Feedback: { en: 'Feedback', ar: 'التنبيهات' },
@@ -138,7 +177,7 @@ const categoryLabels: Record<string, Record<Locale, string>> = {
   'Top Navigation': { en: 'Top Navigation', ar: 'التنقل العلوي' },
 }
 
-const docsLabels: Record<string, Record<Locale, string>> = {
+const docsLabels: Record<string, Partial<Record<Locale, string>>> = {
   'All Tokens': { en: 'All Tokens', ar: 'كل التوكنات' },
   'AI rules': { en: 'AI rules', ar: 'قواعد الذكاء الاصطناعي' },
   'Arabic Friendly': { en: 'Arabic Friendly', ar: 'دعم العربية' },

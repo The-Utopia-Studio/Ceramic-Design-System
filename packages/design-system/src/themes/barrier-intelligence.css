@@ -1,6 +1,33 @@
-@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
 
-[data-theme="barrier-intelligence"] {
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("./fonts/IBMPlexSansArabic-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-089F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("./fonts/IBMPlexSansArabic-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-089F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("./fonts/IBMPlexSansArabic-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-089F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+
+:is([data-brand="barrier-intelligence"], [data-theme="barrier-intelligence"]) {
   color-scheme: dark;
 
   --bi-black: #000000;
@@ -16,6 +43,10 @@
   --bi-gold: #a6824c;
   --bi-gold-lt: #d2ac6c;
   --bi-gold-fg: #1a1208;
+  --bi-detector-lime: #a6b86a;
+  --bi-assurance-at-risk: #c47c48;
+  --bi-assurance-lost: #c76b62;
+  --bi-assurance-warning: #d2a65a;
 
   --background: var(--bi-black);
   --foreground: var(--bi-ink);
@@ -57,6 +88,32 @@
   --outline-hover: color-mix(in srgb, var(--bi-ink) 7.5%, var(--bi-black));
   --outline-active: color-mix(in srgb, var(--bi-ink) 12%, var(--bi-black));
 
+  --detector-active: var(--bi-detector-lime);
+  --detector-active-foreground: #101208;
+  --detector-active-surface: color-mix(in srgb, var(--detector-active) 14%, transparent);
+  --detector-active-border: color-mix(in srgb, var(--detector-active) 46%, transparent);
+
+  --assurance-credited: var(--bi-gold-lt);
+  --assurance-credited-foreground: var(--bi-gold-fg);
+  --assurance-credited-surface: color-mix(in srgb, var(--assurance-credited) 14%, transparent);
+  --assurance-credited-border: color-mix(in srgb, var(--assurance-credited) 46%, transparent);
+  --assurance-at-risk: var(--bi-assurance-at-risk);
+  --assurance-at-risk-foreground: #180d06;
+  --assurance-at-risk-surface: color-mix(in srgb, var(--assurance-at-risk) 14%, transparent);
+  --assurance-at-risk-border: color-mix(in srgb, var(--assurance-at-risk) 46%, transparent);
+  --assurance-lost: var(--bi-assurance-lost);
+  --assurance-lost-foreground: #190b09;
+  --assurance-lost-surface: color-mix(in srgb, var(--assurance-lost) 14%, transparent);
+  --assurance-lost-border: color-mix(in srgb, var(--assurance-lost) 46%, transparent);
+  --assurance-warning: var(--bi-assurance-warning);
+  --assurance-warning-foreground: #171005;
+  --assurance-warning-surface: color-mix(in srgb, var(--assurance-warning) 14%, transparent);
+  --assurance-warning-border: color-mix(in srgb, var(--assurance-warning) 46%, transparent);
+  --assurance-verified: var(--detector-active);
+  --assurance-verified-foreground: var(--detector-active-foreground);
+  --assurance-verified-surface: var(--detector-active-surface);
+  --assurance-verified-border: var(--detector-active-border);
+
   --radius: 0.75rem;
   --radius-control: 0.375rem;
   --radius-surface: 0.875rem;
@@ -74,8 +131,8 @@
   --motion-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
   --motion-ease-icon: var(--motion-ease-emphasized);
   --motion-press-scale: 0.985;
-  --motion-distance-page: 0px;
-  --motion-distance-reveal: 0px;
+  --motion-distance-page: 6px;
+  --motion-distance-reveal: 10px;
 
   --font-display: "Hanken Grotesk", "Helvetica Neue", "Inter", system-ui, sans-serif;
   --font-sans: "Hanken Grotesk", "Helvetica Neue", "Inter", system-ui, sans-serif;
@@ -102,11 +159,17 @@
   --font-size-body: 1rem;
   --font-size-body-lg: 1.125rem;
   --font-size-display: clamp(2.875rem, 7.6vw, 5.75rem);
+  --font-size-marketing-h1: clamp(3rem, 6vw, 5.75rem);
+  --font-size-marketing-h2: clamp(2.25rem, 4vw, 3.75rem);
+  --font-size-marketing-h3: clamp(1.5rem, 2.5vw, 2.25rem);
   --font-size-arabic-body: 1rem;
   --font-size-arabic-body-lg: 1.125rem;
   --font-size-arabic-display: clamp(2.75rem, 7.2vw, 5.5rem);
 
   --line-height-tight: 1.06;
+  --line-height-marketing-h1: 1;
+  --line-height-marketing-h2: 1.06;
+  --line-height-marketing-h3: 1.14;
   --line-height-supporting: 0.875rem;
   --line-height-arabic: 1.75;
   --line-height-arabic-body: 1.75;
@@ -116,6 +179,14 @@
   --tracking-eyebrow: 0.18em;
   --tracking-arabic: 0;
   --tracking-arabic-display: 0;
+
+  --container-standard: 72rem;
+  --container-wide: 90rem;
+  --page-gutter: clamp(1rem, 3vw, 2.5rem);
+  --content-measure: 72ch;
+  --measure-marketing-h1: 12ch;
+  --measure-marketing-h2: 18ch;
+  --measure-marketing-h3: 28ch;
 
   --shadow-surface: none;
   --shadow-popover: 0 10px 28px rgb(0 0 0 / 34%);
@@ -155,7 +226,7 @@
   --z-modal: 50;
 }
 
-[data-theme="barrier-intelligence"] :where(:lang(ar), [lang|="ar"]) {
+:is([data-brand="barrier-intelligence"], [data-theme="barrier-intelligence"]) :where(:lang(ar), [lang|="ar"]) {
   font-family: var(--font-arabic-body);
   font-weight: var(--font-weight-arabic-body);
   line-height: var(--line-height-arabic-body);
@@ -163,7 +234,7 @@
   text-transform: none;
 }
 
-[data-theme="barrier-intelligence"][data-color-mode="light"] {
+:is([data-brand="barrier-intelligence"], [data-theme="barrier-intelligence"])[data-color-mode="light"] {
   color-scheme: light;
   --background: #f5f5f2;
   --foreground: #17140f;
@@ -173,6 +244,8 @@
   --card-foreground: #17140f;
   --primary: var(--bi-gold-dk);
   --primary-foreground: #ffffff;
+  --primary-hover: #75572f;
+  --primary-active: #604522;
   --secondary: #eeeae2;
   --secondary-foreground: #17140f;
   --muted: #e8e5de;
@@ -190,4 +263,99 @@
   --ghost-active: rgb(23 20 15 / 12%);
   --outline-hover: var(--surface-strong);
   --outline-active: var(--muted);
+  --detector-active: #657437;
+  --detector-active-foreground: #ffffff;
+  --detector-active-surface: rgb(101 116 55 / 10%);
+  --detector-active-border: rgb(101 116 55 / 34%);
+  --assurance-credited: #75572f;
+  --assurance-credited-foreground: #ffffff;
+  --assurance-credited-surface: rgb(117 87 47 / 10%);
+  --assurance-credited-border: rgb(117 87 47 / 34%);
+  --assurance-at-risk: #8d4f28;
+  --assurance-at-risk-foreground: #ffffff;
+  --assurance-at-risk-surface: rgb(141 79 40 / 10%);
+  --assurance-at-risk-border: rgb(141 79 40 / 34%);
+  --assurance-lost: #9c4942;
+  --assurance-lost-foreground: #ffffff;
+  --assurance-lost-surface: rgb(156 73 66 / 10%);
+  --assurance-lost-border: rgb(156 73 66 / 34%);
+  --assurance-warning: #7a5c20;
+  --assurance-warning-foreground: #ffffff;
+  --assurance-warning-surface: rgb(122 92 32 / 10%);
+  --assurance-warning-border: rgb(122 92 32 / 34%);
+  --assurance-verified: var(--detector-active);
+  --assurance-verified-foreground: var(--detector-active-foreground);
+  --assurance-verified-surface: var(--detector-active-surface);
+  --assurance-verified-border: var(--detector-active-border);
+}
+
+@media (prefers-color-scheme: light) {
+  :is([data-brand="barrier-intelligence"], [data-theme="barrier-intelligence"])[data-color-mode="system"] {
+    color-scheme: light;
+    --background: #f5f5f2;
+    --foreground: #17140f;
+    --foreground-muted: #5f5a50;
+    --foreground-subtle: #817a6e;
+    --card: #ffffff;
+    --card-foreground: #17140f;
+    --primary: var(--bi-gold-dk);
+    --primary-foreground: #ffffff;
+    --primary-hover: #75572f;
+    --primary-active: #604522;
+    --secondary: #eeeae2;
+    --secondary-foreground: #17140f;
+    --muted: #e8e5de;
+    --muted-foreground: #6d675d;
+    --border: rgb(23 20 15 / 16%);
+    --input: rgb(23 20 15 / 24%);
+    --surface: rgb(23 20 15 / 4.5%);
+    --surface-strong: rgb(23 20 15 / 8%);
+    --surface-elevated: #ffffff;
+    --surface-hover: var(--surface-strong);
+    --overlay: rgb(245 245 242 / 86%);
+    --modal-surface: #ffffff;
+    --popover-surface: #ffffff;
+    --ghost-hover: rgb(23 20 15 / 8%);
+    --ghost-active: rgb(23 20 15 / 12%);
+    --outline-hover: var(--surface-strong);
+    --outline-active: var(--muted);
+    --detector-active: #657437;
+    --detector-active-foreground: #ffffff;
+    --detector-active-surface: rgb(101 116 55 / 10%);
+    --detector-active-border: rgb(101 116 55 / 34%);
+    --assurance-credited: #75572f;
+    --assurance-credited-foreground: #ffffff;
+    --assurance-credited-surface: rgb(117 87 47 / 10%);
+    --assurance-credited-border: rgb(117 87 47 / 34%);
+    --assurance-at-risk: #8d4f28;
+    --assurance-at-risk-foreground: #ffffff;
+    --assurance-at-risk-surface: rgb(141 79 40 / 10%);
+    --assurance-at-risk-border: rgb(141 79 40 / 34%);
+    --assurance-lost: #9c4942;
+    --assurance-lost-foreground: #ffffff;
+    --assurance-lost-surface: rgb(156 73 66 / 10%);
+    --assurance-lost-border: rgb(156 73 66 / 34%);
+    --assurance-warning: #7a5c20;
+    --assurance-warning-foreground: #ffffff;
+    --assurance-warning-surface: rgb(122 92 32 / 10%);
+    --assurance-warning-border: rgb(122 92 32 / 34%);
+    --assurance-verified: var(--detector-active);
+    --assurance-verified-foreground: var(--detector-active-foreground);
+    --assurance-verified-surface: var(--detector-active-surface);
+    --assurance-verified-border: var(--detector-active-border);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is([data-brand="barrier-intelligence"], [data-theme="barrier-intelligence"]) {
+    --motion-duration-press: 0ms;
+    --motion-duration-page: 0ms;
+    --motion-duration-expand: 0ms;
+    --motion-duration-reveal: 0ms;
+    --motion-duration-icon: 0ms;
+    --motion-duration-fast: 0ms;
+    --motion-press-scale: 1;
+    --motion-distance-page: 0px;
+    --motion-distance-reveal: 0px;
+  }
 }

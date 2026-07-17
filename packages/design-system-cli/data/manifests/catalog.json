@@ -194,7 +194,8 @@
             "Skeleton",
             "Spinner",
             "Table",
-            "Typography"
+            "Typography",
+            "Utopia Wordmark Loader"
           ]
         }
       ]
@@ -307,7 +308,8 @@
       "Toggle Button",
       "Toggle Button Group",
       "Tooltip",
-      "Typography"
+      "Typography",
+      "Utopia Wordmark Loader"
     ],
     "utopiaWrapped": [
       "Accordion",
@@ -384,7 +386,8 @@
       "Toggle Button",
       "Toggle Button Group",
       "Tooltip",
-      "Typography"
+      "Typography",
+      "Utopia Wordmark Loader"
     ],
     "legacy": [
       "Toast"

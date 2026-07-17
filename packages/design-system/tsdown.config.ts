@@ -9,6 +9,7 @@ export default defineConfig({
     'src/MotionAnime.ts', 'src/MotionFramer.ts', 'src/MotionGsap.ts',
     'src/Navigation.ts', 'src/ShadcnPrimitives.ts', 'src/Sidebar.ts', 'src/Surface.ts',
     'src/ToggleButton.ts', 'src/ToggleButtonGroup.ts', 'src/Typography.ts', 'src/Utilities.ts',
+    'src/UtopiaWordmarkLoader.ts',
   ],
   format: ['esm'],
   dts: true,

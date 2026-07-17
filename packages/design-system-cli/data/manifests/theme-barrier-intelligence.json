@@ -24,16 +24,22 @@
       "goldDark": "#8A6637",
       "gold": "#A6824C",
       "goldLight": "#D2AC6C",
-      "goldForeground": "#1A1208"
+      "goldForeground": "#1A1208",
+      "detectorLime": "#A6B86A",
+      "assuranceAtRisk": "#C47C48",
+      "assuranceLost": "#C76B62",
+      "assuranceWarning": "#D2A65A"
     },
     "typography": {
       "appWebsite": {
         "ui": "Hanken Grotesk",
+        "mono": "JetBrains Mono",
         "use": "Product UI, dashboards, documentation, and long-form reading"
       },
       "arabicFamily": "IBM Plex Sans Arabic",
       "weights": {
-        "hankenGrotesk": [400, 500, 600, 700]
+        "hankenGrotesk": [400, 500, 600, 700],
+        "jetBrainsMono": [400, 500, 600]
       },
       "arabicWeights": [400, 500, 700],
       "headlineCasing": "sentence",
@@ -67,7 +73,21 @@
     "--font-sans": "Hanken Grotesk",
     "--font-ui-support": "Hanken Grotesk",
     "--font-marketing-display": "Hanken Grotesk scoped through theme selectors",
+    "--font-mono": "JetBrains Mono",
     "--font-arabic": "IBM Plex Sans Arabic",
+    "--font-size-marketing-h1": "clamp(3rem, 6vw, 5.75rem)",
+    "--font-size-marketing-h2": "clamp(2.25rem, 4vw, 3.75rem)",
+    "--font-size-marketing-h3": "clamp(1.5rem, 2.5vw, 2.25rem)",
+    "--line-height-marketing-h1": "1",
+    "--line-height-marketing-h2": "1.06",
+    "--line-height-marketing-h3": "1.14",
+    "--measure-marketing-h1": "12ch",
+    "--measure-marketing-h2": "18ch",
+    "--measure-marketing-h3": "28ch",
+    "--container-standard": "72rem",
+    "--container-wide": "90rem",
+    "--page-gutter": "clamp(1rem, 3vw, 2.5rem)",
+    "--content-measure": "72ch",
     "--sidebar-width": "17rem",
     "--shadow-control": "none",
     "--control-height-sm": "2rem",
@@ -78,6 +98,48 @@
     "--modal-surface": "Card High",
     "--popover-surface": "Card High"
   },
+  "activationContract": {
+    "brandAttribute": "data-brand=\"barrier-intelligence\"",
+    "modeAttribute": "data-color-mode=\"dark|light|system\"",
+    "defaultMode": "dark",
+    "legacyAlias": "data-theme=\"barrier-intelligence\" remains supported during migration",
+    "rule": "Changing brand must not overwrite the persisted color mode. System follows prefers-color-scheme."
+  },
+  "layoutContract": {
+    "standard": "--container-standard",
+    "wide": "--container-wide",
+    "gutter": "--page-gutter",
+    "readingMeasure": "--content-measure",
+    "formula": "inline-size: min(calc(100% - 2 * var(--page-gutter)), var(--container-standard)); margin-inline: auto",
+    "rule": "Navigation, hero, and body content share the same responsive gutter. Products do not invent --page or --hero-page aliases."
+  },
+  "detectorStatus": {
+    "primitive": { "token": "--bi-detector-lime", "value": "#A6B86A" },
+    "semanticTokens": ["--detector-active", "--detector-active-foreground", "--detector-active-surface", "--detector-active-border"],
+    "use": ["active detectors", "verified detector output"],
+    "avoid": ["general calls to action", "decorative glow", "neon page accents"],
+    "accessibility": "Pair color with an icon and localized status label; verify text and control contrast in Dark and Light."
+  },
+  "assuranceStates": {
+    "credited": ["--assurance-credited", "--assurance-credited-foreground", "--assurance-credited-surface", "--assurance-credited-border"],
+    "atRisk": ["--assurance-at-risk", "--assurance-at-risk-foreground", "--assurance-at-risk-surface", "--assurance-at-risk-border"],
+    "lost": ["--assurance-lost", "--assurance-lost-foreground", "--assurance-lost-surface", "--assurance-lost-border"],
+    "warning": ["--assurance-warning", "--assurance-warning-foreground", "--assurance-warning-surface", "--assurance-warning-border"],
+    "verified": ["--assurance-verified", "--assurance-verified-foreground", "--assurance-verified-surface", "--assurance-verified-border"],
+    "rule": "Assurance states are domain semantics, not aliases for generic success/warning/destructive. Never communicate state by color alone."
+  },
+  "motionContract": {
+    "durations": ["--motion-duration-press", "--motion-duration-page", "--motion-duration-expand", "--motion-duration-reveal", "--motion-duration-icon"],
+    "easing": ["--motion-ease-standard", "--motion-ease-emphasized", "--motion-ease-icon"],
+    "distance": { "page": "6px", "reveal": "10px" },
+    "reducedMotion": "Core sets durations and distances to zero, disables icon animation, and restores press scale to 1 under prefers-reduced-motion."
+  },
+  "fontSupply": {
+    "hankenGrotesk": "Loaded by the theme stylesheet from Google Fonts",
+    "jetBrainsMono": "Loaded by the theme stylesheet from Google Fonts",
+    "ibmPlexSansArabic": "Self-hosted in the package with 400, 500, and 700 weights",
+    "display": "swap"
+  },
   "visualPolicy": {
     "tone": ["rigorous", "quiet", "technical", "premium"],
     "allow": [
@@ -85,14 +147,16 @@
       "warm gold accents for primary action and signal",
       "neutral ink hierarchy for reading",
       "rounded cards with hairline borders",
-      "minimal shadow; depth via border and surface steps"
+      "minimal shadow; depth via border and surface steps",
+      "restrained detector lime for active and verified engineering states"
     ],
     "avoid": [
       "bright neon accents",
       "colorful gradients as a default surface treatment",
       "overly rounded, playful geometry",
       "Utopia brick red palette",
-      "marketing display fonts in dense app UI"
+      "marketing display fonts in dense app UI",
+      "detector lime used as a decorative or glowing accent"
     ]
   },
   "iconPolicy": {
@@ -101,6 +165,15 @@
     "allow": ["lucide icons in components", "monochrome currentColor icons", "directional mirroring in RTL"],
     "avoid": ["emoji", "mixed icon families in one surface"],
     "coreNote": "Icon policy is theme-owned. Core components remain icon-system neutral."
+  },
+  "marketingAssetPolicy": {
+    "relationshipToIcons": "Lucide remains the UI icon system. Three-dimensional engineering assets are marketing media, not component icons.",
+    "palette": ["warm gold", "controlled grayscale", "restrained detector lime"],
+    "material": "Machined, technical, and restrained rather than glossy or toy-like.",
+    "lighting": "Directional studio lighting with clear form and no decorative neon glow.",
+    "background": "Near-black or controlled neutral fields with sufficient object separation.",
+    "use": ["engineering concepts", "detector visualization", "assurance evidence", "product capability storytelling"],
+    "avoid": ["generic abstract blobs", "glassmorphism", "cyberpunk glow", "decorative lime accents", "Lucide icons rendered as 3D objects"]
   },
   "translations": {
     "ar": {
@@ -115,9 +188,14 @@
   "aiRules": [
     "Read this theme policy after the core semantic contract.",
     "Map Barrier Intelligence palette through semantic tokens only.",
+    "Select the Barrier Intelligence brand with data-brand and select Dark, Light, or System independently with data-color-mode.",
+    "Use core container and gutter tokens instead of product-local --page or --hero-page aliases.",
     "Use gold for primary actions and high-signal emphasis, not as a full-page wash.",
+    "Use detector lime only for active detectors and verified states, always with a non-color status cue.",
+    "Use assurance semantic token families for credited, at risk, lost, warning, and verified states.",
     "Prefer near-black and stepped card surfaces with ink hierarchy.",
     "Use Hanken Grotesk for Latin app UI and body copy in this theme.",
+    "Use the dedicated marketing H1, H2, and H3 size, line-height, and measure tokens instead of scaling --font-size-display ad hoc.",
     "Keep Arabic on IBM Plex Sans Arabic tokens.",
     "Do not swap Ceramic shell navigation branding when this theme is active."
   ]

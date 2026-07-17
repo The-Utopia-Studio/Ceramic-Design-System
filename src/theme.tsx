@@ -52,6 +52,7 @@ export function readStoredThemeId(): ThemeId {
 }
 
 export function applyThemeId(themeId: ThemeId) {
+  document.documentElement.dataset.brand = themeId
   document.documentElement.dataset.theme = themeId
   window.localStorage.setItem(STORAGE_KEY, themeId)
 }

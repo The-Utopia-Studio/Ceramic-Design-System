@@ -117,7 +117,7 @@ function ComponentPreview({ name }: { name: string }) {
   const { locale } = useI18n()
 
   if (queuedComponentNames.has(name)) {
-    return <QueuedComponentPreview locale={locale} name={name} />
+    return <QueuedComponentPreview locale={locale === 'ar' ? 'ar' : 'en'} name={name} />
   }
 
   const previewText = {

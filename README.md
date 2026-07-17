@@ -10,6 +10,7 @@ This workspace is the parent system. Production websites are consumers and refer
 - `packages/design-system/src/core.css`: core semantic token contract.
 - `packages/design-system/src/themes/`: theme CSS implementations.
 - `packages/design-system/src/manifests/`: AI-readable source of truth.
+- `packages/clerk/`: optional Clerk integration wrappers and semantic-token appearance adapters.
 - `packages/design-system-cli/`: local CLI for AI discovery.
 - `docs/design-system/`: human and AI docs.
 
@@ -17,6 +18,7 @@ This workspace is the parent system. Production websites are consumers and refer
 
 ```sh
 npm install @utopia-studio-design/design-system
+npm install @utopia-studio-design/clerk @clerk/nextjs
 npm install -D @utopia-studio-design/design-system-cli
 npx utopia-ds init --theme utopia-default
 npx utopia-ds theme create nova
@@ -24,6 +26,18 @@ npx utopia-ds template template-saas-solution-homepage --theme nova --copy ./nov
 ```
 
 `init` adds agent instructions for Codex/Claude, Cursor, and GitHub Copilot plus a project-local MCP configuration. All clients query the same manifests through CLI text, typed JSON, the programmatic API, or MCP.
+
+## CSS layer contract
+
+The core stylesheet declares `@layer reset, theme, base, components, utilities` and places design-system component rules in `components`. Import Tailwind or app utilities after the design-system stylesheet, using the `utilities` layer, so ordinary layout utilities can override component defaults without `!important` or high-specificity selectors. Theme packages may remain unlayered so their semantic-token policy keeps precedence.
+
+Public `className` values are applied to component roots. Side Nav composition parts also expose stable `data-slot` attributes; interactive/current state uses `data-state`, and every descendant derives `data-collapsed` behavior from the `SideNav` context.
+
+```css
+@layer reset, theme, base, components, utilities;
+@import '@utopia-studio-design/design-system/core.css';
+@import 'tailwindcss';
+```
 
 ## Workspace Commands
 
@@ -73,7 +87,7 @@ import { animeMotionAdapter } from '@utopia-studio-design/design-system/MotionAn
 
 Published packages:
 
-- `@utopia-studio-design/design-system@0.3.0`
+- `@utopia-studio-design/design-system@0.4.1`
 - `@utopia-studio-design/design-system-cli@0.3.0`
 
 Run `npm run release:check` before publishing. It gates the release on TypeScript, MCP protocol tests, desktop/mobile Playwright coverage, visual baselines, component audits, production builds, and package dry-runs. See `CHANGELOG.md` for release notes.

@@ -30,6 +30,7 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
+  contentAlign?: 'start' | 'center' | 'between'
   endContent?: React.ReactNode
   isIconOnly?: boolean
   loading?: boolean
@@ -44,6 +45,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       asChild = false,
       children,
       className,
+      contentAlign = 'center',
       disabled,
       endContent,
       isIconOnly = false,
@@ -67,9 +69,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         aria-busy={loading || undefined}
         aria-disabled={asChild && isDisabled ? true : undefined}
         className={cn(buttonVariants({ variant, size: resolvedSize }), className)}
+        data-content-align={contentAlign}
         data-icon-only={isIconOnly || undefined}
         data-loading={loading || undefined}
         data-motion={resolvedMotion.enabled ? 'on' : 'off'}
+        data-slot="root"
         disabled={!asChild ? isDisabled : undefined}
         ref={ref}
         {...props}
@@ -83,7 +87,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {isIconOnly ? (
           loading ? null : children
         ) : (
-          <span className="uds-button-content">{loading && loadingText ? loadingText : children}</span>
+          <span className="uds-button-content" data-slot="label">{loading && loadingText ? loadingText : children}</span>
         )}
         {!isIconOnly && !loading && endContent ? (
           <span className="uds-button-slot" data-slot="end">

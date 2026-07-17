@@ -1,10 +1,9 @@
-import { Switch } from '../../packages/design-system/src/Forms'
 import {
   TopNav,
   TopNavHeading,
   TopNavItem,
 } from '../../packages/design-system/src/Navigation'
-import { t, type Locale } from '../i18n'
+import { availableLocales, t, type Locale } from '../i18n'
 import { Search } from 'lucide-react'
 
 type TopNavigationLink = {
@@ -22,8 +21,8 @@ type TopNavigationProps = {
 }
 
 export function TopNavigation({ links, locale, onLocaleChange, onSearch, showBrand = true }: TopNavigationProps) {
-  const topLevelLabel = locale === 'ar' ? 'التنقل الرئيسي لنظام التصميم' : 'Design system top level'
-  const homeLabel = locale === 'ar' ? 'الصفحة الرئيسية لنظام التصميم' : 'Design system home'
+  const topLevelLabel = locale === 'ar' ? 'التنقل الرئيسي لنظام التصميم' : locale === 'ko' ? '디자인 시스템 주요 탐색' : 'Design system top level'
+  const homeLabel = locale === 'ar' ? 'الصفحة الرئيسية لنظام التصميم' : locale === 'ko' ? '디자인 시스템 홈' : 'Design system home'
 
   return (
     <header className="topbar" data-has-brand={showBrand ? 'true' : 'false'}>
@@ -44,18 +43,18 @@ export function TopNavigation({ links, locale, onLocaleChange, onSearch, showBra
         ))}
       </TopNav>
       <div className="topbar-actions">
-        <button aria-label={locale === 'ar' ? 'البحث في Ceramic' : 'Search Ceramic'} className="topbar-search" onClick={onSearch} type="button">
+        <button aria-label={locale === 'ar' ? 'البحث في Ceramic' : locale === 'ko' ? 'Ceramic 검색' : 'Search Ceramic'} className="topbar-search" onClick={onSearch} type="button">
           <Search aria-hidden="true" />
-          <span>{locale === 'ar' ? 'بحث' : 'Search'}</span>
+          <span>{locale === 'ar' ? 'بحث' : locale === 'ko' ? '검색' : 'Search'}</span>
           <kbd>⌘K</kbd>
         </button>
-        <label className="locale-switch">
+        <label className="locale-switch" aria-label={locale === 'ko' ? '언어 선택' : 'Language'}>
           <span>{t(locale, 'arabicMode')}</span>
-          <Switch
-            aria-label={t(locale, 'arabicMode')}
-            checked={locale === 'ar'}
-            onCheckedChange={(checked) => onLocaleChange(checked ? 'ar' : 'en')}
-          />
+          <select value={locale} onChange={(event) => onLocaleChange(event.target.value as Locale)}>
+            {availableLocales.includes('ko') ? <option value="ko">한국어</option> : null}
+            <option value="en">English</option>
+            <option value="ar">العربية</option>
+          </select>
         </label>
         <a className="topbar-cta" href="#/docs">{t(locale, 'getStarted')}</a>
       </div>

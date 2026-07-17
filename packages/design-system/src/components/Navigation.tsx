@@ -4,6 +4,7 @@ import * as DialogPrimitive from '@radix-ui/react-dialog'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu'
 import * as TabsPrimitive from '@radix-ui/react-tabs'
+import { Slot, Slottable } from '@radix-ui/react-slot'
 import { Command as CommandPrimitive } from 'cmdk'
 import { Search } from 'lucide-react'
 import { Button, type ButtonProps } from './Button'
@@ -211,6 +212,20 @@ export function NavIcon({ active = false, className, type = 'button', variant = 
   )
 }
 
+export interface SideNavContextValue {
+  collapsed: boolean
+  density: 'default' | 'compact'
+}
+
+const SideNavContext = React.createContext<SideNavContextValue>({
+  collapsed: false,
+  density: 'default',
+})
+
+export function useSideNav() {
+  return React.useContext(SideNavContext)
+}
+
 export interface SideNavProps extends React.HTMLAttributes<HTMLElement> {
   collapsed?: boolean
   density?: 'default' | 'compact'
@@ -228,21 +243,234 @@ export function SideNav({
   ...props
 }: SideNavProps) {
   return (
-    <nav
-      className={cn('uds-side-nav', className)}
-      data-collapsed={collapsed ? 'true' : undefined}
-      data-density={density === 'compact' ? 'compact' : undefined}
-      {...props}
-    >
-      {heading}
-      {search}
-      {children}
-    </nav>
+    <SideNavContext.Provider value={{ collapsed, density }}>
+      <nav
+        {...props}
+        className={cn('uds-side-nav', className)}
+        data-collapsed={collapsed ? 'true' : undefined}
+        data-density={density === 'compact' ? 'compact' : undefined}
+        data-slot="side-nav"
+      >
+        {heading}
+        {search}
+        {children}
+      </nav>
+    </SideNavContext.Provider>
   )
 }
 
-export function SideNavContent({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('uds-side-nav-content', className)} {...props} />
+export interface SideNavContentProps extends React.HTMLAttributes<HTMLDivElement> {
+  layout?: 'grid' | 'stack'
+}
+
+export function SideNavContent({ className, layout = 'grid', ...props }: SideNavContentProps) {
+  return (
+    <div
+      {...props}
+      className={cn('uds-side-nav-content', className)}
+      data-layout={layout}
+      data-slot="content"
+    />
+  )
+}
+
+function SideNavRegion({
+  className,
+  slot,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { slot: 'header' | 'workspace-switcher' | 'auxiliary' }) {
+  return <div {...props} className={cn(`uds-side-nav-${slot}`, className)} data-slot={slot} />
+}
+
+export function SideNavHeader(props: React.HTMLAttributes<HTMLDivElement>) {
+  return <SideNavRegion {...props} slot="header" />
+}
+
+export function SideNavWorkspaceSwitcher(props: React.HTMLAttributes<HTMLDivElement>) {
+  return <SideNavRegion {...props} slot="workspace-switcher" />
+}
+
+export interface SideNavMainProps extends React.HTMLAttributes<HTMLDivElement> {
+  layout?: 'grid' | 'stack'
+}
+
+export function SideNavMain({ className, layout = 'stack', ...props }: SideNavMainProps) {
+  return (
+    <div
+      {...props}
+      className={cn('uds-side-nav-main', className)}
+      data-layout={layout}
+      data-slot="main"
+    />
+  )
+}
+
+export function SideNavAuxiliary(props: React.HTMLAttributes<HTMLDivElement>) {
+  return <SideNavRegion {...props} slot="auxiliary" />
+}
+
+export function SideNavFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div {...props} className={cn('uds-side-nav-footer', className)} data-slot="footer" />
+}
+
+export interface SideNavStatusProps extends React.HTMLAttributes<HTMLDivElement> {
+  description?: React.ReactNode
+  icon?: React.ReactNode
+  label: string
+  tone?: 'neutral' | 'positive' | 'warning' | 'critical'
+}
+
+export function SideNavStatus({
+  className,
+  description,
+  icon,
+  label,
+  role = 'status',
+  tone = 'neutral',
+  ...props
+}: SideNavStatusProps) {
+  const { collapsed } = useSideNav()
+
+  return (
+    <div
+      {...props}
+      className={cn('uds-side-nav-status', className)}
+      data-collapsed={collapsed ? 'true' : undefined}
+      data-slot="status"
+      data-tone={tone}
+      role={role}
+      title={collapsed ? label : props.title}
+    >
+      <span aria-hidden="true" className="uds-side-nav-status-indicator" data-slot="indicator">
+        {icon}
+      </span>
+      <span className="uds-side-nav-status-copy" data-slot="copy">
+        <span className="uds-side-nav-status-label" data-slot="label">{label}</span>
+        {description ? <span className="uds-side-nav-status-description" data-slot="description">{description}</span> : null}
+      </span>
+    </div>
+  )
+}
+
+export interface SideNavCommandProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+  endContent?: React.ReactNode
+  icon?: React.ReactNode
+  label: string
+  shortcut?: React.ReactNode
+}
+
+export function SideNavCommand({
+  className,
+  endContent,
+  icon,
+  label,
+  shortcut,
+  title,
+  type = 'button',
+  ...props
+}: SideNavCommandProps) {
+  const { collapsed } = useSideNav()
+
+  return (
+    <button
+      {...props}
+      aria-label={props['aria-label'] ?? label}
+      className={cn('uds-side-nav-command', className)}
+      data-collapsed={collapsed ? 'true' : undefined}
+      data-slot="command"
+      title={collapsed ? label : title}
+      type={type}
+    >
+      {icon ? <span aria-hidden="true" className="uds-side-nav-command-icon" data-slot="icon">{icon}</span> : null}
+      <span className="uds-side-nav-command-label" data-slot="label">{label}</span>
+      {shortcut || endContent ? (
+        <span className="uds-side-nav-command-end" data-slot="end">{shortcut ?? endContent}</span>
+      ) : null}
+    </button>
+  )
+}
+
+export interface SideNavAccountAction extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label' | 'children'> {
+  icon: React.ReactNode
+  label: string
+  showWhenCollapsed?: boolean
+}
+
+export interface SideNavAccountProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
+  actions?: readonly SideNavAccountAction[]
+  asChild?: boolean
+  avatar: React.ReactNode
+  children?: React.ReactElement
+  name: React.ReactNode
+  secondary?: React.ReactNode
+  trigger?: React.ReactElement
+  triggerLabel?: string
+}
+
+export function SideNavAccount({
+  actions = [],
+  asChild = false,
+  avatar,
+  children,
+  className,
+  name,
+  secondary,
+  trigger,
+  triggerLabel,
+  ...props
+}: SideNavAccountProps) {
+  const { collapsed } = useSideNav()
+  const triggerElement = trigger ?? (asChild ? children : undefined)
+  const resolvedTriggerLabel = triggerLabel ?? (typeof name === 'string' ? name : undefined)
+  const identity = (
+    <>
+      <span className="uds-side-nav-account-avatar" data-slot="avatar">{avatar}</span>
+      <span className="uds-side-nav-account-copy" data-slot="copy">
+        <span className="uds-side-nav-account-name" data-slot="name">{name}</span>
+        {secondary ? <span className="uds-side-nav-account-secondary" data-slot="secondary">{secondary}</span> : null}
+      </span>
+    </>
+  )
+
+  return (
+    <div
+      {...props}
+      className={cn('uds-side-nav-account', className)}
+      data-collapsed={collapsed ? 'true' : undefined}
+      data-slot="account"
+    >
+      {triggerElement ? (
+        <Slot
+          aria-label={resolvedTriggerLabel}
+          className="uds-side-nav-account-trigger"
+          data-slot="trigger"
+          title={collapsed ? resolvedTriggerLabel : undefined}
+        >
+          <Slottable child={triggerElement}>{() => identity}</Slottable>
+        </Slot>
+      ) : (
+        <div className="uds-side-nav-account-identity" data-slot="identity">{identity}</div>
+      )}
+      {actions.length > 0 ? (
+        <span className="uds-side-nav-account-actions" data-slot="actions">
+          {actions.map(({ icon: actionIcon, label: actionLabel, showWhenCollapsed, title: actionTitle, type = 'button', ...actionProps }, index) => (
+            <button
+              {...actionProps}
+              aria-label={actionLabel}
+              className={cn('uds-side-nav-account-action', actionProps.className)}
+              data-collapsed-visible={showWhenCollapsed ? 'true' : undefined}
+              data-slot="action"
+              key={`${actionLabel}-${index}`}
+              title={actionTitle ?? actionLabel}
+              type={type}
+            >
+              {actionIcon}
+            </button>
+          ))}
+        </span>
+      ) : null}
+    </div>
+  )
 }
 
 export interface SideNavSearchProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'className' | 'size'> {
@@ -259,19 +487,19 @@ export function SideNavSearch({
   ...props
 }: SideNavSearchProps) {
   return (
-    <label className={cn('uds-side-nav-search', className)}>
-      <span>{label}</span>
-      <input className={cn('uds-side-nav-search-input', inputClassName)} type={type} {...props} />
+    <label className={cn('uds-side-nav-search', className)} data-slot="search">
+      <span data-slot="label">{label}</span>
+      <input className={cn('uds-side-nav-search-input', inputClassName)} data-slot="input" type={type} {...props} />
     </label>
   )
 }
 
 export function SideNavNestedGroup({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('uds-side-nav-nested-group', className)} {...props} />
+  return <div {...props} className={cn('uds-side-nav-nested-group', className)} data-slot="nested-group" />
 }
 
 export function SideNavNestedItems({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('uds-side-nav-nested-items', className)} {...props} />
+  return <div {...props} className={cn('uds-side-nav-nested-items', className)} data-slot="nested-items" />
 }
 
 export interface SideNavSectionProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -354,11 +582,12 @@ export function SideNavSection({
 
   return (
     <div
+      {...props}
       className={cn('uds-side-nav-section', className)}
       data-collapsible={collapsible ? 'true' : undefined}
+      data-slot="section"
       data-state={resolvedExpanded ? 'open' : 'closed'}
       data-variant={variant === 'nested' ? 'nested' : undefined}
-      {...props}
     >
       {label ? (
         variant === 'nested' ? (
@@ -366,6 +595,7 @@ export function SideNavSection({
             aria-controls={collapsible ? contentId : undefined}
             aria-expanded={collapsible ? resolvedExpanded : undefined}
             className="uds-side-nav-nested-trigger"
+            data-slot="section-trigger"
             onClick={collapsible ? handleToggle : undefined}
             title={collapsible ? collapsedLabel : undefined}
             type="button"
@@ -399,6 +629,7 @@ export function SideNavSection({
         aria-hidden={!resolvedExpanded}
         className="uds-side-nav-section-content"
         data-motion-state={resolvedExpanded ? 'open' : 'closed'}
+        data-slot="section-content"
         id={contentId}
         inert={resolvedExpanded ? undefined : true}
         ref={contentRef}
@@ -445,11 +676,12 @@ export function SideNavHeading({
 
   return (
     <Component
+      {...props}
       className={cn('uds-side-nav-heading', className)}
       data-media-size={mediaSize === 'mark' ? undefined : mediaSize}
+      data-slot="heading"
       data-variant={variant}
       type={Component === 'button' ? 'button' : undefined}
-      {...props}
     >
       {icon ? <span className="uds-side-nav-heading-icon" data-slot="icon">{icon}</span> : null}
       <span className="uds-side-nav-heading-copy" data-slot="copy">
@@ -463,6 +695,7 @@ export function SideNavHeading({
 }
 
 export interface SideNavItemProps extends AnchorProps {
+  asChild?: boolean
   badge?: React.ReactNode
   depth?: 0 | 1 | 2 | 3
   endContent?: React.ReactNode
@@ -474,6 +707,7 @@ export interface SideNavItemProps extends AnchorProps {
 }
 
 export function SideNavItem({
+  asChild = false,
   badge,
   children,
   className,
@@ -484,20 +718,30 @@ export function SideNavItem({
   isDisabled = false,
   label,
   onClick,
+  onClickCapture,
   startContent,
   ...props
 }: SideNavItemProps) {
   const resolvedCurrent = isCurrent || props['aria-current'] === 'page'
+  const Comp = asChild ? Slot : 'a'
+  const itemLabel = (content: React.ReactNode) => (
+    <span className="uds-side-nav-item-label" data-slot="label">{label ?? content}</span>
+  )
 
   return (
-    <a
+    <Comp
       {...props}
       aria-current={resolvedCurrent ? 'page' : props['aria-current']}
       aria-disabled={isDisabled ? true : undefined}
       className={cn('uds-side-nav-item', className)}
       data-depth={depth > 0 ? depth : undefined}
       data-disabled={isDisabled ? 'true' : undefined}
+      data-slot="item"
       data-state={resolvedCurrent ? 'current' : undefined}
+      onClickCapture={(event) => {
+        if (isDisabled) event.preventDefault()
+        onClickCapture?.(event as React.MouseEvent<HTMLAnchorElement>)
+      }}
       onClick={(event) => {
         if (isDisabled) {
           event.preventDefault()
@@ -508,10 +752,12 @@ export function SideNavItem({
       tabIndex={isDisabled ? -1 : props.tabIndex}
     >
       {icon || startContent ? <span className="uds-side-nav-item-start" data-slot="start">{icon ?? startContent}</span> : null}
-      <span className="uds-side-nav-item-label">{label ?? children}</span>
+      {asChild ? (
+        <Slottable child={children}>{itemLabel}</Slottable>
+      ) : itemLabel(children)}
       {badge ? <span className="uds-side-nav-item-badge" data-slot="badge">{badge}</span> : null}
       {endContent ? <span className="uds-side-nav-item-end" data-slot="end">{endContent}</span> : null}
-    </a>
+    </Comp>
   )
 }
 
@@ -537,6 +783,7 @@ export function SideNavCollapseButton({ className, type = 'button', ...props }: 
   return (
     <Button
       className={cn('uds-side-nav-collapse-button', className)}
+      data-slot="collapse-button"
       isIconOnly
       size="icon"
       type={type}

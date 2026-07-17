@@ -209,7 +209,7 @@ const foundationSectionLabels: Record<string, { en: string; ar: string }> = {
 }
 
 function foundationSectionLabel(locale: Locale, label: string) {
-  return foundationSectionLabels[label]?.[locale] ?? label
+  return foundationSectionLabels[label]?.[locale === 'ar' ? 'ar' : 'en'] ?? label
 }
 
 const foundationGroupLabels: Record<TokenRow['group'], string> = {
@@ -634,7 +634,7 @@ function TokenContractPage({ kind }: { kind: TokenContractKind }) {
 function GuidePage({ slug }: { slug: keyof typeof guidePages }) {
   const { locale } = useI18n()
   const page = locale === 'ar' ? guideArabicPages[slug] : guidePages[slug]
-  const sectionTitles = guideSectionMeta[slug][locale]
+  const sectionTitles = guideSectionMeta[slug][locale === 'ar' ? 'ar' : 'en']
 
   return (
     <div className="page guide-page">
@@ -983,7 +983,7 @@ function FoundationsPage({ page, slug }: { page: typeof foundationPages[keyof ty
   const { locale } = useI18n()
   const rows = tokensFor(page.groups)
   const displayPage = locale === 'ar' ? { ...page, ...foundationArabicPages[slug] } : page
-  const [implementationTitle, releaseTitle] = foundationSectionTitles[slug][locale]
+  const [implementationTitle, releaseTitle] = foundationSectionTitles[slug][locale === 'ar' ? 'ar' : 'en']
 
   return (
     <div className="page foundations-page">

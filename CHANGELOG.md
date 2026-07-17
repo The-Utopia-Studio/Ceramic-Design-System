@@ -2,6 +2,68 @@
 
 All notable changes to Ceramic Design System are documented here.
 
+## 0.4.3 — 2026-07-17
+
+### Added
+
+- `UtopiaWordmarkLoader` with `sm`, `md`, and `lg` sizes, full-screen and contained layouts, localized status semantics, and reduced-motion support.
+- Catalog, CLI search metadata, package entrypoint, documentation preview, and component contract coverage for the branded loader.
+
+### Changed
+
+- The Ceramic website now uses `UtopiaWordmarkLoader` for English and Arabic interface transitions and unmounts it from the component exit callback without fixed completion timers.
+
+## 0.4.2 — 2026-07-17
+
+### Fixed
+
+- `ChatSystemMessage` now groups its optional label and body in one center column between the two separators.
+- Collapsed `SideNavItem` and `SideNavCommand` controls now remain centered in the rail in both LTR and RTL layouts.
+
+## 0.4.1 — 2026-07-17
+
+### Added
+
+- Independent `data-brand` and `data-color-mode` theme activation with legacy `data-theme` compatibility.
+- Standard and wide container, responsive gutter, content measure, and marketing H1/H2/H3 token contracts.
+- Barrier Intelligence detector-active and assurance-state semantic token families.
+- Barrier Intelligence Dark, Light, System, and reduced-motion regression coverage.
+
+### Changed
+
+- Dextrum now preserves its immutable brand primitives while mapping charcoal Dark and plain Light semantic modes.
+- Barrier Intelligence now documents its 3D engineering asset language and loads its declared Latin mono and Arabic font families.
+- Theme-level reduced-motion overrides now win over brand motion defaults in the published stylesheet order.
+
+## 0.4.0 — 2026-07-16
+
+### Added
+
+- Framework-native `SideNavItem asChild` composition for Next.js and other router links without nested anchors or full-document navigation.
+- `SideNavHeader`, `SideNavMain`, `SideNavFooter`, `SideNavCommand`, `SideNavStatus`, `SideNavAccount`, workspace, and auxiliary composition regions.
+- Shared collapsed and density context plus stable `data-slot`, `data-state`, and `data-collapsed` hooks.
+- `SideNavContent layout="stack"` and `Button contentAlign` APIs for predictable shell and action alignment.
+- Desktop and mobile visual regression plus keyboard, overflow, footer pinning, and long-account-name coverage.
+
+### Changed
+
+- Core component CSS now participates in the documented `reset, theme, base, components, utilities` layer contract so consumer utilities can override layout defaults without `!important`.
+- The Side Nav example uses the same fixed-header, scrolling-main, pinned-footer structure intended for production app shells.
+
+## Clerk integration 0.1.0 — 2026-07-16
+
+### Added
+
+- An optional `@utopia-studio-design/clerk` package that keeps Clerk outside the design-system core.
+- `DextrumUserButton` and `DextrumOrganizationSwitcher` wrappers with composable Clerk appearance overrides.
+- A runtime-independent `@utopia-studio-design/clerk/appearance` entrypoint and token-driven Dextrum stylesheet.
+- Release checks covering appearance merging, type declarations, client boundaries, and package contents.
+
+### Boundaries
+
+- Clerk continues to own authentication, sessions, organizations, account UI behavior, and security notices.
+- The integration package owns only semantic-token styling, element-class adapters, and thin React wrappers.
+
 ## 0.3.0 — 2026-07-15
 
 ### Added
