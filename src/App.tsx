@@ -178,6 +178,7 @@ function getToc(path: string, tab: string) {
     return [
       { id: 'ready-template', label: 'Runnable template' },
       { id: 'how-to-use', label: 'How to use' },
+      { id: 'submit-template', label: 'Submit a template' },
     ]
   }
   if (path === '/themes') {

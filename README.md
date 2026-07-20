@@ -49,6 +49,8 @@ npm run test:e2e
 npm run release:check
 npm run ds -- component --list --dense
 npm run ds -- template --list --dense
+npm run ds -- template validate ./path-to-community-template
+npm run ds -- template submit ./path-to-community-template
 npm run ds -- theme create nova
 npm run ds -- docs arabic-friendly --dense
 npm run ds -- manifest --json

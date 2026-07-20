@@ -140,6 +140,26 @@ test('keeps the Illustrations hero and comparison boxes inside one layout rhythm
   }
 })
 
+test('collects a community template repository and opens a review request', async ({ page }) => {
+  await page.goto('/#/templates#submit-template')
+
+  await page.getByRole('button', { name: 'Submit for review' }).click()
+  await expect(page.getByRole('alert')).toContainText('required fields')
+
+  await page.getByLabel('Author or studio').fill('Example Studio')
+  await page.getByLabel('Template name').fill('Operations Dashboard')
+  await page.getByLabel('Public GitHub repository').fill('https://github.com/example/operations-dashboard')
+  await page.getByLabel('Live preview (optional)').fill('https://example.com/operations-dashboard')
+  await page.getByLabel(/I own or can license/).check()
+
+  const popupPromise = page.waitForEvent('popup')
+  await page.getByRole('button', { name: 'Submit for review' }).click()
+  const popup = await popupPromise
+  const reviewUrl = decodeURIComponent(popup.url())
+  expect(reviewUrl).toContain('github.com/The-Utopia-Studio/Ceramic-Design-System/issues/new')
+  expect(reviewUrl).toContain('Operations+Dashboard')
+})
+
 test('keeps component documentation colors legible and borders quiet', async ({ page }) => {
   await page.goto('/#/components/chat-composer')
 

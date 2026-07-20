@@ -6,6 +6,7 @@ import {
   capabilityManifest, envelope, getComponent, getDoc, getMotionProfile, getTemplate, getTheme,
   listComponents, listDocs, listMotionProfiles, listTemplates, listThemes, mcpLaunch, repositoryDoctor, search,
 } from '../lib/api.mjs'
+import { createTemplateSubmissionUrl, validateTemplateSubmission } from '../lib/template-submission.mjs'
 
 const args = process.argv.slice(2)
 const command = args.find((arg) => !arg.startsWith('--')) ?? 'help'
@@ -43,6 +44,8 @@ Commands:
   template <id>|--list [--skeleton]       Inspect starter structures
   template <id> --copy <directory> [--theme <id>]
                                               Generate a themed runnable project
+  template validate [directory]               Validate a community submission
+  template submit [directory]                 Open a validated GitHub review request
   theme <id>|--list                       Inspect theme contracts
   theme create <id> [directory]           Scaffold and register a theme
   motion <id>|--list                      Inspect motion personalities and adapters
@@ -237,6 +240,33 @@ function copyTemplateProject(entry) {
   output('template-copy-result', { ok: true, id: entry.id, target, theme, pages: entry.pages ?? [] }, (data) => `Generated ${data.id} with theme ${data.theme} in ${data.target}.\nNext: cd ${data.target} && npm install && npm run dev`)
 }
 
+function validateCommunityTemplate({ submit = false } = {}) {
+  const target = resolve(values[1] ?? process.cwd())
+  const result = validateTemplateSubmission(target)
+  if (!result.ok) {
+    if (json) return fail('Community template validation failed.', 'ERR_TEMPLATE_SUBMISSION', result.errors)
+    console.error(`Community template validation failed with ${result.errors.length} error(s):`)
+    for (const item of result.errors) console.error(`- ${item.code}: ${item.message}${item.path ? ` (${item.path})` : ''}`)
+    for (const item of result.warnings) console.error(`- warning ${item.code}: ${item.message}`)
+    process.exitCode = 1
+    return
+  }
+  const submissionUrl = submit ? createTemplateSubmissionUrl(result) : null
+  output(submit ? 'template-submit-result' : 'template-validation-result', {
+    ok: true,
+    id: result.manifest.id,
+    version: result.manifest.version,
+    repository: result.manifest.repository,
+    files: result.files.length,
+    warnings: result.warnings,
+    submissionUrl,
+  }, (data) => [
+    `Community template ${data.id}@${data.version} passed validation (${data.files} files).`,
+    ...data.warnings.map((item) => `Warning ${item.code}: ${item.message}`),
+    ...(data.submissionUrl ? [`Submit for review: ${data.submissionUrl}`] : []),
+  ].join('\n'))
+}
+
 if (command === 'help' || args.includes('--help')) help()
 else if (command === 'init') init()
 else if (command === 'manifest') output('manifest', capabilityManifest())
@@ -250,7 +280,9 @@ else if (command === 'search') {
   else { const item = getComponent(name); item ? output('component', item, formatComponent) : fail(`Unknown component "${name}".`, 'ERR_COMPONENT', search(name).slice(0, 5).map((result) => result.id)) }
 } else if (command === 'template') {
   const name = values[0]
-  if (!name || args.includes('--list')) output('template-list', listTemplates(), (rows) => rows.map((item) => `${item.id}|${item.category}|${item.title}|${item.purpose}`).join('\n'))
+  if (name === 'validate') validateCommunityTemplate()
+  else if (name === 'submit') validateCommunityTemplate({ submit: true })
+  else if (!name || args.includes('--list')) output('template-list', listTemplates(), (rows) => rows.map((item) => `${item.id}|${item.category}|${item.title}|${item.purpose}`).join('\n'))
   else {
     const item = getTemplate(name)
     if (!item) fail(`Unknown template "${name}".`, 'ERR_TEMPLATE')

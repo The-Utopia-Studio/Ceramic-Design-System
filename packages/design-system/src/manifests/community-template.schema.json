@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://utopia-studio.co/design-system/community-template.schema.json",
+  "title": "Ceramic Community Template",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "name", "version", "summary", "category", "author", "license", "repository", "designSystem", "entry", "files", "themes", "features"],
+  "properties": {
+    "$schema": { "type": "string", "format": "uri" },
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "name": { "type": "string", "minLength": 2 },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.-]+)?$" },
+    "summary": { "type": "string", "minLength": 20 },
+    "category": { "type": "string", "enum": ["application", "dashboard", "website", "workflow", "commerce", "content", "other"] },
+    "author": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 2 },
+        "url": { "type": "string", "format": "uri" }
+      }
+    },
+    "license": { "type": "string", "minLength": 2 },
+    "repository": { "type": "string", "pattern": "^https://github\\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/?$" },
+    "preview": { "type": "string", "format": "uri" },
+    "designSystem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package", "version"],
+      "properties": {
+        "package": { "const": "@utopia-studio-design/design-system" },
+        "version": { "type": "string", "minLength": 1 }
+      }
+    },
+    "entry": { "type": "string", "minLength": 1 },
+    "files": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "themes": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["responsive", "darkMode", "rtl"],
+      "properties": {
+        "responsive": { "const": true },
+        "darkMode": { "const": true },
+        "rtl": { "const": true }
+      }
+    }
+  }
+}

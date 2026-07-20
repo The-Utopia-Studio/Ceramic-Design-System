@@ -8,7 +8,7 @@ const packagedDataRoot = join(packageRoot, 'data')
 const hasWorkspaceSource = existsSync(join(workspaceRoot, 'packages/design-system/src/manifests/components.json'))
 
 export const apiVersion = 1
-export const cliVersion = '0.3.0'
+export const cliVersion = '0.3.1'
 export const mcpLaunch = {
   command: 'npx',
   args: ['-y', '--package', '@utopia-studio-design/design-system-cli', 'utopia-ds', 'mcp'],
@@ -130,7 +130,7 @@ export function capabilityManifest() {
       { name: 'init', args: ['[directory]'], flags: ['--yes', '--theme <id>'], responseType: 'init-result' },
       { name: 'search', args: ['<query>'], flags: [], responseType: 'search-results' },
       { name: 'component', args: ['<name>|--list'], flags: [], responseType: 'component|component-list' },
-      { name: 'template', args: ['<id>|--list'], flags: ['--skeleton', '--copy <directory>', '--theme <id>', '--force'], responseType: 'template|template-list|template-copy-result' },
+      { name: 'template', args: ['<id>|--list', 'validate [directory]', 'submit [directory]'], flags: ['--skeleton', '--copy <directory>', '--theme <id>', '--force'], responseType: 'template|template-list|template-copy-result|template-validation-result|template-submit-result' },
       { name: 'theme', args: ['<id>|--list', 'create <id> [directory]'], flags: ['--force'], responseType: 'theme|theme-list|theme-create-result' },
       { name: 'motion', args: ['<id>|--list'], flags: [], responseType: 'motion-profile|motion-profile-list' },
       { name: 'docs', args: ['<topic>|--list'], flags: [], responseType: 'docs|docs-list' },

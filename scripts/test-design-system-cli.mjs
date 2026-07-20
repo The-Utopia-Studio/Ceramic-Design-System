@@ -42,6 +42,37 @@ const generatedPackage = JSON.parse(readFileSync(join(generatedProject, 'package
 assert.equal(generatedPackage.dependencies['@utopia-studio-design/design-system'], `file:${join(root, 'packages/design-system')}`)
 assert.equal(generatedPackage.devDependencies['@utopia-studio-design/design-system-cli'], `file:${join(root, 'packages/design-system-cli')}`)
 
+const communityTemplate = join(temporary, 'community-template')
+mkdirSync(join(communityTemplate, 'src'), { recursive: true })
+writeFileSync(join(communityTemplate, 'src/main.tsx'), "import { Button } from '@utopia-studio-design/design-system'\nexport const Preview = () => <Button>Continue</Button>\n")
+writeFileSync(join(communityTemplate, 'package.json'), `${JSON.stringify({ name: 'community-template', private: true, scripts: { build: 'vite build' } }, null, 2)}\n`)
+writeFileSync(join(communityTemplate, 'ceramic.template.json'), `${JSON.stringify({
+  schemaVersion: 1,
+  id: 'operations-dashboard',
+  name: 'Operations Dashboard',
+  version: '1.0.0',
+  summary: 'A responsive operations dashboard for queues and team handoffs.',
+  category: 'dashboard',
+  author: { name: 'Example Studio' },
+  license: 'MIT',
+  repository: 'https://github.com/example/operations-dashboard',
+  preview: 'https://example.com/operations-dashboard',
+  designSystem: { package: '@utopia-studio-design/design-system', version: '^0.4.4' },
+  entry: 'src/main.tsx',
+  files: ['src', 'package.json'],
+  themes: ['utopia-default'],
+  features: { responsive: true, darkMode: true, rtl: true },
+}, null, 2)}\n`)
+const validationOutput = run(['template', 'validate', communityTemplate])
+assert.match(validationOutput, /passed validation/)
+const submissionOutput = run(['template', 'submit', communityTemplate])
+assert.match(submissionOutput, /github\.com\/The-Utopia-Studio\/Ceramic-Design-System\/issues\/new/)
+
+writeFileSync(join(communityTemplate, '.env'), 'PRIVATE_VALUE=do-not-submit\n')
+const invalidSubmission = spawnSync(process.execPath, [cli, 'template', 'validate', communityTemplate], { cwd: root, encoding: 'utf8' })
+assert.equal(invalidSubmission.status, 1)
+assert.match(invalidSubmission.stderr, /SECRET_FILE/)
+
 const initializedProject = join(temporary, 'initialized-project')
 mkdirSync(initializedProject, { recursive: true })
 writeFileSync(join(initializedProject, 'package.json'), `${JSON.stringify({ name: 'consumer-app', private: true }, null, 2)}\n`)

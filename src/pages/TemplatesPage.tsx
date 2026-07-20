@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { Check, Copy, ExternalLink, FileCode2, Layers3, Play, TerminalSquare } from 'lucide-react'
-import { Badge, Button, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../packages/design-system/src'
+import { useState, type FormEvent } from 'react'
+import { Check, Copy, ExternalLink, FileCode2, GitPullRequest, Layers3, Play, ShieldCheck, TerminalSquare } from 'lucide-react'
+import { Badge, Button, Checkbox, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, TextInput } from '../../packages/design-system/src'
 import { templates, themes } from '../data/design-system'
 import { useI18n, type Locale } from '../i18n'
 
@@ -38,6 +38,19 @@ const pageCopy = {
     themePicker: 'Theme for the generated website',
     themePickerHelp: 'The CLI keeps the CSS import, HTML metadata, runtime constant, and Ceramic config in sync.',
     selectedTheme: 'Selected theme',
+    communityEyebrow: 'Community templates',
+    communityTitle: 'Share a template with Ceramic.',
+    communityBody: 'Keep the source in your own public GitHub repository. Ceramic validates its manifest and opens a review request before any external code appears in the catalog.',
+    communitySteps: ['Add ceramic.template.json', 'Run the Ceramic validator', 'Submit the public repository for review'],
+    author: 'Author or studio',
+    templateName: 'Template name',
+    repository: 'Public GitHub repository',
+    preview: 'Live preview (optional)',
+    declaration: 'I own or can license this template and its included assets.',
+    submit: 'Submit for review',
+    submissionError: 'Complete the required fields and provide a public GitHub repository URL.',
+    validationCommand: 'Validate before submitting',
+    contributionGuide: 'Read the contributor instructions',
   },
   ko: {
     eyebrow: '템플릿',
@@ -62,6 +75,19 @@ const pageCopy = {
     themePicker: '생성할 웹사이트 테마',
     themePickerHelp: 'CLI가 CSS import, HTML 메타데이터, 런타임 상수, Ceramic 설정을 동기화합니다.',
     selectedTheme: '선택한 테마',
+    communityEyebrow: '커뮤니티 템플릿',
+    communityTitle: 'Ceramic에 템플릿을 공유하세요.',
+    communityBody: '원본은 제작자의 공개 GitHub 저장소에 유지됩니다. Ceramic이 manifest를 검사하고 검토를 승인한 뒤에만 카탈로그에 노출합니다.',
+    communitySteps: ['ceramic.template.json 추가', 'Ceramic 검증 실행', '공개 저장소 검토 요청'],
+    author: '작성자 또는 스튜디오',
+    templateName: '템플릿 이름',
+    repository: '공개 GitHub 저장소',
+    preview: '라이브 미리보기(선택)',
+    declaration: '이 템플릿과 포함된 에셋을 공유할 권리가 있습니다.',
+    submit: '검토 요청하기',
+    submissionError: '필수 항목과 공개 GitHub 저장소 URL을 확인하세요.',
+    validationCommand: '제출 전 검증',
+    contributionGuide: '제작자 지침 읽기',
   },
   ar: {
     eyebrow: 'القوالب',
@@ -86,6 +112,19 @@ const pageCopy = {
     themePicker: 'ثيم الموقع الذي سيتم إنشاؤه',
     themePickerHelp: 'يحافظ سطر الأوامر على تطابق استيراد CSS وبيانات HTML وثابت التشغيل وإعداد Ceramic.',
     selectedTheme: 'الثيم المختار',
+    communityEyebrow: 'قوالب المجتمع',
+    communityTitle: 'شارك قالباً مع Ceramic.',
+    communityBody: 'يبقى المصدر في مستودع GitHub عام يملكه المصمم. يتحقق Ceramic من البيان ويفتح طلب مراجعة قبل ظهور أي كود خارجي في الفهرس.',
+    communitySteps: ['أضف ceramic.template.json', 'شغّل مدقق Ceramic', 'أرسل المستودع العام للمراجعة'],
+    author: 'المؤلف أو الاستوديو',
+    templateName: 'اسم القالب',
+    repository: 'مستودع GitHub العام',
+    preview: 'معاينة مباشرة (اختياري)',
+    declaration: 'أملك حق مشاركة هذا القالب والأصول المضمنة فيه.',
+    submit: 'إرسال للمراجعة',
+    submissionError: 'أكمل الحقول المطلوبة وأدخل رابط مستودع GitHub عام.',
+    validationCommand: 'تحقق قبل الإرسال',
+    contributionGuide: 'اقرأ تعليمات المساهمة',
   },
 } as const
 
@@ -127,6 +166,8 @@ export function TemplatesPage() {
   const copy = pageCopy[locale]
   const [copied, setCopied] = useState('')
   const [selectedTheme, setSelectedTheme] = useState('utopia-default')
+  const [submission, setSubmission] = useState({ author: '', name: '', repository: '', preview: '', declared: false })
+  const [submissionError, setSubmissionError] = useState('')
   const featuredSource = templates.templates.find((template) => template.id === 'template-saas-solution-homepage') as RunnableTemplate
   const featured = localizedTemplate(featuredSource, locale) as RunnableTemplate
   const previewUrl = `/${featured.entryPath}?seed=1974341818`
@@ -134,6 +175,31 @@ export function TemplatesPage() {
   const selectedThemeName = locale === 'ar' ? selectedThemeEntry.translations.ar.name : selectedThemeEntry.name
   const generateCommand = `npx utopia-ds template ${featured.id} --theme ${selectedTheme} --copy ./saas-solution-website`
   const importExample = `import { Button, Card, TopNav } from '@utopia-studio-design/design-system'\nimport '@utopia-studio-design/design-system/core.css'\nimport '@utopia-studio-design/design-system/themes/${selectedTheme}.css'`
+  const validationCommand = 'npx utopia-ds template validate .'
+
+  const submitCommunityTemplate = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const validRepository = /^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/?$/.test(submission.repository)
+    if (!submission.author.trim() || !submission.name.trim() || !validRepository || !submission.declared) {
+      setSubmissionError(copy.submissionError)
+      return
+    }
+    setSubmissionError('')
+    const title = `[Community template] ${submission.name}`
+    const body = [
+      '## Community template submission', '',
+      `- Template: ${submission.name}`,
+      `- Author: ${submission.author}`,
+      `- Repository: ${submission.repository}`,
+      `- Preview: ${submission.preview || 'Not provided'}`, '',
+      '## Contributor declaration', '',
+      '- [x] I own or can license this template and its included assets.',
+      '- [x] I will include `ceramic.template.json` and run `npx utopia-ds template validate .` before review.',
+      '- [x] The repository is public and pins a reviewable version or commit.',
+    ].join('\n')
+    const query = new URLSearchParams({ title, body })
+    window.open(`https://github.com/The-Utopia-Studio/Ceramic-Design-System/issues/new?${query}`, '_blank', 'noopener,noreferrer')
+  }
 
   return (
     <div className="page templates-page">
@@ -220,6 +286,29 @@ export function TemplatesPage() {
           </div>
         </div>
         <span aria-live="polite" className="sr-only">{copied ? copy.copied : ''}</span>
+      </section>
+
+      <section className="template-community" id="submit-template" aria-labelledby="template-community-title">
+        <div className="template-community__intro">
+          <p>{copy.communityEyebrow}</p>
+          <h2 id="template-community-title">{copy.communityTitle}</h2>
+          <span>{copy.communityBody}</span>
+          <ol>{copy.communitySteps.map((step) => <li key={step}><ShieldCheck aria-hidden="true" />{step}</li>)}</ol>
+          <div className="template-code-block">
+            <div><TerminalSquare aria-hidden="true" /><strong>{copy.validationCommand}</strong><Button aria-label={copy.copyCommand} isIconOnly onClick={() => copyValue(validationCommand, setCopied)} size="icon" variant="ghost">{copied === validationCommand ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}</Button></div>
+            <pre><code>{validationCommand}</code></pre>
+          </div>
+          <a className="template-contribution-link" href="https://github.com/The-Utopia-Studio/Ceramic-Design-System/blob/main/docs/design-system/community-template-contributions.md" rel="noreferrer" target="_blank">{copy.contributionGuide}<ExternalLink aria-hidden="true" /></a>
+        </div>
+        <form className="template-community__form" noValidate onSubmit={submitCommunityTemplate}>
+          <label><span>{copy.author}</span><TextInput autoComplete="organization" onChange={(event) => setSubmission((value) => ({ ...value, author: event.target.value }))} required value={submission.author} /></label>
+          <label><span>{copy.templateName}</span><TextInput onChange={(event) => setSubmission((value) => ({ ...value, name: event.target.value }))} required value={submission.name} /></label>
+          <label><span>{copy.repository}</span><TextInput inputMode="url" onChange={(event) => setSubmission((value) => ({ ...value, repository: event.target.value }))} placeholder="https://github.com/creator/template" required type="url" value={submission.repository} /></label>
+          <label><span>{copy.preview}</span><TextInput inputMode="url" onChange={(event) => setSubmission((value) => ({ ...value, preview: event.target.value }))} placeholder="https://…" type="url" value={submission.preview} /></label>
+          <label className="template-community__declaration" htmlFor="template-community-declaration"><Checkbox checked={submission.declared} id="template-community-declaration" onCheckedChange={(checked) => setSubmission((value) => ({ ...value, declared: checked === true }))} /><span>{copy.declaration}</span></label>
+          {submissionError ? <p className="template-community__error" role="alert">{submissionError}</p> : null}
+          <Button endContent={<GitPullRequest aria-hidden="true" />} type="submit">{copy.submit}</Button>
+        </form>
       </section>
 
     </div>
