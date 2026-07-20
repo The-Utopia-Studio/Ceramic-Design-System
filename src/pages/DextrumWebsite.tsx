@@ -25,7 +25,7 @@ const workflow = [
   { step: '01', title: 'Monitor', copy: 'Controls continuously check the operator record.' },
   { step: '02', title: 'Surface', copy: 'Exceptions appear the moment values fail to reconcile.' },
   { step: '03', title: 'Investigate', copy: 'Trace every result through evidence to provenance.' },
-  { step: '04', title: 'Resolve', copy: 'Settle the issue where it arises, with both parties aligned.' },
+  { step: '04', title: 'Preserve', copy: 'Preserve the agreed outcome once both parties settle.' },
   { step: '05', title: 'Stamp', copy: 'Record the outcome in a tamper-evident work history.' },
 ]
 
@@ -80,7 +80,7 @@ function HeroProductVisual() {
       <article className="dx-product-window">
         <header className="dx-product-window__top">
           <span className="dx-product-mini-brand"><Fingerprint size={14} /> Dextrum</span>
-          <span className="dx-product-period">Q2 · 2026</span>
+          <span className="dx-product-period">Verification overview</span>
           <span className="dx-avatar">AK</span>
         </header>
         <div className="dx-product-window__body">
@@ -213,7 +213,7 @@ function EditorialHero({
         <div className="dx-editorial-hero__headline">
           <p className="dx-eyebrow"><span /> Neutral verification intelligence</p>
           <h1>
-            Operational truth, built to a
+            A shared record, built to a
             <span className="dx-inline-halo"><Fingerprint size={28} /></span>
             higher standard.
           </h1>
@@ -852,7 +852,7 @@ export function DextrumWebsite() {
               <article className="dx-benefit-card dx-benefit-card--feature" data-dx-tilt>
                 <div>
                   <span className="dx-card-kicker">Continuous evidence</span>
-                  <h3>Stop rebuilding the truth after the fact.</h3>
+                  <h3>Stop rebuilding the shared record after the fact.</h3>
                 </div>
                 <div className="dx-benefit-control" aria-hidden="true">
                   <div className="dx-benefit-control__active">
@@ -875,7 +875,7 @@ export function DextrumWebsite() {
                 <span className="dx-benefit-card__badge dx-dimensional-badge"><ShieldCheck size={20} /></span>
                 <div className="dx-benefit-signal" aria-hidden="true"><span /><span /><span /></div>
                 <h3>Neutral by design.</h3>
-                <p>Read existing systems without replacing them, so no participant owns the shared truth.</p>
+                <p>Read existing systems without replacing them, so no participant owns the shared record.</p>
               </article>
               <article className="dx-benefit-card dx-benefit-card--dark" data-dx-tilt>
                 <span className="dx-benefit-card__badge dx-dimensional-badge"><Fingerprint size={20} /></span>
@@ -1051,7 +1051,7 @@ export function DextrumWebsite() {
                     )}
                     {index === 1 && (
                       <div className="dx-mini-exception dx-active-plane" data-dx-tilt>
-                        <header><span>EXC-2026-0142</span><b>AMBER</b></header>
+                        <header><span>EXC-0142</span><b>AMBER</b></header>
                         <h3>Allocation variance exceeds agreed tolerance</h3>
                         <p><Sparkles size={13} /> AI-generated explanation · advisory</p>
                         <div><span>Expected<strong>1,234,567</strong></span><span>Observed<strong>1,221,045</strong></span></div>
@@ -1061,7 +1061,7 @@ export function DextrumWebsite() {
                     {index === 2 && (
                       <div className="dx-mini-report dx-active-plane" data-dx-tilt>
                         <div className="dx-mini-report__page">
-                          <span>DEXTRUM · Q2 2026</span>
+                          <span>DEXTRUM · Verification package</span>
                           <h3>Verification package</h3>
                           <i />
                           <i />
@@ -1127,7 +1127,7 @@ export function DextrumWebsite() {
               <div className="dx-final-proof__active">
                 <span className="dx-dimensional-badge"><Fingerprint size={17} /></span>
                 <header><span>Neutral verification record</span><b>READY</b></header>
-                <h3>Q2 operational assurance</h3>
+                <h3>Operational assurance</h3>
                 <div className="dx-final-proof__row"><StatusDot /><span>Controls complete</span><strong>128 / 128</strong></div>
                 <div className="dx-final-proof__row"><StatusDot /><span>Evidence linked</span><strong>Verified</strong></div>
                 <div className="dx-final-proof__row"><CircleCheck size={14} /><span>Provenance stamp</span><strong>7f9e…b42c</strong></div>
@@ -1151,7 +1151,18 @@ export function DextrumWebsite() {
         </div>
         <div className="dx-shell dx-footer__bottom">
           <span>© 2026 Dextrum. All rights reserved.</span>
-          <span>Audit-defensible · ISAE 3000-mappable · Tamper-evident</span>
+          {/* PENDING FOUNDER CONFIRMATION: ISAE 3000-mappable */}
+          <span
+            className="dx-footer__assurance"
+            data-pending-confirmation="isae-3000"
+          >
+            Audit-defensible ·{' '}
+            <span className="dx-footer__pending-term" title="Pending founder confirmation">
+              ISAE 3000-mappable
+              <small className="dx-footer__pending-note">pending confirmation</small>
+            </span>
+            {' '}· Tamper-evident
+          </span>
         </div>
       </footer>
     </div>

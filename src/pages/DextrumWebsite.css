@@ -1476,6 +1476,22 @@
   font-size: 10px;
 }
 
+.dx-footer__assurance[data-pending-confirmation='isae-3000'] .dx-footer__pending-term {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  color: rgb(234 234 234 / 28%);
+}
+
+.dx-footer__pending-note {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(234 234 234 / 22%);
+}
+
 @media (max-width: 1050px) {
   .dx-header__inner {
     grid-template-columns: 150px 1fr auto;
