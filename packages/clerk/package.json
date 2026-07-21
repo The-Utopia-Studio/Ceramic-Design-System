@@ -38,7 +38,6 @@
   "devDependencies": {
     "@clerk/nextjs": "^7.5.19",
     "@types/react": "^19.0.2",
-    "next": "^16.2.10",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tsdown": "^0.22.5",
