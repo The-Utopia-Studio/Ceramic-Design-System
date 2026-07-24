@@ -2516,7 +2516,7 @@ function genericExamples(name: string, locale: Locale): Array<[string, ReactNode
     if (['Breadcrumb', 'Breadcrumb Item', 'Breadcrumbs'].includes(name)) {
       return [
         [isArabic ? 'المسار الأساسي' : 'Basic hierarchy', <BreadcrumbPreview locale={locale} variant={name === 'Breadcrumb Item' ? 'item' : name === 'Breadcrumbs' ? 'list' : 'root'} />],
-        [isArabic ? 'قائمة مطوية' : 'Collapsed middle path', <BreadcrumbPreview locale={locale} />],
+        [isArabic ? 'قائمة مطوية' : 'Collapsed middle path', <BreadcrumbPreview locale={locale} openMenu />],
         [isArabic ? 'RTL / العربية' : 'Arabic / RTL', <div dir="rtl" lang="ar"><BreadcrumbPreview locale="ar" /></div>],
       ]
     }
@@ -3519,7 +3519,7 @@ function ChatPreview({ locale, name }: { locale: Locale; name: string }) {
   return <div className="chat-preview"><ChatLayout messages={messages} composer={composer} /></div>
 }
 
-function BreadcrumbPreview({ locale, openMenu = true, variant = 'root' }: { locale: Locale; openMenu?: boolean; variant?: 'root' | 'item' | 'list' }) {
+function BreadcrumbPreview({ locale, openMenu = false, variant = 'root' }: { locale: Locale; openMenu?: boolean; variant?: 'root' | 'item' | 'list' }) {
   const isArabic = locale === 'ar'
   const labels = isArabic
     ? {
@@ -3533,11 +3533,11 @@ function BreadcrumbPreview({ locale, openMenu = true, variant = 'root' }: { loca
         github: 'GitHub',
       }
     : {
-        home: 'Home',
-        docs: 'Docs',
-        components: 'Components',
+        home: 'Dashboard',
+        docs: 'Sessions',
+        components: 'Co-Build',
         navigation: 'Navigation',
-        current: 'Breadcrumb',
+        current: 'Co-Build Hub',
         more: 'More',
         themes: 'Themes',
         github: 'GitHub',

@@ -2,6 +2,20 @@
 
 All notable changes to Ceramic Design System are documented here.
 
+## 0.4.6 — 2026-07-24
+
+### Changed
+
+- Breadcrumb now uses the compact Ceramic typography and vertically centered inline-flex alignment validated in Daedalus.
+- The default `BreadcrumbSeparator` is now an aria-hidden Lucide `ChevronRight` sized with `--icon-size-xs` and mirrored automatically in RTL.
+- Default Breadcrumb hover changes foreground only, while inverse Breadcrumb retains its semantic inverse-surface hover background.
+- Breadcrumb examples now demonstrate `Dashboard > Sessions` and `Co-Build Hub` composition without an automatic home icon or a leading separator.
+
+### Fixed
+
+- `BreadcrumbLink` now remains unadorned when a consumer defines a global anchor underline.
+- CLI response metadata now reports the same version as the published CLI package.
+
 ## 0.4.5 — 2026-07-23
 
 ### Added

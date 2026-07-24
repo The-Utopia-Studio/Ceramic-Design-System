@@ -9,6 +9,7 @@ import { Command as CommandPrimitive } from 'cmdk'
 import {
   BarChart3,
   CalendarDays,
+  ChevronRight,
   CircleHelp,
   FileText,
   FolderKanban,
@@ -53,8 +54,18 @@ export function BreadcrumbPage({ className, ...props }: React.HTMLAttributes<HTM
   return <span aria-current="page" className={cn('uds-breadcrumb-page', className)} {...props} />
 }
 
-export function BreadcrumbSeparator({ className, children = '/', ...props }: React.LiHTMLAttributes<HTMLLIElement>) {
-  return <li aria-hidden="true" className={cn('uds-breadcrumb-separator', className)} {...props}>{children}</li>
+export function BreadcrumbSeparator({ className, children, ...props }: React.LiHTMLAttributes<HTMLLIElement>) {
+  return (
+    <li aria-hidden="true" className={cn('uds-breadcrumb-separator', className)} {...props}>
+      {children ?? (
+        <ChevronRight
+          aria-hidden="true"
+          className="uds-breadcrumb-separator-icon"
+          focusable="false"
+        />
+      )}
+    </li>
+  )
 }
 
 export function BreadcrumbEllipsis({

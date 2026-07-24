@@ -55,12 +55,24 @@ import {
   </SidebarMenuButton>
 </SidebarMenuItem>
 
+<Breadcrumb aria-label="Current location">
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Sessions</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+
 <div style={{ background: 'var(--surface-inverse)' }}>
   <Breadcrumb aria-label="Current location" variant="inverse">
     <BreadcrumbList>
-      <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem><BreadcrumbPage>Projects</BreadcrumbPage></BreadcrumbItem>
+      <BreadcrumbItem>
+        <BreadcrumbPage>Co-Build Hub</BreadcrumbPage>
+      </BreadcrumbItem>
     </BreadcrumbList>
   </Breadcrumb>
 </div>
@@ -71,6 +83,9 @@ import {
 - Use `activeVariant="indicator"` or `"both"` when current navigation needs the logical inline-start accent. The default `"background"` variant remains backward compatible.
 - `isActive` supplies `aria-current="page"` unless the consumer explicitly provides another valid value.
 - Use `Breadcrumb variant="inverse"` on `--surface-inverse`; do not remap `--foreground` or add component selectors in the consuming app.
+- Compose separators only between path items. Never render a separator before the first item.
+- `BreadcrumbSeparator` provides an RTL-aware Lucide `ChevronRight` by default. Breadcrumb does not add a home icon.
+- Breadcrumb links own their no-underline treatment and compact typography, so consumer-level anchor styles do not require an override.
 
 ## AI Rule
 

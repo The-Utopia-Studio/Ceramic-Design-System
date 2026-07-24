@@ -105,6 +105,10 @@ const inverseBreadcrumb = renderToStaticMarkup(React.createElement(
 ))
 assert.match(inverseBreadcrumb, /class="uds-breadcrumb" data-variant="inverse"/)
 assert.match(inverseBreadcrumb, /aria-current="page"/)
+assert.match(inverseBreadcrumb, /class="lucide lucide-chevron-right uds-breadcrumb-separator-icon"/)
+assert.match(inverseBreadcrumb, /aria-hidden="true"/)
+assert.doesNotMatch(inverseBreadcrumb, />\/</, 'BreadcrumbSeparator must not render the legacy slash')
+assert.doesNotMatch(inverseBreadcrumb, /lucide-house/, 'Breadcrumb must not add a home icon')
 
 const activeSidebarItem = renderToStaticMarkup(React.createElement(
   sidebarExports.SidebarMenuButton,
@@ -122,6 +126,12 @@ assert.match(activeSidebarItem, /aria-hidden="true"/)
 const designSystemCss = await readFile(new URL('../packages/design-system/src/core.css', import.meta.url), 'utf8')
 assert.doesNotMatch(designSystemCss, /var\(--font-size-xs\)/, 'Sidebar typography must resolve from a shipped token')
 assert.match(designSystemCss, /\.uds-breadcrumb\[data-variant=['"]inverse['"]\]/)
+assert.match(designSystemCss, /\.uds-breadcrumb-link,[\s\S]*\.uds-breadcrumb-page,[\s\S]*\.uds-breadcrumb-separator\s*\{[\s\S]*display:\s*inline-flex;[\s\S]*align-items:\s*center;/)
+assert.match(designSystemCss, /\.uds-breadcrumb\s*\{[\s\S]*font-size:\s*var\(--font-size-small\);[\s\S]*line-height:\s*var\(--line-height-supporting\);/)
+assert.match(designSystemCss, /\.uds-breadcrumb-link\s*\{[\s\S]*text-decoration:\s*none;/)
+assert.match(designSystemCss, /\.uds-breadcrumb-link:hover\s*\{[\s\S]*background:\s*transparent;/)
+assert.match(designSystemCss, /\.uds-breadcrumb-separator-icon\s*\{[\s\S]*inline-size:\s*var\(--icon-size-xs\);[\s\S]*block-size:\s*var\(--icon-size-xs\);/)
+assert.match(designSystemCss, /\.uds-breadcrumb-separator-icon:dir\(rtl\)\s*\{[\s\S]*transform:\s*scaleX\(-1\);/)
 assert.match(designSystemCss, /inset-inline-start:\s*0/, 'Sidebar active indicator must use logical inline positioning')
 
 console.log('Component contract tests passed')

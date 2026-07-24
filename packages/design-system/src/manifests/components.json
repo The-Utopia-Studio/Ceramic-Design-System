@@ -489,6 +489,9 @@
         "--surface-hover",
         "--radius-control",
         "--space-2",
+        "--font-size-small",
+        "--line-height-supporting",
+        "--icon-size-xs",
         "--control-height-sm",
         "--duration-fast",
         "--ease-standard",
@@ -518,11 +521,17 @@
           "Breadcrumb": "Root nav landmark. Keep aria-label descriptive and localized when needed.",
           "BreadcrumbList": "Ordered list wrapper for breadcrumb items and separators.",
           "BreadcrumbItem": "List item wrapper for link, current page, or collapsed menu trigger.",
-          "BreadcrumbLink": "Clickable ancestor link. Use a router link only through composition.",
+          "BreadcrumbLink": "Clickable ancestor link with no underline, including when a consumer applies a global anchor underline. Use a router link only through composition.",
           "BreadcrumbPage": "Current page label with aria-current=page.",
-          "BreadcrumbSeparator": "Visual separator. Use non-directional slash by default or mirror directional chevrons in RTL.",
+          "BreadcrumbSeparator": "Visual separator with an aria-hidden Lucide ChevronRight by default. It mirrors automatically in RTL.",
           "BreadcrumbEllipsis": "Collapsed middle path indicator. Pair with a menu when hidden parents need discovery."
         },
+        "rules": [
+          "Compose BreadcrumbSeparator only between items, never before the first item.",
+          "Do not add a home icon unless the product explicitly supplies one as item content.",
+          "Default Breadcrumb hover changes foreground only; inverse hover may use the inverse surface hover role.",
+          "Use the compact typography and alignment supplied by Ceramic instead of product CSS overrides."
+        ],
         "arabicFriendly": "Breadcrumb order, separator spacing, dropdown alignment, and focus rings must follow dir=\"rtl\" using logical properties. Arabic labels must come from localization."
       }
     },
@@ -566,7 +575,7 @@
           "BreadcrumbItem": "List item wrapper for a breadcrumb link, current page, separator, or collapsed menu trigger.",
           "BreadcrumbLink": "Clickable ancestor path segment. Compose with a router link when needed.",
           "BreadcrumbPage": "Current page path segment. It owns aria-current=page.",
-          "BreadcrumbSeparator": "Visual hierarchy separator. Keep spacing logical and mirror directional separators in RTL."
+          "BreadcrumbSeparator": "Visual hierarchy separator with an aria-hidden Lucide ChevronRight by default. Keep spacing logical; it mirrors automatically in RTL."
         },
         "arabicFriendly": "Breadcrumb Item must preserve DOM order, logical spacing, current-page semantics, and mixed-script labels in dir=\"rtl\". Use localized path labels."
       }

@@ -239,10 +239,81 @@ test('documents Native Select limits and the themeable Select migration', async 
 test('ships inverse Breadcrumb and theme-owned Sidebar navigation states', async ({ page }, testInfo) => {
   await page.goto('/#/components/breadcrumb')
 
+  const defaultBreadcrumb = page.locator('#overview .component-stage .uds-breadcrumb[aria-label="Breadcrumb"]')
+  await expect(defaultBreadcrumb).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(defaultBreadcrumb.locator('.uds-breadcrumb-separator-icon')).toHaveCount(3)
+  await expect(defaultBreadcrumb.locator('.lucide-house')).toHaveCount(0)
+  await expect(defaultBreadcrumb.locator('.uds-breadcrumb-list > :first-child')).toHaveClass(/uds-breadcrumb-item/)
+  await expect(defaultBreadcrumb.locator('[aria-current="page"]')).toHaveCount(1)
+
+  const defaultLink = defaultBreadcrumb.locator('.uds-breadcrumb-link').first()
+  await page.addStyleTag({ content: 'a { text-decoration: underline; }' })
+  const defaultStyles = await defaultBreadcrumb.evaluate((breadcrumb) => {
+    const link = breadcrumb.querySelector<HTMLElement>('.uds-breadcrumb-link')!
+    const current = breadcrumb.querySelector<HTMLElement>('.uds-breadcrumb-page')!
+    const separator = breadcrumb.querySelector<HTMLElement>('.uds-breadcrumb-separator')!
+    const list = breadcrumb.querySelector<HTMLElement>('.uds-breadcrumb-list')!
+    const root = getComputedStyle(breadcrumb)
+    return {
+      alignments: [link, current, separator].map((element) => getComputedStyle(element).alignItems),
+      displays: [link, current, separator].map((element) => getComputedStyle(element).display),
+      flexWrap: getComputedStyle(list).flexWrap,
+      fontSize: root.fontSize,
+      lineHeight: root.lineHeight,
+      textDecoration: getComputedStyle(link).textDecorationLine,
+    }
+  })
+  expect(defaultStyles.displays).toEqual(['flex', 'flex', 'flex'])
+  expect(defaultStyles.alignments).toEqual(['center', 'center', 'center'])
+  expect(defaultStyles.flexWrap).toBe('wrap')
+  expect(defaultStyles.fontSize).toBe('13px')
+  expect(defaultStyles.lineHeight).toBe('14px')
+  expect(defaultStyles.textDecoration).toBe('none')
+
+  await page.mouse.move(0, 0)
+  await page.waitForTimeout(200)
+  const defaultBeforeHover = await defaultLink.evaluate((link) => {
+    const style = getComputedStyle(link)
+    return { background: style.backgroundColor, color: style.color }
+  })
+  await defaultLink.hover()
+  await page.waitForTimeout(200)
+  const defaultAfterHover = await defaultLink.evaluate((link) => {
+    const style = getComputedStyle(link)
+    return { background: style.backgroundColor, color: style.color }
+  })
+  expect(defaultAfterHover.background).toBe('rgba(0, 0, 0, 0)')
+  expect(defaultAfterHover.background).toBe(defaultBeforeHover.background)
+  expect(defaultAfterHover.color).not.toBe(defaultBeforeHover.color)
+
+  await defaultLink.focus()
+  await expect(defaultLink).toBeFocused()
+  expect(await defaultLink.evaluate((link) => getComputedStyle(link).outlineStyle)).not.toBe('none')
+  await page.keyboard.press('Tab')
+  await expect(defaultBreadcrumb.locator('.uds-breadcrumb-ellipsis')).toBeFocused()
+  await page.keyboard.press('Shift+Tab')
+  await expect(defaultLink).toBeFocused()
+
+  await defaultBreadcrumb.evaluate((breadcrumb) => breadcrumb.setAttribute('dir', 'rtl'))
+  const rtlTransform = await defaultBreadcrumb.locator('.uds-breadcrumb-separator-icon').first().evaluate(
+    (icon) => getComputedStyle(icon).transform,
+  )
+  expect(rtlTransform).toContain('-1')
+
   const inverseBreadcrumb = page.locator('#overview .component-stage .uds-breadcrumb[aria-label="Inverse breadcrumb"]')
   await expect(inverseBreadcrumb).toBeVisible()
   await expect(inverseBreadcrumb.locator('.uds-breadcrumb-link[href="#/"]')).toBeVisible()
   await expect(inverseBreadcrumb.locator('[aria-current="page"]')).toBeVisible()
+
+  const inverseLink = inverseBreadcrumb.locator('.uds-breadcrumb-link').first()
+  await page.mouse.move(0, 0)
+  await page.waitForTimeout(200)
+  const inverseBeforeHover = await inverseLink.evaluate((link) => getComputedStyle(link).backgroundColor)
+  await inverseLink.hover()
+  await page.waitForTimeout(200)
+  const inverseAfterHover = await inverseLink.evaluate((link) => getComputedStyle(link).backgroundColor)
+  expect(inverseAfterHover).not.toBe(inverseBeforeHover)
 
   const inverseColors = await inverseBreadcrumb.evaluate((breadcrumb) => {
     const surface = breadcrumb.parentElement!

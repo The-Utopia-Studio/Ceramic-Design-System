@@ -73,6 +73,7 @@
   "devDependencies": {
     "@playwright/test": "^1.61.1",
     "@types/react": "^19.0.2",
-    "@types/react-dom": "^19.0.2"
+    "@types/react-dom": "^19.0.2",
+    "react-is": "^19.2.8"
   }
 }

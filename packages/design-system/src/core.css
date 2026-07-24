@@ -219,6 +219,33 @@
 }
 }
 
+/*
+ * Breadcrumb links intentionally sit outside the library cascade layers.
+ * This keeps their component contract above consumer-level global anchor rules
+ * while preserving explicit product overrides through the component class.
+ */
+.uds-breadcrumb-link {
+  background: transparent;
+  color: var(--muted-foreground);
+  text-decoration: none;
+}
+
+.uds-breadcrumb[data-variant='default'] .uds-breadcrumb-link:hover {
+  background: transparent;
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.uds-breadcrumb[data-variant='inverse'] .uds-breadcrumb-link {
+  color: var(--inverse-foreground-muted);
+}
+
+.uds-breadcrumb[data-variant='inverse'] .uds-breadcrumb-link:hover {
+  background: var(--inverse-hover);
+  color: var(--inverse-foreground);
+  text-decoration: none;
+}
+
 @layer components {
 
 /* Composable shadcn-compatible contracts. Later rules intentionally normalize legacy previews. */
@@ -1271,6 +1298,8 @@ a {
 
 .uds-breadcrumb {
   min-inline-size: 0;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-supporting);
 }
 
 .uds-breadcrumb-list {
@@ -1290,12 +1319,24 @@ a {
   gap: var(--space-2);
 }
 
+.uds-breadcrumb-link,
+.uds-breadcrumb-page,
+.uds-breadcrumb-separator {
+  display: inline-flex;
+  min-block-size: var(--icon-size-xs);
+  align-items: center;
+}
+
 .uds-breadcrumb-link {
+  background: transparent;
   color: var(--muted-foreground);
+  text-decoration: none;
 }
 
 .uds-breadcrumb-link:hover {
+  background: transparent;
   color: var(--foreground);
+  text-decoration: none;
 }
 
 .uds-breadcrumb-link:focus-visible {
@@ -1310,9 +1351,16 @@ a {
 }
 
 .uds-breadcrumb-separator {
-  display: inline-flex;
-  align-items: center;
   color: var(--foreground-subtle);
+}
+
+.uds-breadcrumb-separator-icon {
+  inline-size: var(--icon-size-xs);
+  block-size: var(--icon-size-xs);
+}
+
+.uds-breadcrumb-separator-icon:dir(rtl) {
+  transform: scaleX(-1);
 }
 
 .uds-breadcrumb[data-variant='inverse'] {

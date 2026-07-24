@@ -622,11 +622,9 @@ function BreadcrumbGalleryPreview({ locale }: PreviewProps) {
   return (
     <Breadcrumb aria-label={isArabic ? 'مسار التنقل' : 'Breadcrumb'}>
       <Breadcrumbs>
-        <BreadcrumbItem><BreadcrumbLink href="#/docs">{isArabic ? 'المستندات' : 'Docs'}</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbItem><BreadcrumbLink href="#/">{isArabic ? 'لوحة المعلومات' : 'Dashboard'}</BreadcrumbLink></BreadcrumbItem>
         <BreadcrumbSeparator />
-        <BreadcrumbItem><BreadcrumbLink href="#/components">{isArabic ? 'المكوّنات' : 'Components'}</BreadcrumbLink></BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem><BreadcrumbPage>{isArabic ? 'المعاينة' : 'Preview'}</BreadcrumbPage></BreadcrumbItem>
+        <BreadcrumbItem><BreadcrumbPage>{isArabic ? 'الجلسات' : 'Sessions'}</BreadcrumbPage></BreadcrumbItem>
       </Breadcrumbs>
     </Breadcrumb>
   )
