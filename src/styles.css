@@ -1008,6 +1008,12 @@ body {
   font-weight: var(--font-weight-medium);
 }
 
+.component-gallery-assistant-panel {
+  inline-size: min(24rem, 100%);
+  block-size: 28rem;
+  border: var(--border-width-hairline) solid var(--border);
+}
+
 .component-gallery-sheet-field {
   display: block;
   block-size: 2rem;

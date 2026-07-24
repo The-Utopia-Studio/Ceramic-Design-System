@@ -1,5 +1,8 @@
 export {
   Sidebar,
+  SidebarBlockType1,
+  SidebarBlockType1Trigger,
+  SidebarBlockType1Workspace,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
@@ -25,6 +28,9 @@ export {
 export type {
   SidebarMenuActiveVariant,
   SidebarMenuButtonProps,
+  SidebarBlockType1Props,
+  SidebarBlockType1TriggerProps,
+  SidebarBlockType1WorkspaceProps,
   SidebarProps,
   SidebarProviderProps,
   SidebarTriggerProps,

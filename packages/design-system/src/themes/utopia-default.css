@@ -290,6 +290,11 @@
   --overlay: color-mix(in srgb, var(--background) 84%, transparent);
   --modal-surface: var(--utopia-white);
   --popover-surface: var(--utopia-white);
+  --success: var(--utopia-special-black);
+  --success-foreground: var(--utopia-white);
+  --success-surface: color-mix(in srgb, var(--success) 7%, var(--background) 93%);
+  --success-border: color-mix(in srgb, var(--success) 20%, var(--background) 80%);
+  --success-text: var(--success);
   --ghost-hover: color-mix(in srgb, var(--foreground) 8%, transparent);
   --ghost-active: color-mix(in srgb, var(--foreground) 12%, transparent);
   --outline-hover: var(--surface-strong);

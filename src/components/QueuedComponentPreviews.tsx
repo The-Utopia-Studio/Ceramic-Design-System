@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { CalendarDays, Check, ChevronDown, FileText, FolderOpen, Search, X } from 'lucide-react'
+import { CalendarDays, Check, ChevronDown, FileText, FolderOpen, Search, Sparkles, X } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../packages/design-system/src/Accordion'
 import { Alert, AlertDescription, AlertTitle } from '../../packages/design-system/src/Alert'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../../packages/design-system/src/AlertDialog'
+import { AssistantPanel, AssistantPanelActions, AssistantPanelBody, AssistantPanelClose, AssistantPanelDescription, AssistantPanelEmptyState, AssistantPanelFooter, AssistantPanelHeader, AssistantPanelHeading, AssistantPanelTitle } from '../../packages/design-system/src/AssistantPanel'
 import { Attachment, AttachmentAction, AttachmentActions, AttachmentContent, AttachmentDescription, AttachmentMedia, AttachmentTitle } from '../../packages/design-system/src/Attachment'
 import { Button } from '../../packages/design-system/src/Button'
 import { ChatComposer, ChatComposerInput, ChatComposerTokenElement, ChatDictationButton, ChatLayout, ChatLayoutScrollButton, ChatMessage, ChatMessageBubble, ChatMessageList, ChatMessageMetadata, ChatSendButton, ChatSystemMessage, ChatTokenizedText, ChatToolCalls } from '../../packages/design-system/src/Chat'
@@ -94,6 +95,12 @@ import {
   SonnerTitle,
 } from '../../packages/design-system/src/ShadcnPrimitives'
 import { Heading, Text } from '../../packages/design-system/src/Typography'
+import {
+  ToolConnectorBlock,
+  ToolConnectorItem,
+  ToolConnectorList,
+  ToolConnectorSection,
+} from '../../packages/design-system/src/ToolConnector'
 
 type PreviewProps = {
   locale: 'en' | 'ar'
@@ -119,6 +126,51 @@ const chatComponentNames = new Set([
 
 export function QueuedComponentPreview({ locale, name }: PreviewProps & { name: string }) {
   const isArabic = locale === 'ar'
+
+  if (name === 'Assistant Panel') {
+    return <AssistantPanelGalleryPreview locale={locale} />
+  }
+
+  if (name === 'Tool Connector Block') {
+    return (
+      <ToolConnectorBlock>
+        <ToolConnectorSection
+          description="Tools linked to this workspace."
+          title="Connected"
+        >
+          <ToolConnectorList>
+            <ToolConnectorItem
+              actionLabel="Manage"
+              description="Documents and uploads"
+              icon={<NavigationIcon name="files" />}
+              status="Connected"
+              statusVariant="success"
+              title="Google Drive"
+            />
+          </ToolConnectorList>
+        </ToolConnectorSection>
+        <ToolConnectorSection
+          description="Add a tool to the workspace."
+          title="Available tools"
+        >
+          <ToolConnectorList>
+            <ToolConnectorItem
+              actionLabel="Connect"
+              description="Plan and issues"
+              icon={<NavigationIcon name="tasks" />}
+              title="Linear"
+            />
+            <ToolConnectorItem
+              actionLabel="Add link"
+              description="Booking link"
+              icon={<NavigationIcon name="calendar" />}
+              title="Calendly"
+            />
+          </ToolConnectorList>
+        </ToolConnectorSection>
+      </ToolConnectorBlock>
+    )
+  }
 
   if (chatComponentNames.has(name)) {
     return <ChatGalleryPreview locale={locale} name={name} />
@@ -642,6 +694,49 @@ function DataTableGalleryPreview({ locale }: PreviewProps) {
         </DataTableBody>
       </DataTable>
     </DataTableShell>
+  )
+}
+
+function AssistantPanelGalleryPreview({ locale }: PreviewProps) {
+  const isArabic = locale === 'ar'
+  return (
+    <AssistantPanel
+      aria-label={isArabic ? 'لوحة المساعد' : 'Assistant panel'}
+      className="component-gallery-assistant-panel"
+      data-color-mode="light"
+      dir={isArabic ? 'rtl' : 'ltr'}
+      header={(
+        <AssistantPanelHeader>
+          <AssistantPanelHeading>
+            <AssistantPanelTitle>{isArabic ? 'المساعد' : 'Co-pilot'}</AssistantPanelTitle>
+            <AssistantPanelDescription>
+              {isArabic ? 'سياق مساحة العمل' : 'Workspace context'}
+            </AssistantPanelDescription>
+          </AssistantPanelHeading>
+          <AssistantPanelActions>
+            <AssistantPanelClose label={isArabic ? 'إغلاق المساعد' : 'Close assistant'} />
+          </AssistantPanelActions>
+        </AssistantPanelHeader>
+      )}
+      body={(
+        <AssistantPanelBody>
+          <AssistantPanelEmptyState
+            description={isArabic ? 'اطرح سؤالا عن هذا المشروع.' : 'Ask a question about this project.'}
+            icon={<Sparkles aria-hidden="true" />}
+            title={isArabic ? 'كيف يمكنني المساعدة؟' : 'How can I help?'}
+          />
+        </AssistantPanelBody>
+      )}
+      footer={(
+        <AssistantPanelFooter>
+          <ChatComposer
+            actions={<ChatSendButton label={isArabic ? 'إرسال الرسالة' : 'Send message'} />}
+            input={<ChatComposerInput aria-label={isArabic ? 'نص الرسالة' : 'Message text'} placeholder={isArabic ? 'اسأل عن مساحة العمل...' : 'Ask about the workspace…'} />}
+            onSubmit={(event) => event.preventDefault()}
+          />
+        </AssistantPanelFooter>
+      )}
+    />
   )
 }
 

@@ -1016,6 +1016,86 @@
       ]
     },
     {
+      "name": "Assistant Panel",
+      "category": "Chat",
+      "status": "available",
+      "packageImport": "import { AssistantPanel, AssistantPanelActions, AssistantPanelBody, AssistantPanelClose, AssistantPanelDescription, AssistantPanelEmptyState, AssistantPanelFooter, AssistantPanelHeader, AssistantPanelHeading, AssistantPanelTitle } from '@utopia-studio-design/design-system/AssistantPanel';",
+      "sourcePath": "packages/design-system/src/components/AssistantPanel.tsx",
+      "shadcnFoundation": [
+        "sidebar composition",
+        "sheet visual anatomy without dialog behavior",
+        "scrollable content and sticky composer regions",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "sidebar + resizable + message",
+      "requiredTokens": [
+        "--background",
+        "--surface",
+        "--foreground",
+        "--foreground-muted",
+        "--border",
+        "--primary",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-6",
+        "--space-8",
+        "--space-12",
+        "--space-16",
+        "--font-size-supporting",
+        "--font-size-small",
+        "--font-size-body",
+        "--font-weight-strong",
+        "--line-height-supporting",
+        "--line-height-body",
+        "--line-height-tight",
+        "--tracking-heading",
+        "--icon-size-sm",
+        "--icon-size-md",
+        "--border-width-hairline"
+      ],
+      "useWhen": [
+        "An assistant, inspector, or contextual workflow must remain visible beside the primary workspace",
+        "The product needs a non-modal panel with fixed header and footer plus independently scrolling content",
+        "Chat primitives need a reusable application frame rather than page-local panel styling"
+      ],
+      "avoidWhen": [
+        "The panel must block the page or trap focus; use Sheet or Dialog",
+        "A temporary mobile action sheet is required; use Drawer",
+        "The content is primary navigation; use Sidebar"
+      ],
+      "neverInvent": [
+        "Overlay or focus-trap behavior",
+        "Raw shadcn theme colors",
+        "Product-specific assistant copy",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ],
+      "ai": {
+        "parts": [
+          "AssistantPanel",
+          "AssistantPanelHeader",
+          "AssistantPanelHeading",
+          "AssistantPanelTitle",
+          "AssistantPanelDescription",
+          "AssistantPanelActions",
+          "AssistantPanelClose",
+          "AssistantPanelBody",
+          "AssistantPanelEmptyState",
+          "AssistantPanelFooter"
+        ],
+        "props": {
+          "AssistantPanel.header": "Compose AssistantPanelHeader or another product-owned header region.",
+          "AssistantPanel.body": "Compose AssistantPanelBody, usually containing ChatMessageList or task context.",
+          "AssistantPanel.footer": "Compose AssistantPanelFooter with ChatComposer or product actions.",
+          "AssistantPanelClose.label": "Required localized accessible label for the icon-only close action.",
+          "AssistantPanelEmptyState": "Supply product-owned title, description, optional icon, and actions."
+        },
+        "arabicFriendly": "The panel uses logical inline borders and spacing, inherits document direction, and does not encode left or right docking. Product copy and close labels must be localized by the consumer."
+      }
+    },
+    {
       "name": "Chat Composer",
       "category": "Chat",
       "status": "available",
@@ -1074,6 +1154,86 @@
           "accessibilityText": "Supply every visible label, aria-label, status summary, and action name from product localization. ChatSendButton and ChatDictationButton require label; ChatLayoutScrollButton requires accessibilityLabel; ChatToolCalls requires label."
         },
         "arabicFriendly": "Chat components use logical spacing, role-based alignment, mixed-script safe typography, and mirrored message flow in dir=\"rtl\". Do not invent Arabic copy in reusable components."
+      }
+    },
+    {
+      "name": "Tool Connector Block",
+      "category": "Surface",
+      "status": "available",
+      "packageImport": "import { ToolConnectorBlock, ToolConnectorItem, ToolConnectorList, ToolConnectorSection } from '@utopia-studio-design/design-system/ToolConnector';",
+      "sourcePath": "packages/design-system/src/components/ToolConnector.tsx",
+      "shadcnFoundation": [
+        "item",
+        "badge",
+        "collapsible disclosure",
+        "settings and integration list composition",
+        "semantic Utopia wrapper"
+      ],
+      "fallbackToShadcn": "item + badge + collapsible",
+      "requiredTokens": [
+        "--surface",
+        "--surface-hover",
+        "--foreground",
+        "--muted-foreground",
+        "--border",
+        "--primary",
+        "--focus-ring",
+        "--radius-surface",
+        "--radius-control",
+        "--space-1",
+        "--space-3",
+        "--space-4",
+        "--space-6",
+        "--space-8",
+        "--space-16",
+        "--font-size-supporting",
+        "--font-size-small",
+        "--font-weight-medium",
+        "--font-weight-strong",
+        "--line-height-supporting",
+        "--line-height-tight",
+        "--icon-size-sm",
+        "--button-height-sm",
+        "--border-width-hairline",
+        "--duration-fast",
+        "--ease-standard"
+      ],
+      "useWhen": [
+        "A settings surface must list external tools, services, or data connectors with status and a clear next action",
+        "Connected and available integrations need compact scan-friendly grouping",
+        "A connector needs optional inline setup or management details without navigating away"
+      ],
+      "avoidWhen": [
+        "The product needs a searchable marketplace with hundreds of integrations; use a dedicated page with filters",
+        "The row is primary navigation rather than an integration action",
+        "Irreversible disconnect confirmation is required; compose Alert Dialog in the consumer"
+      ],
+      "neverInvent": [
+        "Third-party connection state or account identity",
+        "Raw brand colors for external services",
+        "Product-specific OAuth or disconnect logic",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic"
+      ],
+      "ai": {
+        "parts": [
+          "ToolConnectorBlock",
+          "ToolConnectorSection",
+          "ToolConnectorList",
+          "ToolConnectorItem"
+        ],
+        "props": {
+          "ToolConnectorSection.title": "Required localized group label such as Connected or Available tools.",
+          "ToolConnectorSection.description": "Optional concise explanation of the group.",
+          "ToolConnectorItem.icon": "Optional app-owned or design-system icon. Do not synthesize third-party logos.",
+          "ToolConnectorItem.title": "Required factual connector name.",
+          "ToolConnectorItem.description": "Required concise capability description.",
+          "ToolConnectorItem.status": "Optional short status rendered with Badge; use semantic statusVariant.",
+          "ToolConnectorItem.actionLabel": "Required explicit action such as Connect, Manage, Open, or Add link.",
+          "ToolConnectorItem.detail": "Optional consumer-owned setup or management content.",
+          "ToolConnectorItem.expanded": "Controls inline detail visibility; state remains consumer-owned."
+        },
+        "arabicFriendly": "The block uses logical spacing and inline alignment, keeps actions at inline-end, wraps to a compact mobile layout, and requires localized labels and status copy from the consumer."
       }
     },
     {
@@ -4022,6 +4182,89 @@
           "SidebarMenuButton.tooltip": "Provides collapsed hover/focus help and an accessible name when aria-label is omitted."
         },
         "arabicFriendly": "Use dir=rtl at the shell boundary and provide localized collapseLabel, expandLabel, overlay labels, rail labels, and tooltip strings. Logical borders, alignment, off-canvas motion, submenus, and badges mirror without changing the component API."
+      }
+    },
+    {
+      "name": "Sidebar Block Type 1",
+      "category": "Navigation",
+      "status": "available",
+      "packageImport": "import { SidebarBlockType1, SidebarBlockType1Trigger, SidebarBlockType1Workspace } from '@utopia-studio-design/design-system/Sidebar';",
+      "sourcePath": "packages/design-system/src/components/Sidebar.tsx",
+      "shadcnFoundation": [
+        "sidebar",
+        "button",
+        "off-canvas navigation",
+        "semantic Utopia application block"
+      ],
+      "fallbackToShadcn": "sidebar",
+      "requiredTokens": [
+        "--background",
+        "--foreground",
+        "--border",
+        "--primary",
+        "--muted-foreground",
+        "--surface-hover",
+        "--radius-control",
+        "--sidebar-width",
+        "--sidebar-width-collapsed",
+        "--sidebar-min-block-size",
+        "--nav-item-height",
+        "--button-height-sm",
+        "--icon-size-sm",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-6",
+        "--space-12",
+        "--space-16",
+        "--border-width-hairline",
+        "--border-width-strong"
+      ],
+      "useWhen": [
+        "A clean application sidebar needs an expanded text-first navigation and icon-only desktop collapse",
+        "The same navigation must become a mobile off-canvas panel with a compact ghost hamburger trigger",
+        "Brand, grouped navigation, and an optional bottom-pinned workspace/details action should share one production-ready composition",
+        "A product needs a standard Sidebar block without copying page-local layout CSS"
+      ],
+      "avoidWhen": [
+        "A documentation tree should use Side Nav",
+        "Product routing, workspace data, dialog content, or brand artwork would be hardcoded into the design-system block",
+        "A temporary supplemental surface should use Sheet or Drawer"
+      ],
+      "neverInvent": [
+        "Product-specific menu destinations",
+        "Workspace names, user names, or organization data",
+        "Raw colors, spacing, or icon sizes",
+        "Left/right-only layout rules",
+        "Utopia brand primitives inside reusable component logic",
+        "A switcher chevron when no switching action exists",
+        "Desktop collapse controls on mobile"
+      ],
+      "ai": {
+        "parts": [
+          "SidebarProvider",
+          "SidebarBlockType1",
+          "SidebarBlockType1Trigger",
+          "SidebarBlockType1Workspace",
+          "SidebarGroup",
+          "SidebarGroupLabel",
+          "SidebarMenu",
+          "SidebarMenuItem",
+          "SidebarMenuButton",
+          "NavigationIcon"
+        ],
+        "props": {
+          "SidebarBlockType1.brand": "Required app-owned brand node shown only in the expanded sidebar.",
+          "SidebarBlockType1.collapsedIcon": "Optional app-owned compact mark shown in the collapsed desktop trigger; hover reveals the panel icon.",
+          "SidebarBlockType1.children": "Grouped Sidebar navigation primitives. Product routing remains consumer-owned.",
+          "SidebarBlockType1.footer": "Optional bottom-pinned action, commonly SidebarBlockType1Workspace composed with DialogTrigger asChild.",
+          "SidebarBlockType1Trigger": "Use in both the sidebar header and a mobile topbar. It chooses desktop panel control or mobile hamburger from SidebarProvider state.",
+          "SidebarBlockType1Workspace.label": "Required factual workspace label. Keep detailed metadata in the consumer-owned dialog.",
+          "SidebarBlockType1Workspace.description": "Optional short metadata only; omit when it would truncate into low-value ellipsis."
+        },
+        "usage": "Wrap the application shell in SidebarProvider. Render SidebarBlockType1 with localized labels and app-owned brand/navigation/footer slots. Use SidebarBlockType1Trigger in the mobile topbar so the menu remains visible when the off-canvas sidebar is closed.",
+        "arabicFriendly": "All alignment and off-canvas positioning use logical properties. Provide localized trigger, overlay, group, item, and workspace labels. The hamburger and panel icons are direction-neutral."
       }
     },
     {

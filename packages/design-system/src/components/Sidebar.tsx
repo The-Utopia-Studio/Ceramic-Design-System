@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { PanelLeft } from 'lucide-react'
+import { Menu, PanelLeft } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { Button } from './Button'
 
@@ -165,3 +165,183 @@ export function SidebarMenuSub({ className, ...props }: React.HTMLAttributes<HTM
 export function SidebarMenuSubItem({ className, ...props }: React.HTMLAttributes<HTMLLIElement>) { return <li className={cn('uds-sidebar-menu-sub-item', className)} {...props} /> }
 export function SidebarMenuSubButton({ className, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) { return <a className={cn('uds-sidebar-menu-sub-button', className)} {...props} /> }
 export function SidebarInset({ className, ...props }: React.HTMLAttributes<HTMLElement>) { return <main className={cn('uds-sidebar-inset', className)} {...props} /> }
+
+export interface SidebarBlockType1TriggerProps
+  extends Omit<React.ComponentProps<typeof Button>, 'aria-label' | 'children' | 'isIconOnly' | 'size' | 'variant'> {
+  collapsedIcon?: React.ReactNode
+  collapseLabel: string
+  expandLabel: string
+  mobileCloseLabel: string
+  mobileOpenLabel: string
+}
+
+/**
+ * Canonical trigger for Sidebar Block Type 1.
+ * Desktop uses an icon-collapse control; mobile always uses a compact,
+ * direction-neutral hamburger button with a transparent ghost surface.
+ */
+export function SidebarBlockType1Trigger({
+  className,
+  collapsedIcon,
+  collapseLabel,
+  expandLabel,
+  mobileCloseLabel,
+  mobileOpenLabel,
+  onClick,
+  ...props
+}: SidebarBlockType1TriggerProps) {
+  const { collapsed, isMobile, mobileOpen, toggle } = useSidebar()
+  const expanded = isMobile ? mobileOpen : !collapsed
+
+  return (
+    <Button
+      {...props}
+      aria-expanded={expanded}
+      aria-label={isMobile
+        ? (mobileOpen ? mobileCloseLabel : mobileOpenLabel)
+        : (collapsed ? expandLabel : collapseLabel)}
+      className={cn('uds-sidebar-block-type-1-trigger', className)}
+      data-collapsed-icon={collapsed && collapsedIcon ? '' : undefined}
+      data-mobile={isMobile ? '' : undefined}
+      isIconOnly
+      onClick={(event) => {
+        toggle()
+        onClick?.(event)
+      }}
+      size="sm"
+      type="button"
+      variant="ghost"
+    >
+      {isMobile ? (
+        <Menu aria-hidden="true" />
+      ) : collapsed && collapsedIcon ? (
+        <>
+          <span className="uds-sidebar-block-type-1-trigger-collapsed" data-slot="collapsed-icon">
+            {collapsedIcon}
+          </span>
+          <PanelLeft
+            aria-hidden="true"
+            className="uds-sidebar-block-type-1-trigger-panel"
+            data-slot="panel-icon"
+          />
+        </>
+      ) : (
+        <PanelLeft aria-hidden="true" />
+      )}
+    </Button>
+  )
+}
+
+export interface SidebarBlockType1WorkspaceProps
+  extends Omit<React.ComponentProps<typeof Button>, 'children' | 'contentAlign' | 'startContent'> {
+  description?: React.ReactNode
+  label: React.ReactNode
+  marker?: React.ReactNode
+}
+
+/**
+ * Bottom-pinned workspace/details trigger for Sidebar Block Type 1.
+ * Consumers may compose it with DialogTrigger asChild.
+ */
+export const SidebarBlockType1Workspace = React.forwardRef<
+  HTMLButtonElement,
+  SidebarBlockType1WorkspaceProps
+>(function SidebarBlockType1Workspace({
+  className,
+  description,
+  label,
+  marker,
+  type = 'button',
+  variant = 'ghost',
+  ...props
+}, ref) {
+  return (
+    <Button
+      {...props}
+      className={cn('uds-sidebar-block-type-1-workspace', className)}
+      contentAlign="start"
+      ref={ref}
+      type={type}
+      variant={variant}
+    >
+      <span aria-hidden="true" className="uds-sidebar-block-type-1-workspace-marker">
+        {marker}
+      </span>
+      <span className="uds-sidebar-block-type-1-workspace-copy">
+        <span className="uds-sidebar-block-type-1-workspace-label">{label}</span>
+        {description ? (
+          <span className="uds-sidebar-block-type-1-workspace-description">{description}</span>
+        ) : null}
+      </span>
+    </Button>
+  )
+})
+
+export interface SidebarBlockType1Props
+  extends Omit<SidebarProps, 'children' | 'collapsible'> {
+  brand: React.ReactNode
+  children: React.ReactNode
+  collapsedIcon?: React.ReactNode
+  collapseLabel: string
+  expandLabel: string
+  footer?: React.ReactNode
+  mobileCloseLabel: string
+  mobileOpenLabel: string
+  overlayLabel: string
+}
+
+/**
+ * Sidebar Block Type 1
+ *
+ * A clean application sidebar with an expanded brand header, grouped primary
+ * navigation, icon-only desktop collapse, mobile off-canvas hamburger trigger,
+ * and an optional bottom-pinned workspace/details action.
+ */
+export function SidebarBlockType1({
+  brand,
+  children,
+  className,
+  collapsedIcon,
+  collapseLabel,
+  expandLabel,
+  footer,
+  mobileCloseLabel,
+  mobileOpenLabel,
+  overlayLabel,
+  ...props
+}: SidebarBlockType1Props) {
+  const { isMobile } = useSidebar()
+
+  return (
+    <>
+      <Sidebar
+        {...props}
+        className={cn('uds-sidebar-block-type-1', className)}
+        collapsible={isMobile ? 'offcanvas' : 'icon'}
+      >
+        <SidebarHeader className="uds-sidebar-block-type-1-header">
+          <div className="uds-sidebar-block-type-1-brand" data-slot="brand">
+            {brand}
+          </div>
+          <SidebarBlockType1Trigger
+            collapsedIcon={collapsedIcon}
+            collapseLabel={collapseLabel}
+            expandLabel={expandLabel}
+            mobileCloseLabel={mobileCloseLabel}
+            mobileOpenLabel={mobileOpenLabel}
+          />
+        </SidebarHeader>
+        <div aria-hidden="true" className="uds-sidebar-block-type-1-divider" />
+        <SidebarContent className="uds-sidebar-block-type-1-content">
+          {children}
+        </SidebarContent>
+        {footer ? (
+          <SidebarFooter className="uds-sidebar-block-type-1-footer">
+            {footer}
+          </SidebarFooter>
+        ) : null}
+      </Sidebar>
+      <SidebarOverlay label={overlayLabel} />
+    </>
+  )
+}

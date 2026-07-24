@@ -23,7 +23,7 @@ import { ToggleButton } from '../../packages/design-system/src/ToggleButton'
 import { ToggleButtonGroup, ToggleButtonGroupItem } from '../../packages/design-system/src/ToggleButtonGroup'
 import { AccountStatus, Avatar, AvatarGroup, AvatarOverflow, Calendar, DatePicker, EmptyState, ProgressBar, ProgressIndicator, ProgressLabel, ProgressTrack, ProgressValue, Skeleton, Spinner, Table, TableBody, TableCaption, TableCell, TableContainer, TableFooter, TableHead, TableHeader, TableRow, Toast, ToastDescription, ToastTitle } from '../../packages/design-system/src/DataDisplay'
 import { UtopiaWordmarkLoader } from '../../packages/design-system/src/UtopiaWordmarkLoader'
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '../../packages/design-system/src/Sidebar'
+import { Sidebar, SidebarBlockType1, SidebarBlockType1Workspace, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '../../packages/design-system/src/Sidebar'
 import * as ShadcnPrimitives from '../../packages/design-system/src/ShadcnPrimitives'
 import { ArabicText, Heading, Prose, Text } from '../../packages/design-system/src/Typography'
 import { componentIntro, componentLabel, t, useI18n, type Locale } from '../i18n'
@@ -3817,6 +3817,7 @@ function renderGenericPreview(name: string, locale: Locale = 'en') {
   if (name === 'Slider') return <SliderPreview locale={locale} />
   if (name === 'Switch') return <SwitchPreview locale={locale} />
   if (name === 'Sidebar') return <SidebarPreview locale={locale} />
+  if (name === 'Sidebar Block Type 1') return <SidebarBlockType1Preview locale={locale} />
   if (name === 'Account Status') return <AccountStatus avatarAlt={isArabic ? 'مستخدم تجريبي' : 'Y K'} avatarFallback={isArabic ? 'م' : 'YK'} description={isArabic ? 'محترف' : 'Pro'} label={isArabic ? 'مستخدم تجريبي' : 'ykkkk12314'} />
   if (name === 'Avatar') return <AvatarPreview locale={locale} />
   if (name === 'Calendar') return <CalendarPreview locale={locale} />
@@ -5043,6 +5044,47 @@ function SidebarPreview({ locale }: { locale: Locale }) {
           </SidebarContent>
           <SidebarFooter><span>{isArabic ? 'ثيم يوتوبيا' : 'Utopia theme'}</span></SidebarFooter>
         </Sidebar>
+      </div>
+    </SidebarProvider>
+  )
+}
+
+function SidebarBlockType1Preview({ locale }: { locale: Locale }) {
+  const isArabic = locale === 'ar'
+  return (
+    <SidebarProvider>
+      <div className="sidebar-detail-preview" dir={isArabic ? 'rtl' : 'ltr'}>
+        <SidebarBlockType1
+          brand={isArabic ? 'سيراميك' : 'Ceramic'}
+          collapseLabel={isArabic ? 'طي الشريط الجانبي' : 'Collapse sidebar'}
+          collapsedIcon={<NavigationIcon name="workspace" />}
+          expandLabel={isArabic ? 'توسيع الشريط الجانبي' : 'Expand sidebar'}
+          footer={(
+            <SidebarBlockType1Workspace
+              description={isArabic ? 'مساحة العمل النشطة' : 'Active workspace'}
+              label={isArabic ? 'مساحة العمل الحالية' : 'Current workspace'}
+            />
+          )}
+          mobileCloseLabel={isArabic ? 'إغلاق التنقل' : 'Close navigation'}
+          mobileOpenLabel={isArabic ? 'فتح التنقل' : 'Open navigation'}
+          overlayLabel={isArabic ? 'إغلاق التنقل' : 'Close navigation'}
+        >
+          <SidebarGroup>
+            <SidebarGroupLabel>{isArabic ? 'مساحة العمل' : 'Workspace'}</SidebarGroupLabel>
+            <SidebarMenu>
+              <SidebarMenuItem><SidebarMenuButton activeVariant="indicator" isActive tooltip={isArabic ? 'نظرة عامة' : 'Overview'}><NavigationIcon name="dashboard" /><span>{isArabic ? 'نظرة عامة' : 'Overview'}</span></SidebarMenuButton></SidebarMenuItem>
+              <SidebarMenuItem><SidebarMenuButton tooltip={isArabic ? 'الفريق' : 'Team'}><NavigationIcon name="team" /><span>{isArabic ? 'الفريق' : 'Team'}</span></SidebarMenuButton></SidebarMenuItem>
+              <SidebarMenuItem><SidebarMenuButton tooltip={isArabic ? 'المشاريع' : 'Projects'}><NavigationIcon name="projects" /><span>{isArabic ? 'المشاريع' : 'Projects'}</span></SidebarMenuButton></SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroup>
+          <SidebarGroup>
+            <SidebarGroupLabel>{isArabic ? 'النظام' : 'System'}</SidebarGroupLabel>
+            <SidebarMenu>
+              <SidebarMenuItem><SidebarMenuButton tooltip={isArabic ? 'الإعدادات' : 'Settings'}><NavigationIcon name="settings" /><span>{isArabic ? 'الإعدادات' : 'Settings'}</span></SidebarMenuButton></SidebarMenuItem>
+              <SidebarMenuItem><SidebarMenuButton tooltip={isArabic ? 'المساعدة' : 'Help'}><NavigationIcon name="help" /><span>{isArabic ? 'المساعدة' : 'Help'}</span></SidebarMenuButton></SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroup>
+        </SidebarBlockType1>
       </div>
     </SidebarProvider>
   )

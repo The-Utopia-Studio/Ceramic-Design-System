@@ -71,6 +71,7 @@
             "Card",
             "Hover Card",
             "Popover",
+            "Tool Connector Block",
             "Tooltip"
           ]
         },
@@ -98,6 +99,7 @@
           "id": "chat",
           "label": "Chat",
           "items": [
+            "Assistant Panel",
             "Chat Composer",
             "Chat Composer Drawer",
             "Chat Composer Input",
@@ -133,6 +135,7 @@
             "Navigation Menu",
             "Pagination",
             "Sidebar",
+            "Sidebar Block Type 1",
             "Side Nav",
             "Side Nav Collapse Button",
             "Side Nav Heading",
@@ -249,6 +252,7 @@
       "Card",
       "Carousel",
       "Chart",
+      "Assistant Panel",
       "Chat Composer",
       "Chat Composer Drawer",
       "Chat Composer Input",
@@ -307,6 +311,7 @@
       "Textarea",
       "Toggle Button",
       "Toggle Button Group",
+      "Tool Connector Block",
       "Tooltip",
       "Typography",
       "Utopia Wordmark Loader"
@@ -327,6 +332,7 @@
       "Card",
       "Carousel",
       "Chart",
+      "Assistant Panel",
       "Chat Composer",
       "Chat Composer Drawer",
       "Chat Composer Input",
@@ -385,6 +391,7 @@
       "Textarea",
       "Toggle Button",
       "Toggle Button Group",
+      "Tool Connector Block",
       "Tooltip",
       "Typography",
       "Utopia Wordmark Loader"
